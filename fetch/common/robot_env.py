@@ -9,12 +9,19 @@ from gym.utils import seeding
 try:
     import mujoco_py
 except ImportError as e:
-    raise error.DependencyNotInstalled("{}. (HINT: you need to install mujoco_py, and also perform the setup instructions here: https://github.com/openai/mujoco-py/.)".format(e))
+    raise error.DependencyNotInstalled(
+        f"{e}. (HINT: you need to install mujoco_py, and also perform the setup instructions here: https://github.com/openai/mujoco-py/.)")
 
 DEFAULT_SIZE = 500
 
+
 class RobotEnv(gym.GoalEnv):
-    def __init__(self, model_path, initial_qpos, n_actions, n_substeps):
+    def __init__(self, model_path, initial_qpos, n_actions, n_substeps,
+                 view_mode='rgb', width=None, height=None):
+        self.view_mode = view_mode
+        self.width = width or DEFAULT_SIZE
+        self.height = height or DEFAULT_SIZE
+
         if model_path.startswith('/'):
             fullpath = model_path
         else:
@@ -91,15 +98,44 @@ class RobotEnv(gym.GoalEnv):
             self._viewers = {}
 
     def render(self, mode='human', width=DEFAULT_SIZE, height=DEFAULT_SIZE):
+        mode = mode or self.view_mode
+        width = width or self.width
+        height = height or self.height
+        viewer = self._get_viewer(mode)
+
         self._render_callback()
-        if mode == 'rgb_array':
-            self._get_viewer(mode).render(width, height)
-            # window size used for old mujoco-py:
-            data = self._get_viewer(mode).read_pixels(width, height, depth=False)
+
+        if mode in ['rgb', 'rgb_array']:
+            viewer.render(width, height)
+            data = viewer.read_pixels(width, height, depth=False)
+            return data[::-1, :, :].astype(np.uint8)
+        elif mode == 'rgbd':
+            viewer.render(width, height)
+            rgb, d = viewer.read_pixels(width, height, depth=True)
+            return rgb[::-1, :, :], d[::-1, :]
+        elif mode == 'depth':
+            viewer.render(width, height)
+            _, d = viewer.read_pixels(width, height, depth=True)
+            return d[::-1, :]
+        elif mode == 'grey':
+            viewer.render(width, height)
+            data = viewer.read_pixels(width, height, depth=False)
             # original image is upside-down, so flip it
-            return data[::-1, :, :]
+            return data[::-1, :, :].mean(axis=-1).astype(np.uint8)
+        elif mode == "notebook":
+            from IPython.display import display
+            from PIL import Image
+
+            viewer.render(width, height)
+            data = viewer.read_pixels(width, height, depth=False)
+            # original image is upside-down, so flip it
+            display(Image.fromarray(data[::-1, :, :]))
+
         elif mode == 'human':
-            self._get_viewer(mode).render()
+            if width and height:
+                import glfw
+                glfw.set_window_size(viewer.window, width, height)
+            viewer.render()
 
     def _get_viewer(self, mode):
         self.viewer = self._viewers.get(mode)

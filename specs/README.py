@@ -62,28 +62,53 @@ Reach-v2    | Push-v2    | PickPlace-v2 | Slide-v2
 doc @ f"""
 # Single Task Environments for Primitives
 
+The tasks involve a single primitive action such as
+open/closing a box, or a drawer. They do not additionally
+involve placing an object into the opened drawer or box.
+We include bin picking and placing because the bin does
+not require an additional action to open.
+
  Name            | Status
----------------- | -------------------------
- Bin-picking-v2  | ✅ done
+---------------- | -------------
+ Bin-pick-v2     | ✅ done
+ Bin-place-v2    | ✅ done
  Box-open-v2     | ✅ done
  Box-close-v2    | ✅ done
  Drawer-open-v2  | ✅ done
  Drawer-close-v2 | ✅ done
 
-The environments look like the following:
-
- Box-open-v0 | Box-close-v0 | Bin-picking-v0 
- :---------: | :----------: | :------------:
- {render('fetch:Box-open-v0', 0.7)} | {render('fetch:Box-close-v0')} | {render('fetch:Bin-picking-v0', 0.7)}
+ Box-open-v0 | Box-close-v0 | Bin-pick-v0 | Bin-place-v0
+ :---------: | :----------: | :---------: | :----------: 
+ {render('fetch:Box-open-v0', 0.7)} | {render('fetch:Box-close-v0')} | {render('fetch:Bin-pick-v0', 0.7)} | {render('fetch:Bin-place-v0', 0.7)}
  **Drawer-open-v0** | **Drawer-close-v0** | 
  {render('fetch:Drawer-open-v0')} | {render('fetch:Drawer-close-v0')} |
+
+# Intermediate Task
+
+These tasks additionally require placing the object
+inside an open drawer or box. We include the `Bin-picking` 
+environment for completeness.
+
+ Name            | Status
+---------------- | --------------
+ Bin-pick-v2     | ✅ done
+ Bin-place-v2    | ✅ done
+ Box-place-v2    | ✅ done
+ Box-pick-v2     | ✅ done
+ Drawer-place-v2 | ✅ done
+ Drawer-pick-v2  | ✅ done
+
+ Bin-pick-v0 | Bin-place-v0 | Box-pick-v0  | Box-place-v0 
+ :---------: | :----------: | :----------: | :----------:
+ {render('fetch:Bin-pick-v0', 0.7)} | {render('fetch:Bin-place-v0')} | {render('fetch:Box-pick-v0', 0.7)} | {render('fetch:Box-place-v0', 0.7)}
+ **Drawer-pick-v0** | **Drawer-place-v0 ** |
+ {render('fetch:Drawer-pick-v0')} | {render('fetch:Drawer-place-v0')} |
 
 # Multi-task Environments
 
 These environments require significantly more memory due
 to the increasing complexity of contact detection and 
 collision dynamics. These are also slower to run.
-
 
   Name            |  Render
  ---------------- | :---------------:

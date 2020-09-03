@@ -19,12 +19,6 @@
 			<geom size="0.35 0.55 0.2" type="box" mass="2000" material="table_mat"/>
 		</body>
 
-		<body name="object0" pos="0.025 0.025 0.025">
-			<joint name="object0:joint" type="free" damping="0.01"/>
-			<geom size="0.025 0.025 0.025" type="box" condim="3" name="object0" material="block_mat" mass="2"/>
-			<site name="object0" pos="0 0 0" size="0.02 0.02 0.02" rgba="1 0 0 1" type="sphere"/>
-		</body>
-
 		<body name="cabinet" pos="0 0 0">
 			<joint name="cabinet:joint" type="free" damping="0.01"/>
 			<include file="objects/cabinet.xml"/>

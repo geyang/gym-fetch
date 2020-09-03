@@ -1,15 +1,28 @@
-from .box import BoxEnv
-from .bin import BinEnv
-from .drawer import DrawerEnv
-
 from gym.envs.registration import register
 
+from .box import BoxEnv
+from .bin import BinEnv
+from .box_block import BoxBlockEnv
+from .drawer import DrawerEnv
+from .drawer_block import DrawerBlockEnv
 from .mixed_envs.box_bin import BoxBinEnv
 from .mixed_envs.drawer_bin import DrawerBinEnv
 from .mixed_envs.box_bin_drawer import BoxBinDrawerEnv
 
 kwargs = {}
 # Fetch
+register(
+    id='Bin-pick-v0',
+    entry_point=BinEnv,
+    kwargs=dict(action="pick", **kwargs),
+    max_episode_steps=50,
+)
+register(
+    id='Bin-place-v0',
+    entry_point=BinEnv,
+    kwargs=dict(action="place", **kwargs),
+    max_episode_steps=50,
+)
 register(
     id='Box-open-v0',
     entry_point=BoxEnv,
@@ -23,9 +36,15 @@ register(
     max_episode_steps=50,
 )
 register(
-    id='Bin-picking-v0',
-    entry_point=BinEnv,
-    kwargs=dict(action="close", **kwargs),
+    id='Box-pick-v0',
+    entry_point=BoxBlockEnv,
+    kwargs=dict(action="pick", **kwargs),
+    max_episode_steps=50,
+)
+register(
+    id='Box-place-v0',
+    entry_point=BoxBlockEnv,
+    kwargs=dict(action="place", **kwargs),
     max_episode_steps=50,
 )
 register(
@@ -38,6 +57,18 @@ register(
     id='Drawer-close-v0',
     entry_point=DrawerEnv,
     kwargs=dict(action="close", **kwargs),
+    max_episode_steps=50,
+)
+register(
+    id='Drawer-pick-v0',
+    entry_point=DrawerBlockEnv,
+    kwargs=dict(action="pick", **kwargs),
+    max_episode_steps=50,
+)
+register(
+    id='Drawer-place-v0',
+    entry_point=DrawerBlockEnv,
+    kwargs=dict(action="place", **kwargs),
     max_episode_steps=50,
 )
 register(
