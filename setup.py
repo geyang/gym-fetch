@@ -8,18 +8,16 @@ with open(path.join(path.abspath(path.dirname(__file__)), 'README'), encoding='u
     long_description = f.read()
 
 setup(name='gym-fetch',
-      # note: only include the sawyer package and children
-      packages=[p for p in find_packages() if "fetch" in p],
+      # note: only include the fetch package and children, no tests or experiments
+      packages=[p for p in find_packages() if p == "fetch" or "fetch." in p],
       install_requires=[
           "cmx",
-          "functional_notations"
-          "gym",
           "numpy",
       ],
       description='long_description',
       long_description=long_description,
       author='Ge Yang<ge.ike.yang@gmail.com>',
-      url='https://github.com/geyang/gym-sawyer',
+      url='https://github.com/geyang/gym-fetch',
       author_email='ge.ike.yang@gmail.com',
-      package_data={'sawyer': ['sawyer/*.*', 'sawyer/**/*.*']},
+      package_data={'fetch': ['fetch/*.*', 'fetch/**/*.*']},
       version=version)
