@@ -7,7 +7,7 @@ with open(path.join(path.abspath(path.dirname(__file__)), 'VERSION'), encoding='
 with open(path.join(path.abspath(path.dirname(__file__)), 'README'), encoding='utf-8') as f:
     long_description = f.read()
 
-setup(name='fetch',
+setup(name='gym-fetch',
       # note: only include the sawyer package and children
       packages=[p for p in find_packages() if "fetch" in p],
       install_requires=[

@@ -4,6 +4,10 @@ from .drawer import DrawerEnv
 
 from gym.envs.registration import register
 
+from .mixed_envs.box_bin import BoxBinEnv
+from .mixed_envs.drawer_bin import DrawerBinEnv
+from .mixed_envs.box_bin_drawer import BoxBinDrawerEnv
+
 kwargs = {}
 # Fetch
 register(
@@ -34,5 +38,23 @@ register(
     id='Drawer-close-v0',
     entry_point=DrawerEnv,
     kwargs=dict(action="close", **kwargs),
+    max_episode_steps=50,
+)
+register(
+    id='BoxBin-v0',
+    entry_point=BoxBinEnv,
+    kwargs=dict(action=None, **kwargs),
+    max_episode_steps=50,
+)
+register(
+    id='DrawerBin-v0',
+    entry_point=DrawerBinEnv,
+    kwargs=dict(action=None, **kwargs),
+    max_episode_steps=50,
+)
+register(
+    id='BoxBinDrawer-v0',
+    entry_point=BoxBinDrawerEnv,
+    kwargs=dict(action=None, **kwargs),
     max_episode_steps=50,
 )

@@ -1,53 +1,74 @@
-``gym-Sawyer``, a Sawyer plugin for OpenAI Gym
-==============================================
-
-Current release at ``v0.1.0``.
+Extended Taskset for the Fetch Robot
+====================================
 
 Installation
 ------------
 
-The ``gym-sawyer`` package name is currently being squatted `(issue
-PEP541) <https://github.com/pypa/pypi-support/issues/423>`__ so I went
-for the shorter ``sawyer`` module name instead.
-
-To install:
+you can do:
 
 .. code-block:: bash
 
-   pip install sawyer
+   pip install gym-fetch
 
-or
+Alternatively, you can do
 
-.. code-block:: bash
+::
 
-   pip install git+https://github.com/geyang/gym-sawyer
+   git clone <this repo>
+   cd <this repo>
+   pip install -e .
 
-Usage Example
--------------
+Environments
+------------
 
-Please refer to the `specs <https://github.com/geyang/gym_sawyer/blob/master/specs>`__ folder for detailed usage
-examples. These examples and notes are generated programmatically as
-part of the test suite.
+Existing Fetch environments from gym
 
-.. code-block:: python
+======== ======= ============ ========
+Reach-v2 Push-v2 PickPlace-v2 Slide-v2
+======== ======= ============ ========
+\                             
+======== ======= ============ ========
 
-   import gym
+Single Task Environments for Primitives
+=======================================
 
-   env = gym.make("sawyer:PickPlace-v0", width=84, height=84, cam_id=-1)
+=============== ======
+Name            Status
+=============== ======
+Bin-picking-v2  ✅ done
+Box-open-v2     ✅ done
+Box-close-v2    ✅ done
+Drawer-open-v2  ✅ done
+Drawer-close-v2 ✅ done
+=============== ======
 
-   env.render("notebook")
+The environments look like the following:
 
-.. raw:: html
+================== =================== ==============
+Box-open-v0        Box-close-v0        Bin-picking-v0
+================== =================== ==============
+\                                      
+**Drawer-open-v0** **Drawer-close-v0** 
+\                                      
+================== =================== ==============
 
-   <p align="center">
+Multi-task Environments
+=======================
 
-.. raw:: html
+These environments require significantly more memory due to the
+increasing complexity of contact detection and collision dynamics. These
+are also slower to run.
 
-   </p>
+=============== ======
+Name            Render
+=============== ======
+BoxBin-v2       ✅ done
+DrawerBin-v2    ✅ done
+BoxBinDrawer-v2 ✅ done
+=============== ======
 
-.. figure:: figures/PickPlace-v0.png?raw=true
-   :alt: figures/PickPlace-v0.png?raw=true
-
-   figures/PickPlace-v0.png?raw=true
-
-Ge Yang, Bradly Stadie © 2020
+========= ============ ===============
+BoxBin-v2 DrawerBin-v2 BoxBinDrawer-v2
+========= ============ ===============
+\                      
+========= ============ ===============

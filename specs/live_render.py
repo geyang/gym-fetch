@@ -14,4 +14,6 @@ def live_render(env_id):
 
 
 if __name__ == '__main__':
-    live_render('FetchReach-v1')
+    # live_render('fetch:Bin-picking-v0')
+    # live_render('fetch:Box-open-v0')
+    live_render('fetch:Drawer-open-v0')
