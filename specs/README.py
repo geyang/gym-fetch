@@ -5,6 +5,8 @@ from cmx.backends.components import Image
 doc @ """
 # Extended Taskset for the Fetch Robot
 
+[![PyPI version](https://badge.fury.io/py/gym-fetch.svg)](https://badge.fury.io/py/gym-fetch)
+
 ## Installation
 
 you can do: 
