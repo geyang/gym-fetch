@@ -1,0 +1,53 @@
+``gym-Sawyer``, a Sawyer plugin for OpenAI Gym
+==============================================
+
+Current release at ``v0.1.0``.
+
+Installation
+------------
+
+The ``gym-sawyer`` package name is currently being squatted `(issue
+PEP541) <https://github.com/pypa/pypi-support/issues/423>`__ so I went
+for the shorter ``sawyer`` module name instead.
+
+To install:
+
+.. code-block:: bash
+
+   pip install sawyer
+
+or
+
+.. code-block:: bash
+
+   pip install git+https://github.com/geyang/gym-sawyer
+
+Usage Example
+-------------
+
+Please refer to the `specs <https://github.com/geyang/gym_sawyer/blob/master/specs>`__ folder for detailed usage
+examples. These examples and notes are generated programmatically as
+part of the test suite.
+
+.. code-block:: python
+
+   import gym
+
+   env = gym.make("sawyer:PickPlace-v0", width=84, height=84, cam_id=-1)
+
+   env.render("notebook")
+
+.. raw:: html
+
+   <p align="center">
+
+.. raw:: html
+
+   </p>
+
+.. figure:: figures/PickPlace-v0.png?raw=true
+   :alt: figures/PickPlace-v0.png?raw=true
+
+   figures/PickPlace-v0.png?raw=true
+
+Ge Yang, Bradly Stadie © 2020
