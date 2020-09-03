@@ -15,7 +15,8 @@ you can do:
 pip install gym-fetch
 ```
 
-Alternatively, you can do
+Alternatively, you can clone this repo and install under development 
+mode:
 ```
 git clone <this repo>
 cd <this repo>
@@ -24,7 +25,14 @@ pip install -e .
 
 ## Environments
 
-Existing Fetch environments from gym
+We extend existing Fetch environments from gym, with 7 new manipulation
+tasks. The `gym.Fetch` environment are much better engineered than the
+sawyer environments that `metaworld` uses. They are faster to initialize,
+and have a small (50 step) maximum episode length, making these environments
+faster to train on.
+
+> We might or might not need to extend the `max_episode_steps` on more 
+> complex tasks.
 """
 
 
@@ -84,7 +92,7 @@ collision dynamics. These are also slower to run.
   BoxBinDrawer-v2 |  ✅ done
 
 
-  BoxBin-v2        | DrawerBin-v2     | BoxBinDrawer-v2   
+  BoxBin-v0        | DrawerBin-v0     | BoxBinDrawer-v0   
 :----------------: | :--------------: | :---------------:
 {render('fetch:BoxBin-v0')} | {render('fetch:DrawerBin-v0')} | {render('fetch:BoxBinDrawer-v0')}
 """

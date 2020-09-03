@@ -11,8 +11,8 @@ class BoxBinEnv(fetch_env.FetchEnv, utils.EzPickle):
             'robot0:slide2': 0.0,
             'object0:joint': [1.25, 0.53, 0.4, 1., 0., 0., 0.],
             'bin:joint': [1.25, 0.53, 0.4, 1, 0., 0., 0.],
-            'box:joint': [1.25, 0.53, 0.4, 1, 0., 0., 0.],
-            'lid:joint': [1.25, 0.53, 1, 1, 0., 0., 0.],
+            'box:joint': [1.15, 0.93, 0.4, 1, 0., 0., 0.],
+            'lid:joint': [1.15, 0.93, 1, 1, 0., 0., 0.],
         }
         fetch_env.FetchEnv.__init__(
             self, "box_bin.xml", has_object=True, block_gripper=False, n_substeps=20,

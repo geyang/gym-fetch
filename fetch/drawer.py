@@ -10,7 +10,7 @@ class DrawerEnv(fetch_env.FetchEnv, utils.EzPickle):
             'robot0:slide1': 0.48,
             'robot0:slide2': 0.0,
             'object0:joint': [1.25, 0.53, 0.4, 1., 0., 0., 0.],
-            'drawer:joint': [1.45, 1.1, 0.4, 1, 0., 0., 0.],
+            'drawer:joint': [1.45, 1.1 if action == "open" else 0.9, 0.4, 1, 0., 0., 0.],
             'cabinet:joint': [1.45, 1.1, 1, 1, 0., 0., 0.],
         }
         fetch_env.FetchEnv.__init__(

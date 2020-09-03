@@ -11,7 +11,7 @@ class BoxEnv(fetch_env.FetchEnv, utils.EzPickle):
             'robot0:slide2': 0.0,
             'object0:joint': [1.25, 0.53, 0.4, 1., 0., 0., 0.],
             'box:joint': [1.25, 0.53, 0.4, 1, 0., 0., 0.],
-            'lid:joint': [1.25, 0.53, 1, 1, 0., 0., 0.],
+            'lid:joint': [1.25, 0.53 if action == "open" else 0.95, 1, 1, 0., 0., 0.],
         }
         fetch_env.FetchEnv.__init__(
             self, "box.xml", has_object=True, block_gripper=False, n_substeps=20,
