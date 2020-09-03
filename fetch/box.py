@@ -2,13 +2,12 @@ import os
 from gym import utils
 from gym.envs.robotics import fetch_env
 
-
 # Ensure we get the path separator correct on windows
 MODEL_XML_PATH = os.path.join('fetch', 'pick_and_place.xml')
 
 
-class FetchPickAndPlaceEnv(fetch_env.FetchEnv, utils.EzPickle):
-    def __init__(self, reward_type='sparse'):
+class BoxEnv(fetch_env.FetchEnv, utils.EzPickle):
+    def __init__(self, action, reward_type='sparse'):
         initial_qpos = {
             'robot0:slide0': 0.405,
             'robot0:slide1': 0.48,
