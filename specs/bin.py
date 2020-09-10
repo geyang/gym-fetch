@@ -64,7 +64,17 @@ if __name__ == '__main__':
     with doc, doc.row() as row:
         render_initial('fetch:Bin-place-v0', row)
 
-    doc @ """
+    doc @ f"""
+    > the bin might get pushed around, need to synchronize
+    > the target against new bin location. We do so in fn:_step_callback
+    """
+    with doc, doc.row() as row:
+        render_video('fetch:Bin-pick-v0', 5, row)
+
+    with doc, doc.row() as row:
+        render_video('fetch:Bin-place-v0', 5, row)
+
+    doc @ f"""
     ## Some Diagnostic Environments
     
     Name                  | Observation Spec                           | Info
@@ -80,20 +90,8 @@ if __name__ == '__main__':
         render_initial('fetch:Bin-fixed-v0', row)
 
     with doc, doc.row() as row:
-        render_initial('fetch:Bin-pick-fixed-v0', row)
+        render_initial('fetch:Bin-place-fixed-v0', row)
 
 
-    doc @ f"""
-    > **Potential Caveat:**
-    > the bin might get pushed around, need to synchronize
-    > the target against new bin location. Do so in _step_callback
-
-    > update: **fixed**
-    """
-    with doc, doc.row() as row:
-        render_video('fetch:Bin-pick-v0', 5, row)
-
-    with doc, doc.row() as row:
-        render_video('fetch:Bin-place-v0', 5, row)
 
     doc.flush()
