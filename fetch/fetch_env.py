@@ -15,17 +15,20 @@ class FetchEnv(robot_env.RobotEnv):
 
     def __init__(
             self, model_path, n_substeps, gripper_extra_height, block_gripper,
-            has_object, target_in_the_air, target_offset, obj_range, target_range,
+            obj_keys, goal_key, target_in_the_air, target_offset, obj_range, target_range,
             distance_threshold, initial_qpos, reward_type,
     ):
         """Initializes a new Fetch environment.
+
+        On initialization, the objects are initialized according to the `init_qpos` dictionary.
+        We record the height info to be reused later. We then call `_reset_sim` and `_get_goal`
+        on reset.
 
         Args:
             model_path (string): path to the environments XML file
             n_substeps (int): number of substeps the simulation runs on every call to step
             gripper_extra_height (float): additional height above the table when positioning the gripper
             block_gripper (boolean): whether or not the gripper is blocked (i.e. not movable) or not
-            has_object (boolean): whether or not the environment has an object
             target_in_the_air (boolean): whether or not the target should be in the air above the table or on the table surface
             target_offset (float or array with 3 elements): offset of the target
             obj_range (float): range of a uniform distribution for sampling initial object positions
@@ -36,7 +39,8 @@ class FetchEnv(robot_env.RobotEnv):
         """
         self.gripper_extra_height = gripper_extra_height
         self.block_gripper = block_gripper
-        self.has_object = has_object
+        self.obj_keys = obj_keys
+        self.goal_key = goal_key
         self.target_in_the_air = target_in_the_air
         self.target_offset = target_offset
         self.obj_range = obj_range
@@ -44,7 +48,7 @@ class FetchEnv(robot_env.RobotEnv):
         self.distance_threshold = distance_threshold
         self.reward_type = reward_type
 
-        super(FetchEnv, self).__init__(
+        super().__init__(
             model_path=model_path, n_substeps=n_substeps, n_actions=4,
             initial_qpos=initial_qpos)
 
@@ -90,33 +94,29 @@ class FetchEnv(robot_env.RobotEnv):
         grip_pos = self.sim.data.get_site_xpos('robot0:grip')
         dt = self.sim.nsubsteps * self.sim.model.opt.timestep
         grip_velp = self.sim.data.get_site_xvelp('robot0:grip') * dt
+
         robot_qpos, robot_qvel = utils.robot_get_obs(self.sim)
-        if self.has_object:
-            object_pos = self.sim.data.get_site_xpos('object0')
-            # rotations
-            object_rot = rotations.mat2euler(self.sim.data.get_site_xmat('object0'))
-            # velocities
-            object_velp = self.sim.data.get_site_xvelp('object0') * dt
-            object_velr = self.sim.data.get_site_xvelr('object0') * dt
-            # gripper state
-            object_rel_pos = object_pos - grip_pos
-            object_velp -= grip_velp
-        else:
-            object_pos = object_rot = object_velp = object_velr = object_rel_pos = np.zeros(0)
         gripper_state = robot_qpos[-2:]
         gripper_vel = robot_qvel[-2:] * dt  # change to a scalar if the gripper is made symmetric
 
-        if not self.has_object:
-            achieved_goal = grip_pos.copy()
-        else:
-            achieved_goal = np.squeeze(object_pos.copy())
-        obs = np.concatenate([
-            grip_pos, object_pos.ravel(), object_rel_pos.ravel(), gripper_state, object_rot.ravel(),
-            object_velp.ravel(), object_velr.ravel(), grip_velp, gripper_vel,
-        ])
+        obs_stack = grip_pos, gripper_vel, gripper_state, grip_velp,
+
+        for obj_key in self.obj_keys:
+            object_pos = self.sim.data.get_site_xpos(obj_key)
+            object_rot = rotations.mat2euler(self.sim.data.get_site_xmat(obj_key))
+            object_velp = self.sim.data.get_site_xvelp(obj_key) * dt
+            object_velr = self.sim.data.get_site_xvelr(obj_key) * dt
+
+            # gripper state
+            object_rel_pos = object_pos - grip_pos
+            object_velp -= grip_velp
+
+            obs_stack += object_pos, object_rot, object_velp, object_velr, object_rel_pos
+
+        achieved_goal = self.sim.data.get_site_xpos(self.goal_key).copy()
 
         return {
-            'observation': obs.copy(),
+            'observation': np.concatenate(obs_stack).copy(),
             'achieved_goal': achieved_goal.copy(),
             'desired_goal': self.goal.copy(),
         }
@@ -137,33 +137,41 @@ class FetchEnv(robot_env.RobotEnv):
         self.sim.model.site_pos[site_id] = self.goal - sites_offset[0]
         self.sim.forward()
 
+    def _reset_body(self, obj_key, pos=None):
+        """returns the xy position"""
+        current_obj_qpos = self.sim.data.get_joint_qpos(f'{obj_key}:joint').copy()
+        assert len(current_obj_qpos) == 7, "should be a single object."
+        if pos is not None:
+            current_obj_qpos[:len(pos)] = pos
+        else:
+            obj_xpos = self.initial_gripper_xpos[:2]
+            while np.linalg.norm(obj_xpos - self.initial_gripper_xpos[:2]) < 0.1:
+                obj_xpos = self.initial_gripper_xpos[:2] \
+                           + self.np_random.uniform(-self.obj_range, self.obj_range, size=2)
+            current_obj_qpos[:2] = obj_xpos
+        current_obj_qpos[2] = self.initial_heights[obj_key]
+        self.sim.data.set_joint_qpos(f'{obj_key}:joint', current_obj_qpos)
+        return current_obj_qpos
+
     def _reset_sim(self):
         self.sim.set_state(self.initial_state)
-
-        # Randomize start position of object.
-        if self.has_object:
-            object_xpos = self.initial_gripper_xpos[:2]
-            while np.linalg.norm(object_xpos - self.initial_gripper_xpos[:2]) < 0.1:
-                object_xpos = self.initial_gripper_xpos[:2] + self.np_random.uniform(-self.obj_range, self.obj_range,
-                                                                                     size=2)
-            object_qpos = self.sim.data.get_joint_qpos('object0:joint')
-            assert object_qpos.shape == (7,)
-            object_qpos[:2] = object_xpos
-            self.sim.data.set_joint_qpos('object0:joint', object_qpos)
-
+        # Randomize start position. Object in pick and place, gripper in reach.
+        self._reset_body(self.goal_key)
         self.sim.forward()
         return True
 
     def _sample_goal(self):
-        if self.has_object:
+        if self.goal_key == "robot0:grip":
+            goal = self.initial_gripper_xpos[:3] + self.np_random.uniform(-self.target_range, self.target_range, size=3)
+        else:
+            # sets the goal to be where the gripper is.
             goal = self.initial_gripper_xpos[:3] + self.np_random.uniform(-self.target_range, self.target_range, size=3)
             goal += self.target_offset
-            goal[2] = self.height_offset
+            # sets the goal to the table top.
+            goal[2] = self.initial_heights[self.goal_key]
             if self.target_in_the_air and self.np_random.uniform() < 0.5:
                 goal[2] += self.np_random.uniform(0, 0.45)
-        else:
-            goal = self.initial_gripper_xpos[:3] + self.np_random.uniform(-self.target_range, self.target_range, size=3)
-        return goal.copy()
+        return goal
 
     def _is_success(self, achieved_goal, desired_goal):
         d = goal_distance(achieved_goal, desired_goal)
@@ -176,8 +184,8 @@ class FetchEnv(robot_env.RobotEnv):
         self.sim.forward()
 
         # Move end effector into position.
-        gripper_target = np.array([-0.498, 0.005, -0.431 + self.gripper_extra_height]) + self.sim.data.get_site_xpos(
-            'robot0:grip')
+        gripper_target = np.array([-0.498, 0.005, -0.431 + self.gripper_extra_height]) \
+                         + self.sim.data.get_site_xpos('robot0:grip')
         gripper_rotation = np.array([1., 0., 1., 0.])
         self.sim.data.set_mocap_pos('robot0:mocap', gripper_target)
         self.sim.data.set_mocap_quat('robot0:mocap', gripper_rotation)
@@ -186,10 +194,9 @@ class FetchEnv(robot_env.RobotEnv):
 
         # Extract information for sampling goals.
         self.initial_gripper_xpos = self.sim.data.get_site_xpos('robot0:grip').copy()
-        if self.has_object:
-            self.height_offset = self.sim.data.get_site_xpos('object0')[2]
+        self.initial_heights = {}
+        for obj_key in self.obj_keys:
+            self.initial_heights[obj_key] = self.sim.data.get_site_xpos(obj_key)[2]
 
     def render(self, mode='human', width=500, height=500):
         return super(FetchEnv, self).render(mode, width, height)
-
-

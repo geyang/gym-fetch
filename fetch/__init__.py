@@ -12,6 +12,18 @@ from .mixed_envs.box_bin_drawer import BoxBinDrawerEnv
 kwargs = {}
 # Fetch
 register(
+    id='Bin-v0',
+    entry_point=BinEnv,
+    kwargs=dict(action=None, **kwargs),
+    max_episode_steps=50,
+)
+register(
+    id='Bin-fixed-v0',
+    entry_point=BinEnv,
+    kwargs=dict(action="fix-bin", **kwargs),
+    max_episode_steps=50,
+)
+register(
     id='Bin-pick-v0',
     entry_point=BinEnv,
     kwargs=dict(action="pick", **kwargs),
@@ -21,6 +33,12 @@ register(
     id='Bin-place-v0',
     entry_point=BinEnv,
     kwargs=dict(action="place", **kwargs),
+    max_episode_steps=50,
+)
+register(
+    id='Bin-place-fixed-v0',
+    entry_point=BinEnv,
+    kwargs=dict(action="place-fix-block", **kwargs),
     max_episode_steps=50,
 )
 register(

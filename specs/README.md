@@ -36,22 +36,22 @@ Reach-v2    | Push-v2    | PickPlace-v2 | Slide-v2
 <img style="align-self:center;" src="figures/FetchReach-v1.png" /> | <img style="align-self:center;" src="figures/FetchPush-v1.png" /> | <img style="align-self:center;" src="figures/FetchPickAndPlace-v1.png" />     | <img style="align-self:center;" src="figures/FetchSlide-v1.png" /> 
 
 
-# Single Task Environments for Primitives
+# Primitive Single Task Environments
 
 The tasks involve a single primitive action such as
 open/closing a box, or a drawer. They do not additionally
 involve placing an object into the opened drawer or box.
 We include bin picking and placing because the bin does
-not require an additional action to open.
+not require additional actions to open.
 
- Name            | Status
----------------- | -------------
- Bin-pick-v2     | ✅ done
- Bin-place-v2    | ✅ done
- Box-open-v2     | ✅ done
- Box-close-v2    | ✅ done
- Drawer-open-v2  | ✅ done
- Drawer-close-v2 | ✅ done
+ Name            | Status           | Details                                             | Reward              | Goal 
+---------------- | ---------------- | --------------------------------------------------- | ------------------- | ------
+ Bin-pick-v2     | 📈 in progress   | Pick up the object from the bin, and place out side | 𝛅(obj, goal) < ε    | flat cylinder on bin
+ Bin-place-v2    | 📈 in progress   | Place the object into the bin                       | 𝛅(obj, goal) < ε    | flat cylinder on table
+ Box-open-v2     | 📈 in progress   | Open the lid of the box, place on the side          | 𝛅(lid, goal) < ε    | flat cylinder on table
+ Box-close-v2    | 📈 in progress   | Close the box with its lid                          | 𝛅(lid, goal) < ε    | sphere in air above box
+ Drawer-open-v2  | 📈 in progress   | open the drawer by pulling it                       | 𝛅(drawer, goal) < ε | sphere in air
+ Drawer-close-v2 | 📈 in progress   | close the drawer by pushing it in                   | 𝛅(drawer, goal) < ε | sphere in air
 
  Box-open-v0 | Box-close-v0 | Bin-pick-v0 | Bin-place-v0
  :---------: | :----------: | :---------: | :----------: 

@@ -35,7 +35,7 @@ class RobotEnv(gym.GoalEnv):
         self._viewers = {}
 
         self.metadata = {
-            'render.modes': ['human', 'rgb_array'],
+            'obs_spec.modes': ['human', 'rgb_array', 'rgb', 'rgbd'],
             'video.frames_per_second': int(np.round(1.0 / self.dt))
         }
 
@@ -71,8 +71,10 @@ class RobotEnv(gym.GoalEnv):
         obs = self._get_obs()
 
         done = False
+        success = self._is_success(obs['achieved_goal'], self.goal)
         info = {
-            'is_success': self._is_success(obs['achieved_goal'], self.goal),
+            'is_success': success, 'success': success,
+            'dist': np.linalg.norm(obs['achieved_goal'] - self.goal)
         }
         reward = self.compute_reward(obs['achieved_goal'], self.goal, info)
         return obs, reward, done, info
@@ -87,7 +89,7 @@ class RobotEnv(gym.GoalEnv):
         did_reset_sim = False
         while not did_reset_sim:
             did_reset_sim = self._reset_sim()
-        self.goal = self._sample_goal().copy()
+        self.goal = self._sample_goal()
         obs = self._get_obs()
         return obs
 
@@ -142,7 +144,7 @@ class RobotEnv(gym.GoalEnv):
         if self.viewer is None:
             if mode == 'human':
                 self.viewer = mujoco_py.MjViewer(self.sim)
-            elif mode == 'rgb_array':
+            else:
                 self.viewer = mujoco_py.MjRenderContextOffscreen(self.sim, device_id=-1)
             self._viewer_setup()
             self._viewers[mode] = self.viewer
