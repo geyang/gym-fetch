@@ -2,9 +2,9 @@ from gym.envs.registration import register
 
 from .box import BoxEnv
 from .bin import BinEnv
-from .box_block import BoxBlockEnv
+from fetch.mixed_envs.box_block import BoxBlockEnv
 from .drawer import DrawerEnv
-from .drawer_block import DrawerBlockEnv
+from fetch.mixed_envs.drawer_block import DrawerBlockEnv
 from .mixed_envs.box_bin import BoxBinEnv
 from .mixed_envs.drawer_bin import DrawerBinEnv
 from .mixed_envs.box_bin_drawer import BoxBinDrawerEnv

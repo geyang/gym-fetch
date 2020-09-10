@@ -29,28 +29,33 @@
 		<body name="box" pos="0 0 0">
 			<joint name="box:joint" type="free" damping="0.01"/>
 			<include file="objects/bin_tall.xml"/>
+			<site name="box" pos="0 0 0" size="0.02 0.02 0.02" rgba="1 1 1 0.1" type="sphere"/>
 		</body>
 
 		<body name="lid" pos="0 0 0">
 			<joint name="lid:joint" type="free" damping="0.01"/>
 			<include file="objects/lid.xml"/>
+			<site name="lid" pos="0 0 0" size="0.02 0.02 0.02" rgba="1 1 1 0.1" type="sphere"/>
 		</body>
 
 		<body name="bin" pos="0 0 0">
 			<joint name="bin:joint" type="free" damping="0.01"/>
 			<include file="objects/bin.xml"/>
+			<site name="bin" pos="0 0 0" size="0.02 0.02 0.02" rgba="1 1 1 0.1" type="sphere"/>
 		</body>
 
-		<body name="cabinet" pos="0 0 0">
+		<body name="drawer_asm" pos="0 0 0">
 			<joint name="cabinet:joint" type="free" damping="0.01"/>
-			<include file="objects/cabinet.xml"/>
+			<body name="cabinet" pos="0 0 0">
+				<include file="objects/cabinet.xml"/>
+				<site name="cabinet" pos="0 0 0" size="0.02 0.02 0.02" rgba="1 1 1 0.1" type="sphere"/>
+			</body>
+			<body name="drawer" pos="0 0 0.05">
+				<joint name="drawer:slide" type="slide" axis="0 -1 0" range="0 0.2" limited="true" damping="0.01"/>
+				<include file="objects/drawer.xml"/>
+				<site name="drawer" pos="0 -0.16 0.085" size="0.02 0.02 0.02" rgba="1 1 1 0.1" type="sphere"/>
+			</body>
 		</body>
-
-		<body name="drawer" pos="0 0 0">
-			<joint name="drawer:joint" type="free" damping="0.01"/>
-			<include file="objects/drawer.xml"/>
-		</body>
-
 
 		<light directional="true" ambient="0.2 0.2 0.2" diffuse="0.8 0.8 0.8" specular="0.3 0.3 0.3" castshadow="false"
 					 pos="0 0 4" dir="0 0 -1" name="light0"/>
