@@ -18,6 +18,7 @@ register(
     max_episode_steps=50,
 )
 register(
+    # http://localhost:3001/geyang/latent-planning/
     id='Bin-fixed-v0',
     entry_point=BinEnv,
     kwargs=dict(action="fix-bin", **kwargs),

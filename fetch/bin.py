@@ -12,7 +12,8 @@ class BinEnv(fetch_env.FetchEnv, EzPickle):
             'robot0:slide1': 0.48,
             'robot0:slide2': 0.0,
             'bin:joint': [1.25, 0.53, 0.4, 0.8, 0., 0., 0.],
-            'object0:joint': [1.25, 0.53, 0.4, 1., 0., 0., 0.],
+            # not tested
+            'object0:joint': [1.25, 0.95 if action == "place" else 0.53, 1, 1, 0., 0., 0.],
         }
         fetch_env.FetchEnv.__init__(
             self, "bin.xml", obj_keys=("bin", "object0"), goal_key="object0",

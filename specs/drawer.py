@@ -39,24 +39,45 @@ def render_video(env_id, n, doc):
     doc.video(np.array(frames), f"{__file__[:-3]}/videos/{env_id}.gif", caption="After Reset")
 
 
+# env = gym.make("fetch:Drawer-open-v0")
+# while True:
+#     import time
+#     env.render()
+#     env.reset()
+#     for i in range(30):
+#         # time.sleep(0.1)
+#         act = env.action_space.sample()
+#         env.step(act)
+#         env.render()
+
+# with doc, doc.row() as row:
+#     env = gym.make("fetch:Drawer-open-v0")
+#     img = env.render('rgb', width=960, height=960)
+#     row.image(img, caption="before reset")
+#     env.reset()
+#     img = env.render('rgb', width=960, height=960)
+#     row.image(img, caption="after reset")
+#
+# exit()
+
 if __name__ == '__main__':
     doc @ f"""
-    # Box open and close Tasks
+    # Drawer open and close Tasks
 
-    This set includes two tasks: opening from the Box, and placing into the Box.
+    This set includes two tasks: opening from the Drawer, and placing into the Drawer.
 
     Name             | Observation Spec                     | Info
     ---------------- | ----------------                     | -------
-    **Box-open-v0**  | {get_obs_spec('fetch:Box-open-v0')}  | {{success, dist}}
-    **Box-close-v0** | {get_obs_spec('fetch:Box-close-v0')} | {{success, dist}}
+    **Drawer-open-v0**  | {get_obs_spec('fetch:Drawer-open-v0')}  | {{success, dist}}
+    **Drawer-close-v0** | {get_obs_spec('fetch:Drawer-close-v0')} | {{success, dist}}
 
     """
     with doc, doc.row() as row:
-        render_initial('fetch:Box-open-v0', row)
-        render_video('fetch:Box-open-v0', 5, row)
+        render_initial('fetch:Drawer-open-v0', row)
+        render_video('fetch:Drawer-open-v0', 5, row)
 
     with doc, doc.row() as row:
-        render_initial('fetch:Box-close-v0', row)
-        render_video('fetch:Box-close-v0', 5, row)
+        render_initial('fetch:Drawer-close-v0', row)
+        render_video('fetch:Drawer-close-v0', 5, row)
 
     doc.flush()

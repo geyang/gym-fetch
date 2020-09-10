@@ -3,7 +3,7 @@ import numpy as np
 from cmx import doc
 from cmx.backends.components import Image
 
-scale = 7
+scale = 3
 
 
 def get_obs_spec(env_id):
@@ -29,9 +29,6 @@ def render_initial(env_id, doc):
 
 def render_video(env_id, n, doc):
     env = gym.make(env_id)
-    img = env.render('rgb_array', width=100 * scale, height=120 * scale)
-    doc.image(img, caption="Initial")
-
     frames = []
     for ep in range(n):
         env.reset()
@@ -40,7 +37,7 @@ def render_video(env_id, n, doc):
             ts = env.step(act)
             frames.append(env.render('rgb_array', width=100 * scale, height=120 * scale))
 
-    doc.video(np.array(frames), f"bin/videos/{env_id}.gif", caption="After Reset")
+    doc.video(np.array(frames), f"{__file__[:-3]}/videos/{env_id}.gif", caption="After Reset")
 
 
 if __name__ == '__main__':
@@ -60,19 +57,16 @@ if __name__ == '__main__':
     """
     with doc, doc.row() as row:
         render_initial('fetch:Bin-pick-v0', row)
+        render_video('fetch:Bin-pick-v0', 5, row)
 
     with doc, doc.row() as row:
         render_initial('fetch:Bin-place-v0', row)
+        render_video('fetch:Bin-place-v0', 5, row)
 
     doc @ f"""
     > the bin might get pushed around, need to synchronize
     > the target against new bin location. We do so in fn:_step_callback
     """
-    with doc, doc.row() as row:
-        render_video('fetch:Bin-pick-v0', 5, row)
-
-    with doc, doc.row() as row:
-        render_video('fetch:Bin-place-v0', 5, row)
 
     doc @ f"""
     ## Some Diagnostic Environments
@@ -85,13 +79,14 @@ if __name__ == '__main__':
     """
     with doc, doc.row() as row:
         render_initial('fetch:Bin-v0', row)
+        render_video('fetch:Bin-v0', 5, row)
 
     with doc, doc.row() as row:
         render_initial('fetch:Bin-fixed-v0', row)
+        render_video('fetch:Bin-fixed-v0', 5, row)
 
     with doc, doc.row() as row:
         render_initial('fetch:Bin-place-fixed-v0', row)
-
-
+        render_video('fetch:Bin-place-fixed-v0', 5, row)
 
     doc.flush()

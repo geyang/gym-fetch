@@ -15,8 +15,9 @@ class FetchEnv(robot_env.RobotEnv):
 
     def __init__(
             self, model_path, n_substeps, gripper_extra_height, block_gripper,
-            obj_keys, goal_key, target_in_the_air, target_offset, obj_range, target_range,
+            target_in_the_air, target_offset, obj_range, target_range,
             distance_threshold, initial_qpos, reward_type,
+            obj_keys, goal_key, obs_keys=None,
     ):
         """Initializes a new Fetch environment.
 
@@ -40,6 +41,7 @@ class FetchEnv(robot_env.RobotEnv):
         self.gripper_extra_height = gripper_extra_height
         self.block_gripper = block_gripper
         self.obj_keys = obj_keys
+        self.obs_keys = obs_keys
         self.goal_key = goal_key
         self.target_in_the_air = target_in_the_air
         self.target_offset = target_offset
@@ -101,7 +103,7 @@ class FetchEnv(robot_env.RobotEnv):
 
         obs_stack = grip_pos, gripper_vel, gripper_state, grip_velp,
 
-        for obj_key in self.obj_keys:
+        for obj_key in self.obs_keys or self.obj_keys:
             object_pos = self.sim.data.get_site_xpos(obj_key)
             object_rot = rotations.mat2euler(self.sim.data.get_site_xmat(obj_key))
             object_velp = self.sim.data.get_site_xvelp(obj_key) * dt
@@ -136,6 +138,13 @@ class FetchEnv(robot_env.RobotEnv):
         site_id = self.sim.model.site_name2id('target0')
         self.sim.model.site_pos[site_id] = self.goal - sites_offset[0]
         self.sim.forward()
+
+    def _reset_slide(self, obj_key, slide_pos=None):
+        if slide_pos is None:
+            ctrl_ind = self.sim.model.joint_names.index(f"{obj_key}:slide")
+            low, high = self.sim.model.jnt_range[ctrl_ind]
+            slide_pos = self.np_random.uniform(low, high)
+        self.sim.data.set_joint_qpos(f'{obj_key}:slide', slide_pos)
 
     def _reset_body(self, obj_key, pos=None):
         """returns the xy position"""
@@ -179,6 +188,8 @@ class FetchEnv(robot_env.RobotEnv):
 
     def _env_setup(self, initial_qpos):
         for name, value in initial_qpos.items():
+            # qpos = self.sim.data.get_joint_qpos(name)
+            # print(f"{name}: {qpos}")
             self.sim.data.set_joint_qpos(name, value)
         utils.reset_mocap_welds(self.sim)
         self.sim.forward()
