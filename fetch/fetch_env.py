@@ -40,7 +40,7 @@ class FetchEnv(robot_env.RobotEnv):
         """
         self.gripper_extra_height = gripper_extra_height
         self.block_gripper = block_gripper
-        self.obj_keys = obj_keys
+        self.obj_keys = obj_keys or []
         self.obs_keys = obs_keys
         self.goal_key = goal_key
         self.target_in_the_air = target_in_the_air
@@ -165,7 +165,8 @@ class FetchEnv(robot_env.RobotEnv):
     def _reset_sim(self):
         self.sim.set_state(self.initial_state)
         # Randomize start position. Object in pick and place, gripper in reach.
-        self._reset_body(self.goal_key)
+        if self.obj_keys:
+            self._reset_body(self.goal_key)
         self.sim.forward()
         return True
 

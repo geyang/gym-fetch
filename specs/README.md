@@ -33,7 +33,7 @@ faster to train on.
 
 Reach-v2    | Push-v2    | PickPlace-v2 | Slide-v2    
 :----------:|:----------:|:------------:|:--------:
-<img style="align-self:center;" src="figures/FetchReach-v1.png" /> | <img style="align-self:center;" src="figures/FetchPush-v1.png" /> | <img style="align-self:center;" src="figures/FetchPickAndPlace-v1.png" />     | <img style="align-self:center;" src="figures/FetchSlide-v1.png" /> 
+<img style="align-self:center;" src="figures/Reach-v0.png" /> | <img style="align-self:center;" src="figures/Push-v0.png" /> | <img style="align-self:center;" src="figures/PickPlace-v0.png" />     | <img style="align-self:center;" src="figures/Slide-v0.png" /> 
 
 
 # Primitive Single Task Environments

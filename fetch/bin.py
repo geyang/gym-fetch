@@ -56,9 +56,18 @@ class BinEnv(fetch_env.FetchEnv, EzPickle):
 
     def _step_callback(self):
         super()._step_callback()
-        if self.action == "place":
-            bin_xpos = self.sim.data.get_site_xpos("bin").copy()
-            bin_xpos[2] = self.initial_heights['object0']
+        if not self.action:
+            return
+        if "place" in self.action:
+            # goal setting
+            self.goal = self.sim.data.get_site_xpos("bin").copy()
+            self.goal[2] = self.initial_heights['object0']
+        # todo: change to default behavior after stabilization
+        if "fix-bin" in self.action:
+            # todo: fix the location of the bin
+            original_pos = self.initial_qpos['bin:joint']
+            original_pos[2] = self.initial_heights['bin']
+            self._reset_body("bin", original_pos)
 
     def _sample_goal(self):
         if self.action == "pick":

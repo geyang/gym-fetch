@@ -57,7 +57,7 @@ def render(env_id, crop=0.4, width=960, height=640):
 doc @ f"""
 Reach-v2    | Push-v2    | PickPlace-v2 | Slide-v2    
 :----------:|:----------:|:------------:|:--------:
-{render('FetchReach-v1', 1)} | {render('FetchPush-v1', 1)} | {render('FetchPickAndPlace-v1', 1)}     | {render('FetchSlide-v1', 1)} 
+{render('fetch:Reach-v0', 1)} | {render('fetch:Push-v0', 1)} | {render('fetch:PickPlace-v0', 1)}     | {render('fetch:Slide-v0', 1)} 
 """
 doc @ f"""
 # Primitive Single Task Environments
