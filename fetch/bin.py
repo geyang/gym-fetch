@@ -14,15 +14,16 @@ class BinEnv(fetch_env.FetchEnv, EzPickle):
             'robot0:slide0': 0.405,
             'robot0:slide1': 0.48,
             'robot0:slide2': 0.0,
-            'bin:joint': [1.25, 0.33, 0.4, 0, 0., 0., 0.],
-            # use same location to correct set the target height
-            'object0:joint': [1.25, 0.53, 0.6, 0, 0., 0., 0.],
-            # 'object0:joint': [1.25, 0.95 if "place" in action else 0.53, 1, 1, 0., 0., 0.],
         }
-        if action == "fix-bin":
-            self.initial_qpos['object0:joint'] = [1.25, 0.95, 0.6, 0, 0., 0., 0.]
+        if action == "no-bin":
+            pass
+        elif action == "bin-aside":
+            self.initial_qpos['bin:joint'] = [1.25, 0.33, 0.6, 0, 0., 0., 0.]
+
+        self.initial_qpos['object0:joint'] = [1.25, 0.53, 0.6, 0, 0., 0., 0.]
+
         _kwargs = dict(
-            obj_keys=("bin", "object0"),
+            obj_keys=("object0",) if action == "no-bin" else ('bin', 'object0'),
             obs_keys=("object0",),
             goal_key="object0",
             block_gripper=False, n_substeps=20,
@@ -43,23 +44,8 @@ class BinEnv(fetch_env.FetchEnv, EzPickle):
         """
         :return: True, Read by the reset function to know this is ready.
         """
-        if self.action == "pick":
-            bin_pos = self._reset_body("bin")
-            self._reset_body("object0", bin_pos[:3])
-        elif self.action == "place":
-            # we keep the object at its original position
-            self._reset_body("object0")
-            self._reset_body("bin")
-        elif self.action == "place-fix-block":
-            # we keep the object at its original position
-            self._reset_body("object0", self.initial_qpos['object0:joint'])
-            self._reset_body("bin")
-        elif self.action == "fix-bin":
-            self._reset_body("object0")
-            self._reset_body("bin", self.initial_qpos['bin:joint'])
-        else:
-            for obj_key in self.obj_keys:
-                self._reset_body(obj_key)
+        for obj_key in self.obj_keys:
+            self._reset_body(obj_key)
         self.sim.forward()
         return True
 
@@ -71,8 +57,8 @@ class BinEnv(fetch_env.FetchEnv, EzPickle):
         #     # goal setting
         #     self.goal = self.sim.data.get_site_xpos("bin").copy()
         #     self.goal[2] = self.initial_heights['object0']
-        # todo: change to default behavior after stabilization
-        if "fix-bin" in self.action:
+        ## todo: change to default behavior after stabilization
+        if self.action == "bin-aside":
             # todo: fix the location of the bin
             original_pos = self.initial_qpos['bin:joint']
             original_pos[2] = self.initial_heights['bin']
@@ -80,13 +66,13 @@ class BinEnv(fetch_env.FetchEnv, EzPickle):
 
     def _sample_goal(self):
         # if self.action == "pick":
-        xpos = bin_xpos = self.sim.data.get_site_xpos("bin").copy()
-        while np.linalg.norm(xpos - bin_xpos) < 0.1:
-            xpos = super()._sample_goal()
-        return xpos
+        # xpos = bin_xpos = self.sim.data.get_site_xpos("bin").copy()
+        # while np.linalg.norm(xpos - bin_xpos) < 0.1:
+        #     xpos = super()._sample_goal()
+        # return xpos
         # elif "place" in self.action:
         #     # if np.random.uniform() < 0.1:
         #     bin_xpos = self.sim.data.get_site_xpos("bin").copy()
         #     bin_xpos[2] = self.initial_heights['object0']
         #     return bin_xpos
-        # return super()._sample_goal()
+        return super()._sample_goal()
