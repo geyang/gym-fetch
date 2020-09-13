@@ -45,48 +45,32 @@ if __name__ == '__main__':
     #     render_initial('FetchPickAndPlace-v1', row)
     #
     doc @ f"""
-    # Bin Pick and Place Tasks
+    # Original Gym Fetch Tasks
 
-    This set includes two tasks: picking from the bin, and placing into the bin.
+    This set reproduces the original gym Fetch robot tasks.
 
     Name             | Observation Spec                     | Info
     ---------------- | ----------------                     | -------
-    **Bin-pick-v0**  | {get_obs_spec('fetch:Bin-pick-v0')}  | block is always initialized on top of the bin
-    **Bin-place-v0** | {get_obs_spec('fetch:Bin-place-v0')} | no target in the air, only on the bin
+    **Reach-v0**  | {get_obs_spec('fetch:Reach-v0')}  | {{success, dist}}
+    **Push-v0** | {get_obs_spec('fetch:Push-v0')} | {{success, dist}}
+    **PickPlace-v0** | {get_obs_spec('fetch:PickPlace-v0')} | {{success, dist}}
+    **Slide-v0** | {get_obs_spec('fetch:Slide-v0')} | {{success, dist}}
 
     """
     with doc, doc.row() as row:
-        render_initial('fetch:Bin-pick-v0', row)
-        render_video('fetch:Bin-pick-v0', 5, row)
+        render_initial('fetch:Reach-v0', row)
+        render_video('fetch:Reach-v0', 5, row)
 
     with doc, doc.row() as row:
-        render_initial('fetch:Bin-place-v0', row)
-        render_video('fetch:Bin-place-v0', 5, row)
-
-    doc @ f"""
-    > the bin might get pushed around, need to synchronize
-    > the target against new bin location. We do so in fn:_step_callback
-    """
-
-    doc @ f"""
-    ## Some Diagnostic Environments
-    
-    Name                  | Observation Spec                           | Info
-    --------------------- | ----------------                           | -------
-    **Bin-fixed-v0**      | {get_obs_spec('fetch:Bin-fixed-v0')}       | same as gym
-    **Bin-fixed-hide-v0** | {get_obs_spec('fetch:Bin-fixed-hide-v0')}  | same as gym
-    **Bin-fixed-pos-v0**  | {get_obs_spec('fetch:Bin-fixed-pos-v0')}   | same as gym
-    """
-    with doc, doc.row() as row:
-        render_initial('fetch:Bin-fixed-v0', row)
-        render_video('fetch:Bin-fixed-v0', 5, row)
+        render_initial('fetch:Push-v0', row)
+        render_video('fetch:Push-v0', 5, row)
 
     with doc, doc.row() as row:
-        render_initial('fetch:Bin-fixed-hide-v0', row)
-        render_video('fetch:Bin-fixed-hide-v0', 5, row)
+        render_initial('fetch:PickPlace-v0', row)
+        render_video('fetch:PickPlace-v0', 5, row)
 
     with doc, doc.row() as row:
-        render_initial('fetch:Bin-fixed-pos-v0', row)
-        render_video('fetch:Bin-fixed-pos-v0', 5, row)
+        render_initial('fetch:Slide-v0', row)
+        render_video('fetch:Slide-v0', 5, row)
 
     doc.flush()

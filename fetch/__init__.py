@@ -21,43 +21,57 @@ for action in ['reach', 'push', 'pick-place', 'slide']:
         max_episode_steps=50,
     )
 # Fetch
-register(
-    # Same as FetchPickAndPlace, with a bin.
-    id='Bin-v0',
-    entry_point=BinEnv,
-    kwargs=dict(action=None, **kwargs),
-    max_episode_steps=50,
-)
+# register(
+#     # Same as FetchPickAndPlace, with a bin.
+#     id='Bin-v0',
+#     entry_point=BinEnv,
+#     kwargs=dict(action=None, **kwargs),
+#     max_episode_steps=50,
+# )
 register(
     # block starts from top of bin
     # todo: need to randomize location of block in bin
     id='Bin-pick-v0',
     entry_point=BinEnv,
-    kwargs=dict(action="pick", **kwargs),
+    kwargs=dict(action="pick", obs_keys=['object0']),
     max_episode_steps=50,
 )
 register(
     # target on top of the bin
     id='Bin-place-v0',
     entry_point=BinEnv,
-    kwargs=dict(action="place", **kwargs),
+    kwargs=dict(action="place", obs_keys=['object0']),
     max_episode_steps=50,
 )
 register(
     # Bin is welded in-place
     id='Bin-fixed-v0',
     entry_point=BinEnv,
-    kwargs=dict(action="fix-bin", **kwargs),
+    kwargs=dict(action="fix-bin", obs_keys=['bin', 'object0']),
     max_episode_steps=50,
 )
 register(
-    # block is initialized from a fixed location.
-    # todo: deprecate and delete
-    id='Bin-place-fixed-v0',
+    # Bin is welded in-place
+    id='Bin-fixed-hide-v0',
     entry_point=BinEnv,
-    kwargs=dict(action="place-fix-block", **kwargs),
+    kwargs=dict(action="fix-bin", obs_keys=['object0']),
     max_episode_steps=50,
 )
+register(
+    # Bin is welded in-place
+    id='Bin-fixed-pos-v0',
+    entry_point=BinEnv,
+    kwargs=dict(action="fix-bin", obs_keys=['bin@pos', 'object0']),
+    max_episode_steps=50,
+)
+# register(
+#     # block is initialized from a fixed location.
+#     # todo: deprecate and delete
+#     id='Bin-place-fixed-v0',
+#     entry_point=BinEnv,
+#     kwargs=dict(action="place-fix-block", **kwargs),
+#     max_episode_steps=50,
+# )
 register(
     id='Box-open-v0',
     entry_point=BoxEnv,

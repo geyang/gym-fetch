@@ -14,7 +14,7 @@ class BinEnv(fetch_env.FetchEnv, EzPickle):
             'robot0:slide0': 0.405,
             'robot0:slide1': 0.48,
             'robot0:slide2': 0.0,
-            'bin:joint': [1.25, 0.33, 0.4, 0, 0., 0., 0.],
+            'bin:joint': [1.25, 0.53, 0.4, 0, 0., 0., 0.],
             # use same location to correct set the target height
             'object0:joint': [1.25, 0.53, 0.6, 0, 0., 0., 0.],
             # 'object0:joint': [1.25, 0.95 if "place" in action else 0.53, 1, 1, 0., 0., 0.],
@@ -67,10 +67,10 @@ class BinEnv(fetch_env.FetchEnv, EzPickle):
         super()._step_callback()
         if not self.action:
             return
-        # if "place" in self.action:
-        #     # goal setting
-        #     self.goal = self.sim.data.get_site_xpos("bin").copy()
-        #     self.goal[2] = self.initial_heights['object0']
+        if "place" in self.action:
+            # goal setting
+            self.goal = self.sim.data.get_site_xpos("bin").copy()
+            self.goal[2] = self.initial_heights['object0']
         # todo: change to default behavior after stabilization
         if "fix-bin" in self.action:
             # todo: fix the location of the bin
@@ -79,14 +79,14 @@ class BinEnv(fetch_env.FetchEnv, EzPickle):
             self._reset_body("bin", original_pos)
 
     def _sample_goal(self):
-        # if self.action == "pick":
-        xpos = bin_xpos = self.sim.data.get_site_xpos("bin").copy()
-        while np.linalg.norm(xpos - bin_xpos) < 0.1:
-            xpos = super()._sample_goal()
-        return xpos
-        # elif "place" in self.action:
-        #     # if np.random.uniform() < 0.1:
-        #     bin_xpos = self.sim.data.get_site_xpos("bin").copy()
-        #     bin_xpos[2] = self.initial_heights['object0']
-        #     return bin_xpos
-        # return super()._sample_goal()
+        if self.action == "pick":
+            xpos = bin_xpos = self.sim.data.get_site_xpos("bin").copy()
+            while np.linalg.norm(xpos - bin_xpos) < 0.1:
+                xpos = super()._sample_goal()
+            return xpos
+        elif "place" in self.action:
+            bin_xpos = self.sim.data.get_site_xpos("bin").copy()
+            bin_xpos[2] = self.initial_heights['object0']
+            return bin_xpos
+
+        return super()._sample_goal()

@@ -16,7 +16,10 @@ class BoxEnv(fetch_env.FetchEnv, utils.EzPickle):
             # 'lid:joint': [1.25, 0.53 if action == "open" else 0.95, 1, 1, 0., 0., 0.],
         }
         fetch_env.FetchEnv.__init__(
-            self, "box.xml", obj_keys=("box", "lid"), goal_key="lid",
+            self, "box.xml",
+            obj_keys=("box", "lid"),
+            obs_keys=("lid",),
+            goal_key="lid",
             block_gripper=False, n_substeps=20,
             gripper_extra_height=0.2, target_in_the_air=True, target_offset=0.0,
             obj_range=0.15, target_range=0.15, distance_threshold=0.05,
@@ -48,12 +51,12 @@ class BoxEnv(fetch_env.FetchEnv, utils.EzPickle):
 
     def _sample_goal(self):
         if self.action == "open":
-            xpos = bin_xpos = self.sim.data.get_site_xpos("box").copy()
-            while np.linalg.norm(xpos - bin_xpos) < 0.2:
+            xpos = box_xpos = self.sim.data.get_site_xpos("box").copy()
+            while np.linalg.norm(xpos - box_xpos) < 0.2:
                 xpos = super()._sample_goal()
             return xpos
         elif self.action == "close":
-            bin_xpos = self.sim.data.get_site_xpos("box").copy()
-            bin_xpos[2] = self.initial_heights['lid']
-            return bin_xpos
+            box_xpos = self.sim.data.get_site_xpos("box").copy()
+            box_xpos[2] = self.initial_heights['lid']
+            return box_xpos
         raise NotImplementedError(f"Support for {self.action} is not implemented")
