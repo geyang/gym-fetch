@@ -38,6 +38,9 @@ class FetchEnv(robot_env.RobotEnv):
             initial_qpos (dict): a dictionary of joint names and values that define the initial configuration
             reward_type ('sparse' or 'dense'): the reward type, i.e. sparse or dense
         """
+        from pprint import pprint
+        pprint(locals())
+
         from ml_logger import logger
         logger.upload_file(__file__)
 

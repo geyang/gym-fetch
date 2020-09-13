@@ -1,6 +1,6 @@
 from gym.utils import EzPickle
 import numpy as np
-from . import fetch_env
+from fetch import fetch_env
 
 
 class GymFetchEnv(fetch_env.FetchEnv, EzPickle):
@@ -48,3 +48,9 @@ class GymFetchEnv(fetch_env.FetchEnv, EzPickle):
             distance_threshold=0.05,
             **local_vars)
         EzPickle.__init__(self)
+
+if __name__ == '__main__':
+    import gym
+    env = gym.make('fetch:PickPlace-v0')
+    env = gym.make('fetch:Push-v0')
+    # env = gym.make('fetch:Bin-no-bin-v0')

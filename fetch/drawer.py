@@ -28,6 +28,8 @@ class DrawerEnv(fetch_env.FetchEnv, utils.EzPickle):
         """
         :return: True, Read by the reset function to know this is ready.
         """
+        self.sim.set_state(self.initial_state)
+
         self._reset_body("cabinet")
         if self.action == "open":
             self._reset_slide("drawer", 0)

@@ -30,6 +30,8 @@ class BoxEnv(fetch_env.FetchEnv, utils.EzPickle):
         """
         :return: True, Read by the reset function to know this is ready.
         """
+        self.sim.set_state(self.initial_state)
+
         if self.action == "open":
             box_pos = self._reset_body("box")
             self._reset_body("lid", box_pos)

@@ -22,10 +22,24 @@ for action in ['reach', 'push', 'pick-place', 'slide']:
     )
 # Fetch
 register(
-    # Same as FetchPickAndPlace, with a bin.
+    # Same as FetchPickAndPlace
     id='Bin-no-bin-v0',
     entry_point=BinEnv,
     kwargs=dict(action='no-bin', **kwargs),
+    max_episode_steps=50,
+)
+register(
+    # Same as FetchPickAndPlace
+    id='Bin-pp-xml-v0',
+    entry_point=BinEnv,
+    kwargs=dict(action='pp-xml', **kwargs),
+    max_episode_steps=50,
+)
+register(
+    # Same as FetchPickAndPlace, but with a bin in model (not shown)
+    id='Bin-no-init-v0',
+    entry_point=BinEnv,
+    kwargs=dict(action='no-init', **kwargs),
     max_episode_steps=50,
 )
 register(
