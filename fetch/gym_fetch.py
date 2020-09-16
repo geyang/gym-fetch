@@ -35,7 +35,7 @@ class GymFetchEnv(fetch_env.FetchEnv, EzPickle):
         if action in ["reach", "pick-place"]:
             gripper_extra_height = 0.2
 
-        target_in_the_air = action in ['reach', 'pick-place']
+        target_in_the_air = 0.5 if action in ['reach', 'pick-place'] else False
         block_gripper = action in ['reach', 'slide']
 
         local_vars = locals().copy()
@@ -49,8 +49,10 @@ class GymFetchEnv(fetch_env.FetchEnv, EzPickle):
             **local_vars)
         EzPickle.__init__(self)
 
+
 if __name__ == '__main__':
     import gym
+
     env = gym.make('fetch:PickPlace-v0')
     env = gym.make('fetch:Push-v0')
     # env = gym.make('fetch:Bin-no-bin-v0')

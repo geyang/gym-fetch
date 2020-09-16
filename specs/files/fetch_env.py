@@ -1,12 +1,10 @@
+from copy import deepcopy
+
 import numpy as np
+from fetch.common.utils import goal_distance
 
 from gym.envs.robotics import rotations, utils
 from .common import robot_env
-
-
-def goal_distance(goal_a, goal_b):
-    assert goal_a.shape == goal_b.shape
-    return np.linalg.norm(goal_a - goal_b, axis=-1)
 
 
 class FetchEnv(robot_env.RobotEnv):
@@ -30,7 +28,7 @@ class FetchEnv(robot_env.RobotEnv):
             n_substeps (int): number of substeps the simulation runs on every call to step
             gripper_extra_height (float): additional height above the table when positioning the gripper
             block_gripper (boolean): whether or not the gripper is blocked (i.e. not movable) or not
-            target_in_the_air (boolean): whether or not the target should be in the air above the table or on the table surface
+            target_in_the_air (float): chance for the target to be in the air above the table or on the table surface
             target_offset (float or array with 3 elements): offset of the target
             obj_range (float): range of a uniform distribution for sampling initial object positions
             target_range (float): range of a uniform distribution for sampling a target
@@ -38,6 +36,9 @@ class FetchEnv(robot_env.RobotEnv):
             initial_qpos (dict): a dictionary of joint names and values that define the initial configuration
             reward_type ('sparse' or 'dense'): the reward type, i.e. sparse or dense
         """
+        from pprint import pprint
+        pprint(locals())
+
         from ml_logger import logger
         logger.upload_file(__file__)
 
@@ -62,11 +63,21 @@ class FetchEnv(robot_env.RobotEnv):
 
     def compute_reward(self, achieved_goal, goal, info):
         # Compute distance between goal and the achieved goal.
+        # if isinstance(goal, dict):
+        #     d = np.array([goal_distance(achieved_goal[k], g) for k, g in goal.items()])
+        # else:
         d = goal_distance(achieved_goal, goal)
+
         if self.reward_type == 'sparse':
+            return -(d > self.distance_threshold).astype(np.float32).sum()
+        elif self.reward_type == 'sparse-vec':
             return -(d > self.distance_threshold).astype(np.float32)
-        else:
+        elif self.reward_type == 'dense':
+            return -d.sum()
+        elif self.reward_type == "dense-vec":
             return -d
+        else:
+            raise RuntimeError(f"`{self.reward_type}` is not a supported reward type.")
 
     # RobotEnv methods
     # ----------------------------
@@ -120,12 +131,15 @@ class FetchEnv(robot_env.RobotEnv):
 
             obs_stack += tuple([obs_dict[k] for k in attrs or obs_dict.keys()])
 
-        achieved_goal = self.sim.data.get_site_xpos(self.goal_key)
+        if isinstance(self.goal_key, str):
+            achieved_goal = self.sim.data.get_site_xpos(self.goal_key)
+        else:
+            achieved_goal = {k: self.sim.data.get_site_xpos(k) for k in self.goal_key}
 
         return {
             'observation': np.concatenate(obs_stack).copy(),
-            'achieved_goal': achieved_goal.copy(),
-            'desired_goal': self.goal.copy(),
+            'achieved_goal': deepcopy(achieved_goal),
+            'desired_goal': deepcopy(self.goal),
         }
 
     def _viewer_setup(self):
@@ -137,11 +151,20 @@ class FetchEnv(robot_env.RobotEnv):
         self.viewer.cam.azimuth = 132.
         self.viewer.cam.elevation = -14.
 
+    def _set_target(self, target_id, goal):
+        sites_offset = (self.sim.data.site_xpos - self.sim.model.site_pos).copy()
+        site_id = self.sim.model.site_name2id(target_id)
+        # second site_id was 0
+        self.sim.model.site_pos[site_id] = goal - sites_offset[site_id]
+
     def _render_callback(self):
         # Visualize target.
-        sites_offset = (self.sim.data.site_xpos - self.sim.model.site_pos).copy()
-        site_id = self.sim.model.site_name2id('target0')
-        self.sim.model.site_pos[site_id] = self.goal - sites_offset[0]
+        if isinstance(self.goal, dict):
+            for i, k in enumerate(self.goal_key):
+                self._set_target(f"target{i}", self.goal[k])
+        else:
+            self._set_target("target0", self.goal)
+
         self.sim.forward()
 
     def _reset_slide(self, obj_key, slide_pos=None):
@@ -171,22 +194,32 @@ class FetchEnv(robot_env.RobotEnv):
         self.sim.set_state(self.initial_state)
         # Randomize start position. Object in pick and place, gripper in reach.
         if self.obj_keys:
-            self._reset_body(self.goal_key)
+            if isinstance(self.goal_key, str):
+                self._reset_body(self.goal_key)
+            else:
+                for goal_key in self.goal_key:
+                    self._reset_body(goal_key)
         self.sim.forward()
         return True
 
+    # only used by _sample_goal
+    def _sample_single_goal(self, goal_key, high=0.45):
+        goal = self.initial_gripper_xpos[:3] + self.np_random.uniform(-self.target_range, self.target_range, size=3)
+        goal += self.target_offset
+        # sets the goal to the table top.
+        goal[2] = self.initial_heights[goal_key]
+        # todo: refactor target_in_the_air to be an argument
+        if self.np_random.uniform() < (self.target_in_the_air or 0):
+            goal[2] += self.np_random.uniform(0, high)
+        return goal
+
     def _sample_goal(self):
         if self.goal_key == "robot0:grip":
-            goal = self.initial_gripper_xpos[:3] + self.np_random.uniform(-self.target_range, self.target_range, size=3)
-        else:
-            # sets the goal to be where the gripper is.
-            goal = self.initial_gripper_xpos[:3] + self.np_random.uniform(-self.target_range, self.target_range, size=3)
-            goal += self.target_offset
-            # sets the goal to the table top.
-            goal[2] = self.initial_heights[self.goal_key]
-            if self.target_in_the_air and self.np_random.uniform() < 0.5:
-                goal[2] += self.np_random.uniform(0, 0.45)
-        return goal
+            return self.initial_gripper_xpos[:3] + self.np_random.uniform(-self.target_range, self.target_range, size=3)
+
+        if isinstance(self.goal_key, str):
+            return self._sample_single_goal(self.goal_key)
+        return {k: self._sample_single_goal(k) for k in self.goal_key}
 
     def _is_success(self, achieved_goal, desired_goal):
         d = goal_distance(achieved_goal, desired_goal)

@@ -3,6 +3,7 @@ import copy
 import numpy as np
 
 import gym
+from fetch.common.utils import goal_distance
 from gym import error, spaces
 from gym.utils import seeding
 
@@ -13,6 +14,11 @@ except ImportError as e:
         f"{e}. (HINT: you need to install mujoco_py, and also perform the setup instructions here: https://github.com/openai/mujoco-py/.)")
 
 DEFAULT_SIZE = 500
+
+def obs_spec(obs):
+    if isinstance(obs, dict):
+        return spaces.Dict({k: obs_spec(v) for k, v in obs.items()})
+    return spaces.Box(-np.inf, np.inf, shape=obs.shape, dtype='float32')
 
 
 class RobotEnv(gym.GoalEnv):
@@ -46,11 +52,7 @@ class RobotEnv(gym.GoalEnv):
         self.goal = self._sample_goal()
         obs = self._get_obs()
         self.action_space = spaces.Box(-1., 1., shape=(n_actions,), dtype='float32')
-        self.observation_space = spaces.Dict(dict(
-            desired_goal=spaces.Box(-np.inf, np.inf, shape=obs['achieved_goal'].shape, dtype='float32'),
-            achieved_goal=spaces.Box(-np.inf, np.inf, shape=obs['achieved_goal'].shape, dtype='float32'),
-            observation=spaces.Box(-np.inf, np.inf, shape=obs['observation'].shape, dtype='float32'),
-        ))
+        self.observation_space = obs_spec(obs)
 
     @property
     def dt(self):
@@ -73,8 +75,9 @@ class RobotEnv(gym.GoalEnv):
         done = False
         success = self._is_success(obs['achieved_goal'], self.goal)
         info = {
-            'is_success': success, 'success': success,
-            'dist': np.linalg.norm(obs['achieved_goal'] - self.goal)
+            'is_success': success,
+            'success': success,
+            'dist': goal_distance(obs['achieved_goal'], self.goal)
         }
         reward = self.compute_reward(obs['achieved_goal'], self.goal, info)
         return obs, reward, done, info

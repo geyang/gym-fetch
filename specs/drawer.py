@@ -1,83 +1,51 @@
-import gym
-import numpy as np
 from cmx import doc
 
-scale = 3
-
-
-def get_obs_spec(env_id):
-    env = gym.make(env_id)
-    buffer = []
-    for k, v in env.observation_space.spaces.items():
-        buffer += [f"{k}: {v.shape}"]
-    return "<br>".join(buffer)
-
-
-def render_initial(env_id, doc):
-    env = gym.make(env_id)
-    img = env.render('rgb_array', width=100 * scale, height=120 * scale)
-    doc.image(img, caption="Initial")
-
-    frames = []
-    for i in range(10):
-        env.reset()
-        frames.append(env.render('rgb_array', width=100 * scale, height=120 * scale))
-
-    doc.image(np.array(frames).min(axis=0), caption="After Reset")
-
-
-def render_video(env_id, n, doc):
-    env = gym.make(env_id)
-    frames = []
-    for ep in range(n):
-        env.reset()
-        for i in range(10):
-            act = env.action_space.sample()
-            ts = env.step(act)
-            frames.append(env.render('rgb_array', width=100 * scale, height=120 * scale))
-
-    doc.video(np.array(frames), f"{__file__[:-3]}/videos/{env_id}.gif", caption="After Reset")
-
-
-# env = gym.make("fetch:Drawer-open-v0")
-# while True:
-#     import time
-#     env.render()
-#     env.reset()
-#     for i in range(30):
-#         # time.sleep(0.1)
-#         act = env.action_space.sample()
-#         env.step(act)
-#         env.render()
-
-# with doc, doc.row() as row:
-#     env = gym.make("fetch:Drawer-open-v0")
-#     img = env.render('rgb', width=960, height=960)
-#     row.image(img, caption="before reset")
-#     env.reset()
-#     img = env.render('rgb', width=960, height=960)
-#     row.image(img, caption="after reset")
-#
-# exit()
+from specs import get_obs_spec, render_initial, render_video
 
 if __name__ == '__main__':
+    debug_envs = ["fetch:Drawer-fixed-v0",
+                  "fetch:Drawer-fixed-open-v0", ]
+
+    drawer_envs = ["fetch:Drawer-open-v0",
+                   "fetch:Drawer-close-v0",
+                   "fetch:Drawer-place-easy-v0",
+                   "fetch:Drawer-place-v0", ]
+    all_envs = drawer_envs
     doc @ f"""
-    # Drawer open and close Tasks
+# Drawer Open and Pick and Place Tasks
 
-    This set includes two tasks: opening from the Drawer, and placing into the Drawer.
+## Debugging Tasks
 
-    Name             | Observation Spec                     | Info
-    ---------------- | ----------------                     | -------
-    **Drawer-open-v0**  | {get_obs_spec('fetch:Drawer-open-v0')}  | {{success, dist}}
-    **Drawer-close-v0** | {get_obs_spec('fetch:Drawer-close-v0')} | {{success, dist}}
+Name                     | Observation Spec                       | Goal Init/Comment                       | 
+-----------------        | ----------------                       | -------                                 | ------
+**Drawer-fixed-v0**      | {get_obs_spec('Drawer-fixed-v0')}      | Drawer at a fixed location on the desk  | ![](figures/Drawer-fixed-v0.gif)
+**Drawer-fixed-open-v0** | {get_obs_spec('Drawer-fixed-open-v0')} | Drawer at the same location, but open. This one<br>occupies a different area closer to the middle. | ![](figures/Drawer-place-v0.gif) 
+"""
+    table = doc.table()
+    for env_id in debug_envs:
+        with table.figure_row() as row:
+            render_initial(env_id, row)
+            render_video(env_id, 15, row)
 
-    """
-    with doc, doc.row() as row:
-        render_initial('fetch:Drawer-open-v0', row)
-        render_video('fetch:Drawer-open-v0', 5, row)
+    doc @ """
+## Drawer Primitive Tasks
 
-    with doc, doc.row() as row:
-        render_initial('fetch:Drawer-close-v0', row)
-        render_video('fetch:Drawer-close-v0', 5, row)
+> **Note**: To test the agent's performance in placing the object into 
+> the drawer, we need to fix the target location to the drawer.
+
+Name                     | Observation Spec                       | Goal Init/Comment                       | 
+-----------------        | ----------------                       | -------                                 | ------
+**Drawer-open-v0**       | {get_obs_spec('Drawer-open-v0')}       | open the drawer                         | ![](figures/Drawer-open-v0.gif)
+**Drawer-close-v0**      | {get_obs_spec('Drawer-close-v0')}      | closing the drawer                      | ![](figures/Drawer-close-v0.gif)
+**Drawer-place-easy-v0** | {get_obs_spec('Drawer-place-easy-v0')} | Drawer is open to begin with. Same as gym<br> pick and place. Eventually we want to<br>specify goals inside the drawer | ![](figures/Drawer-place-easy-v0.gif)
+**Drawer-place-v0**      | {get_obs_spec('Drawer-place-v0')}      | need to first open the drawer, otherwise<br> same as above.               | ![](figures/Drawer-place-v0.gif) 
+
+## Details of Each Task
+"""
+    table = doc.table()
+    for env_id in all_envs:
+        with table.figure_row() as row:
+            render_initial(env_id, row)
+            render_video(env_id, 15, row)
 
     doc.flush()

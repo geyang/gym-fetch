@@ -1,92 +1,53 @@
-import gym
-import numpy as np
 from cmx import doc
-from cmx.backends.components import Image
 
-scale = 3
+from specs.__init__ import get_obs_spec, render_initial, render_video
 
-
-def get_obs_spec(env_id):
-    env = gym.make(env_id)
-    buffer = []
-    for k, v in env.observation_space.spaces.items():
-        buffer += [f"{k}: {v.shape}"]
-    return "<br>".join(buffer)
-
-
-def render_initial(env_id, doc):
-    env = gym.make(env_id)
-    img = env.render('rgb_array', width=100 * scale, height=120 * scale)
-    doc.image(img, caption="Initial")
-
-    frames = []
-    for i in range(10):
-        env.reset()
-        frames.append(env.render('rgb_array', width=100 * scale, height=120 * scale))
-
-    doc.image(np.array(frames).min(axis=0), caption="After Reset")
-
-
-def render_video(env_id, n, doc):
-    env = gym.make(env_id)
-    frames = []
-    for ep in range(n):
-        env.reset()
-        for i in range(10):
-            act = env.action_space.sample()
-            ts = env.step(act)
-            frames.append(env.render('rgb_array', width=100 * scale, height=120 * scale))
-
-    doc.video(np.array(frames), f"{__file__[:-3]}/videos/{env_id}.gif", caption="After Reset")
-
-
+bin_envs = ["fetch:Bin-pick-v0",
+            "fetch:Bin-place-v0",
+            "fetch:Bin-fixed-v0", ]
 if __name__ == '__main__':
-    # with doc, doc.row() as row:
-    #     render_initial('FetchPickAndPlace-v1', row)
-    #
+    all_envs = bin_envs
     doc @ f"""
-    # Bin Pick and Place Tasks
+write_protected: true
+---
 
-    This set includes two tasks: picking from the bin, and placing into the bin.
+## Bin Diagnostic Tasks
 
-    Name             | Observation Spec                     | Info
-    ---------------- | ----------------                     | -------
-    **Bin-pick-v0**  | {get_obs_spec('fetch:Bin-pick-v0')}  | block is always initialized on top of the bin
-    **Bin-place-v0** | {get_obs_spec('fetch:Bin-place-v0')} | no target in the air, only on the bin
+Name              | Observation Spec                | Goal Init/Comment | 
+----------------- | ----------------                | -------           | ------
+**Bin-aside-v0** | {get_obs_spec('Bin-aside-v0')} | pick up the block | ![](figures/Bin-aside-v0.gif)
+**Bin-fixed-v0** | {get_obs_spec('Bin-fixed-v0')} | pick up the block | ![](figures/Bin-fixed-v0.gif)
 
+## Bin Primitive Tasks
+
+Name                     | Observation Spec               | Goal Init/Comment                        | 
+-----------------        | ----------------               | -------                                  | ------
+**Bin-pick-v0**          | {get_obs_spec('Bin-pick-v0')}  | pick up the block                        | ![](figures/Bin-pick-v0.gif)
+**Bin-place-v0**         | {get_obs_spec('Bin-place-v0')} | 10% on the bin, rest of the time in-air  | ![](figures/Bin-place-v0.gif)
+
+## Other Debugging Tasks
+"""
+    with doc:
+        debug_envs = [
+            'fetch:Bin-no-bin-v0',
+            'fetch:Bin-pp-xml-v0',
+            'fetch:Bin-no-init-v0',
+            'fetch:Bin-aside-hidden-v0',
+            'fetch:Bin-aside-v0',
+        ]
+
+    doc @"""
+    ## Details of Each Task
     """
-    with doc, doc.row() as row:
-        render_initial('fetch:Bin-pick-v0', row)
-        render_video('fetch:Bin-pick-v0', 5, row)
+    table = doc.table()
+    for env_id in all_envs:
+        with table.figure_row() as row:
+            env = render_initial(env_id, row)
+            render_video(env_id, 15, row)
 
-    with doc, doc.row() as row:
-        render_initial('fetch:Bin-place-v0', row)
-        render_video('fetch:Bin-place-v0', 5, row)
-
-    doc @ f"""
-    > the bin might get pushed around, need to synchronize
-    > the target against new bin location. We do so in fn:_step_callback
-    """
-
-    doc @ f"""
-    ## Some Diagnostic Environments
-    
-    Name                  | Observation Spec                           | Info
-    --------------------- | ----------------                           | -------
-    **Bin-fixed-v0**      | {get_obs_spec('fetch:Bin-fixed-v0')}       | same as gym
-    **Bin-fixed-hide-v0** | {get_obs_spec('fetch:Bin-fixed-hide-v0')}  | same as gym
-    **Bin-fixed-pos-v0**  | {get_obs_spec('fetch:Bin-fixed-pos-v0')}   | same as gym
-    """
-    with doc, doc.row() as row:
-        render_initial('fetch:Bin-fixed-v0', row)
-        render_video('fetch:Bin-fixed-v0', 5, row)
-
-    with doc, doc.row() as row:
-        render_initial('fetch:Bin-fixed-hide-v0', row)
-        render_video('fetch:Bin-fixed-hide-v0', 5, row)
-
-    with doc, doc.row() as row:
-        render_initial('fetch:Bin-fixed-pos-v0', row)
-        render_video('fetch:Bin-fixed-pos-v0', 5, row)
+            text = f"**Action Type**<br>`{env.action}`<br>"
+            text += f"**Observation Spec**<br>"
+            text += get_obs_spec(env_id.split(':')[-1])
+            row.column(text=text)
 
     doc.flush()

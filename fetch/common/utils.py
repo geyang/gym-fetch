@@ -1,10 +1,13 @@
 import numpy as np
 
 from gym import error
+
 try:
     import mujoco_py
 except ImportError as e:
-    raise error.DependencyNotInstalled("{}. (HINT: you need to install mujoco_py, and also perform the setup instructions here: https://github.com/openai/mujoco-py/.)".format(e))
+    raise error.DependencyNotInstalled(
+        "{}. (HINT: you need to install mujoco_py, and also perform the setup instructions here: https://github.com/openai/mujoco-py/.)".format(
+            e))
 
 
 def robot_get_obs(sim):
@@ -25,7 +28,7 @@ def ctrl_set_action(sim, action):
     For position actuators it sets the target relative to the current qpos.
     """
     if sim.model.nmocap > 0:
-        _, action = np.split(action, (sim.model.nmocap * 7, ))
+        _, action = np.split(action, (sim.model.nmocap * 7,))
     if sim.data.ctrl is not None:
         for i in range(action.shape[0]):
             if sim.model.actuator_biastype[i] == 0:
@@ -45,7 +48,7 @@ def mocap_set_action(sim, action):
     constraint optimizer tries to center the welded body on the mocap.
     """
     if sim.model.nmocap > 0:
-        action, _ = np.split(action, (sim.model.nmocap * 7, ))
+        action, _ = np.split(action, (sim.model.nmocap * 7,))
         action = action.reshape(sim.model.nmocap, 7)
 
         pos_delta = action[:, :3]
@@ -73,8 +76,8 @@ def reset_mocap2body_xpos(sim):
     """
 
     if (sim.model.eq_type is None or
-        sim.model.eq_obj1id is None or
-        sim.model.eq_obj2id is None):
+            sim.model.eq_obj1id is None or
+            sim.model.eq_obj2id is None):
         return
     for eq_type, obj1_id, obj2_id in zip(sim.model.eq_type,
                                          sim.model.eq_obj1id,
@@ -94,3 +97,22 @@ def reset_mocap2body_xpos(sim):
         assert (mocap_id != -1)
         sim.data.mocap_pos[mocap_id][:] = sim.data.body_xpos[body_idx]
         sim.data.mocap_quat[mocap_id][:] = sim.data.body_xquat[body_idx]
+
+
+def goal_distance(goal_a, goal_b):
+    """
+    This distance is symmetric, but it does not have to.
+
+    :param goal_a: achieved goal
+    :param goal_b: desired goal
+    :return: list if goal is a dictionary. Otherwise a numpy array.
+    """
+    if isinstance(goal_b, dict):
+        return [d(goal_a[k], g) for k, g in goal_b.items()]
+    else:
+        return d(goal_a, goal_b)
+
+
+def d(goal_a, goal_b):
+    assert goal_a.shape == goal_b.shape
+    return np.linalg.norm(goal_a - goal_b, axis=-1)
