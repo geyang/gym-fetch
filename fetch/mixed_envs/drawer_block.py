@@ -1,5 +1,6 @@
-import os
+import numpy as np
 from gym import utils
+
 from fetch import fetch_env
 
 
@@ -25,3 +26,20 @@ class DrawerBlockEnv(fetch_env.FetchEnv, utils.EzPickle):
 
         )
         utils.EzPickle.__init__(self)
+
+    def _reset_sim(self):
+        splits = self.action.split('+')
+        if "mixed" in splits:
+            self.sim.set_state(self.initial_state)
+
+            self._reset_body("object0")
+            if np.random.uniform() < 0.5:
+                self._reset_slide("drawer", 0)
+            else:
+                self._reset_slide("drawer", 0.2)
+
+            self.sim.forward()
+            return True
+
+        return super()._reset_sim()
+

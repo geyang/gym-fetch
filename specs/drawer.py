@@ -4,7 +4,8 @@ from specs import get_obs_spec, render_initial, render_video
 
 if __name__ == '__main__':
     debug_envs = ["fetch:Drawer-fixed-v0",
-                  "fetch:Drawer-fixed-open-v0", ]
+                  "fetch:Drawer-fixed-open-v0",
+                  "fetch:Drawer-fixed-mixed-v0", ]
 
     drawer_envs = ["fetch:Drawer-open-v0",
                    "fetch:Drawer-close-v0",
@@ -16,10 +17,13 @@ if __name__ == '__main__':
 
 ## Debugging Tasks
 
-Name                     | Observation Spec                       | Goal Init/Comment                       | 
------------------        | ----------------                       | -------                                 | ------
-**Drawer-fixed-v0**      | {get_obs_spec('Drawer-fixed-v0')}      | Drawer at a fixed location on the desk  | ![](figures/Drawer-fixed-v0.gif)
-**Drawer-fixed-open-v0** | {get_obs_spec('Drawer-fixed-open-v0')} | Drawer at the same location, but open. This one<br>occupies a different area closer to the middle. | ![](figures/Drawer-place-v0.gif) 
+Name                      | Observation Spec                        | Goal Init/Comment                         | 
+-----------------         | ----------------                        | -------                                   | ------
+**Drawer-fixed-v0**       | {get_obs_spec('Drawer-fixed-v0')}       | Drawer at a fixed location on the desk    | ![](figures/Drawer-fixed-v0.gif)
+**Drawer-fixed-open-v0**  | {get_obs_spec('Drawer-fixed-open-v0')}  | Drawer at the same location, but open. This one<br>occupies a different area closer to the middle. | ![](figures/Drawer-fixed-open-v0.gif) 
+**Drawer-fixed-mixed-v0** | {get_obs_spec('Drawer-fixed-mixed-v0')} | Mix of these two envs at 50% of the time. | ![](figures/Drawer-fixed-mixed-v0.gif) 
+
+The drawer open environment does not learn (only learns to push the block around on the table). We engineer a mixed environment that is open 50% of the time. **Add this as a new debug environment**.
 """
     table = doc.table()
     for env_id in debug_envs:

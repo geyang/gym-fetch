@@ -37,9 +37,9 @@ register(id='Bin-fixed-v0', entry_point=BinEnv, kwargs=dict(action="bin-fixed", 
 register(id='Box-aside-v0', entry_point=BoxNoLidEnv, kwargs=dict(action="box-aside", ), **kw)
 register(id='Box-fixed-v0', entry_point=BoxNoLidEnv, kwargs=dict(action="box-fixed", ), **kw)
 # Drawer Debug Tasks # todo: These are currently the same as the Drawer place tasks.
-register(id='Drawer-fixed-open-v0', entry_point=DrawerBlockEnv, kwargs=dict(action="place", ), **kw)
 register(id='Drawer-fixed-v0', entry_point=DrawerBlockEnv, kwargs=dict(action="open+place", ), **kw)
-
+register(id='Drawer-fixed-open-v0', entry_point=DrawerBlockEnv, kwargs=dict(action="place", ), **kw)
+register(id='Drawer-fixed-mixed-v0', entry_point=DrawerBlockEnv, kwargs=dict(action="mixed+place", ), **kw)
 
 # ------------------------ Finalized ------------------------
 # Bin Environments Bin + object, no lid
@@ -57,12 +57,11 @@ register(id='Box-place-v0', entry_point=BoxBlockEnv, kwargs=dict(action="open+pl
 # Drawer Environments
 register(id='Drawer-open-v0', entry_point=DrawerEnv, kwargs=dict(action="open", ), **kw)
 register(id='Drawer-close-v0', entry_point=DrawerEnv, kwargs=dict(action="close", ), **kw)
+# these two are under construction (same as the debug env right now)
 register(id='Drawer-place-easy-v0', entry_point=DrawerBlockEnv, kwargs=dict(action="place", ), **kw)
 register(id='Drawer-place-v0', entry_point=DrawerBlockEnv, kwargs=dict(action="open+place", ), **kw)
-
 
 # 3-body Environments
 register(id='BoxBin-v0', entry_point=BoxBinEnv, kwargs=dict(action=None, ), **kw)
 register(id='DrawerBin-v0', entry_point=DrawerBinEnv, kwargs=dict(action=None, ), **kw)
 register(id='BoxBinDrawer-v0', entry_point=BoxBinDrawerEnv, kwargs=dict(action=None, ), **kw)
-

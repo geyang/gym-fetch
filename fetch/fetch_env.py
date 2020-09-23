@@ -65,14 +65,14 @@ class FetchEnv(robot_env.RobotEnv):
         d = goal_distance(achieved_goal, goal)
 
         if self.reward_type == 'sparse':
-            rs = -(np.array(d) > self.distance_threshold).astype(np.float32)
-            return sum(rs) if isinstance(rs, list) else rs
+            rs = (np.array(d) > self.distance_threshold)
+            return - rs.all().astype(np.float32) if isinstance(d, list) else - rs.astype(np.float32)
         elif self.reward_type == 'sparse-vec':
             return -(np.array(d) > self.distance_threshold).astype(np.float32)
         elif self.reward_type == 'dense':
             return -sum(d) if isinstance(d, list) else -d
         elif self.reward_type == "dense-vec":
-            return -d
+            return -np.array(d)
         else:
             raise RuntimeError(f"`{self.reward_type}` is not a supported reward type.")
 
@@ -220,7 +220,9 @@ class FetchEnv(robot_env.RobotEnv):
 
     def _is_success(self, achieved_goal, desired_goal):
         d = goal_distance(achieved_goal, desired_goal)
-        return (d < self.distance_threshold).astype(np.float32)
+
+        rs = (np.array(d) < self.distance_threshold).astype(np.float32)
+        return rs.all() if isinstance(d, list) else rs
 
     def _env_setup(self, initial_qpos):
         for name, value in initial_qpos.items():
