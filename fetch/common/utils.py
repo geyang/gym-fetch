@@ -107,9 +107,11 @@ def goal_distance(goal_a, goal_b):
     :param goal_b: desired goal
     :return: list if goal is a dictionary. Otherwise a numpy array.
     """
-    if isinstance(goal_b, dict):
+    if isinstance(goal_a, dict):
+        assert isinstance(goal_b, dict), "both goals should be dict at the same time."
         return [d(goal_a[k], g) for k, g in goal_b.items()]
     else:
+        assert not isinstance(goal_b, dict), "goal_b can not be a dict when goal_a is not."
         return d(goal_a, goal_b)
 
 

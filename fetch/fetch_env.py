@@ -200,13 +200,13 @@ class FetchEnv(robot_env.RobotEnv):
         return True
 
     # only used by _sample_goal
-    def _sample_single_goal(self, goal_key, high=0.45):
+    def _sample_single_goal(self, goal_key=None, h=None, high=0.45):
         goal = self.initial_gripper_xpos[:3] + self.np_random.uniform(-self.target_range, self.target_range, size=3)
         goal += self.target_offset
         # sets the goal to the table top.
-        goal[2] = self.initial_heights[goal_key]
+        goal[2] = h or self.initial_heights[goal_key]
         # todo: refactor target_in_the_air to be an argument
-        if self.np_random.uniform() < (self.target_in_the_air or 0):
+        if not h and self.np_random.uniform() < (self.target_in_the_air or 0):
             goal[2] += self.np_random.uniform(0, high)
         return goal
 

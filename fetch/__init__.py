@@ -41,6 +41,18 @@ register(id='Drawer-fixed-v0', entry_point=DrawerBlockEnv, kwargs=dict(action="o
 register(id='Drawer-fixed-open-v0', entry_point=DrawerBlockEnv, kwargs=dict(action="place", ), **kw)
 register(id='Drawer-fixed-mixed-v0', entry_point=DrawerBlockEnv, kwargs=dict(action="mixed+place", ), **kw)
 
+# ---------------- Latent Planning Task Set -----------------
+register(id='Box-fixed-open-v0', entry_point=BoxBlockEnv,
+         kwargs=dict(action="open@box-fixed", goal_key=("object0", "lid")), **kw)
+register(id='Box-fixed-close-v0', entry_point=BoxBlockEnv,
+         kwargs=dict(action="close@box-fixed", goal_key=("object0", "lid")), **kw)
+register(id='Box-fixed-place-easy-v0', entry_point=BoxBlockEnv,
+         kwargs=dict(action="place@box-fixed", goal_key=("object0", "lid")), **kw)
+register(id='Box-fixed-place-medium-v0', entry_point=BoxBlockEnv,
+         kwargs=dict(action="open+place@box-fixed", goal_key=("object0", "lid")), **kw)
+register(id='Box-fixed-place-v0', entry_point=BoxBlockEnv,
+         kwargs=dict(action="open+place+close@box-fixed", goal_key=("object0", "lid")), **kw)
+
 # ------------------------ Finalized ------------------------
 # Bin Environments Bin + object, no lid
 register(id='Bin-pick-v0', entry_point=BinEnv, kwargs=dict(action="pick", obs_keys=['object0', 'bin@pos']), **kw)
@@ -51,8 +63,10 @@ register(id='Box-close-v0', entry_point=BoxEnv, kwargs=dict(action="close", ), *
 
 # Box + Object Environments, w/ additional goal for the lid
 register(id='Box-place-easy-v0', entry_point=BoxBlockEnv, kwargs=dict(action="place", ), **kw)
-register(id='Box-place-medium-v0', entry_point=BoxBlockEnv, kwargs=dict(action="open+place", ), **kw)
-register(id='Box-place-v0', entry_point=BoxBlockEnv, kwargs=dict(action="open+place+close", ), **kw)
+register(id='Box-place-medium-v0', entry_point=BoxBlockEnv,
+         kwargs=dict(action="open+place", goal_key=("object0", "lid")), **kw)
+register(id='Box-place-v0', entry_point=BoxBlockEnv,
+         kwargs=dict(action="open+place+close", goal_key=("object0", "lid")), **kw)
 
 # Drawer Environments
 register(id='Drawer-open-v0', entry_point=DrawerEnv, kwargs=dict(action="open", ), **kw)
