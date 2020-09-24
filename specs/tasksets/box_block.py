@@ -38,3 +38,5 @@ if __name__ == '__main__':
         with table.figure_row() as row:
             render_initial(env_id, row)
             render_video(env_id, 15, row)
+
+    doc.flush()
