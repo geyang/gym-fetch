@@ -10,7 +10,12 @@ def get_obs_spec(env_id):
     env = gym.make("fetch:" + env_id)
     buffer = []
     for k, v in env.observation_space.spaces.items():
-        buffer += [f"{k}: {v.shape}"]
+        if hasattr(v, "spaces"):
+            buffer += [f"{k}:"]
+            for k, v in v.spaces.items():
+                buffer += [f"&nbsp;&nbsp;&nbsp;&nbsp;{k}: {v.shape}"]
+        else:
+            buffer += [f"{k}: {v.shape}"]
     return "<br>".join(buffer)
 
 

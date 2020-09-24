@@ -20,23 +20,23 @@ Name                     | Observation Spec                    | Goal Init/Comme
 **Box-open-v0**          | achieved_goal: (3,)<br>desired_goal: (3,)<br>observation: (25,)       | move lid to specific location      | ![](figures/Box-open-v0.gif)
 **Box-close-v0**         | achieved_goal: (3,)<br>desired_goal: (3,)<br>observation: (25,)      | pick up lid, place on top of box   | ![](figures/Box-close-v0.gif)
 **Box-place-easy-v0**    | achieved_goal: (3,)<br>desired_goal: (3,)<br>observation: (43,) | place the block inside an open box | ![](figures/Box-place-easy-v0.gif)
-**Box-place-medium-v0**  | achieved_goal: None<br>desired_goal: None<br>observation: (43,) | place the block inside an open box | ![](figures/Box-place-medium-v0.gif)
-**Box-place-v0**         | achieved_goal: None<br>desired_goal: None<br>observation: (43,)      | need to first open the box         | ![](figures/Box-place-v0.gif)
+**Box-place-medium-v0**  | achieved_goal:<br>&nbsp;&nbsp;&nbsp;&nbsp;lid: (3,)<br>&nbsp;&nbsp;&nbsp;&nbsp;object0: (3,)<br>desired_goal:<br>&nbsp;&nbsp;&nbsp;&nbsp;lid: (3,)<br>&nbsp;&nbsp;&nbsp;&nbsp;object0: (3,)<br>observation: (43,) | place the block inside an open box | ![](figures/Box-place-medium-v0.gif)
+**Box-place-v0**         | achieved_goal:<br>&nbsp;&nbsp;&nbsp;&nbsp;lid: (3,)<br>&nbsp;&nbsp;&nbsp;&nbsp;object0: (3,)<br>desired_goal:<br>&nbsp;&nbsp;&nbsp;&nbsp;lid: (3,)<br>&nbsp;&nbsp;&nbsp;&nbsp;object0: (3,)<br>observation: (43,)      | need to first open the box         | ![](figures/Box-place-v0.gif)
 
 ## Details of Each Task
 
 | **Box-aside-v0** | **distribution** |   |
 |:----------------:|:----------------:|:-:|
-| ![figures/Box-aside-v0_init.png?ts=621515](figures/Box-aside-v0_init.png?ts=621515) | ![figures/Box-aside-v0_reset.png?ts=788066](figures/Box-aside-v0_reset.png?ts=788066) | ![figures/Box-aside-v0.gif?ts=504451](figures/Box-aside-v0.gif?ts=504451) |
+| ![figures/Box-aside-v0_init.png?ts=892274](figures/Box-aside-v0_init.png?ts=892274) | ![figures/Box-aside-v0_reset.png?ts=145711](figures/Box-aside-v0_reset.png?ts=145711) | ![figures/Box-aside-v0.gif?ts=872883](figures/Box-aside-v0.gif?ts=872883) |
 | **Box-fixed-v0** | **distribution** |   |
-| ![figures/Box-fixed-v0_init.png?ts=280709](figures/Box-fixed-v0_init.png?ts=280709) | ![figures/Box-fixed-v0_reset.png?ts=386771](figures/Box-fixed-v0_reset.png?ts=386771) | ![figures/Box-fixed-v0.gif?ts=975020](figures/Box-fixed-v0.gif?ts=975020) |
+| ![figures/Box-fixed-v0_init.png?ts=600827](figures/Box-fixed-v0_init.png?ts=600827) | ![figures/Box-fixed-v0_reset.png?ts=658440](figures/Box-fixed-v0_reset.png?ts=658440) | ![figures/Box-fixed-v0.gif?ts=228962](figures/Box-fixed-v0.gif?ts=228962) |
 | **Box-open-v0** | **distribution** |   |
-| ![figures/Box-open-v0_init.png?ts=628606](figures/Box-open-v0_init.png?ts=628606) | ![figures/Box-open-v0_reset.png?ts=733366](figures/Box-open-v0_reset.png?ts=733366) | ![figures/Box-open-v0.gif?ts=797238](figures/Box-open-v0.gif?ts=797238) |
+| ![figures/Box-open-v0_init.png?ts=797850](figures/Box-open-v0_init.png?ts=797850) | ![figures/Box-open-v0_reset.png?ts=852788](figures/Box-open-v0_reset.png?ts=852788) | ![figures/Box-open-v0.gif?ts=597491](figures/Box-open-v0.gif?ts=597491) |
 | **Box-close-v0** | **distribution** |   |
-| ![figures/Box-close-v0_init.png?ts=416739](figures/Box-close-v0_init.png?ts=416739) | ![figures/Box-close-v0_reset.png?ts=528232](figures/Box-close-v0_reset.png?ts=528232) | ![figures/Box-close-v0.gif?ts=528459](figures/Box-close-v0.gif?ts=528459) |
+| ![figures/Box-close-v0_init.png?ts=245884](figures/Box-close-v0_init.png?ts=245884) | ![figures/Box-close-v0_reset.png?ts=299150](figures/Box-close-v0_reset.png?ts=299150) | ![figures/Box-close-v0.gif?ts=851496](figures/Box-close-v0.gif?ts=851496) |
 | **Box-place-easy-v0** | **distribution** |   |
-| ![figures/Box-place-easy-v0_init.png?ts=241221](figures/Box-place-easy-v0_init.png?ts=241221) | ![figures/Box-place-easy-v0_reset.png?ts=366780](figures/Box-place-easy-v0_reset.png?ts=366780) | ![figures/Box-place-easy-v0.gif?ts=475285](figures/Box-place-easy-v0.gif?ts=475285) |
+| ![figures/Box-place-easy-v0_init.png?ts=564027](figures/Box-place-easy-v0_init.png?ts=564027) | ![figures/Box-place-easy-v0_reset.png?ts=619268](figures/Box-place-easy-v0_reset.png?ts=619268) | ![figures/Box-place-easy-v0.gif?ts=426371](figures/Box-place-easy-v0.gif?ts=426371) |
 | **Box-place-medium-v0** | **distribution** |   |
-| ![figures/Box-place-medium-v0_init.png?ts=280097](figures/Box-place-medium-v0_init.png?ts=280097) | ![figures/Box-place-medium-v0_reset.png?ts=393046](figures/Box-place-medium-v0_reset.png?ts=393046) | ![figures/Box-place-medium-v0.gif?ts=559232](figures/Box-place-medium-v0.gif?ts=559232) |
+| ![figures/Box-place-medium-v0_init.png?ts=020781](figures/Box-place-medium-v0_init.png?ts=020781) | ![figures/Box-place-medium-v0_reset.png?ts=075024](figures/Box-place-medium-v0_reset.png?ts=075024) | ![figures/Box-place-medium-v0.gif?ts=063824](figures/Box-place-medium-v0.gif?ts=063824) |
 | **Box-place-v0** | **distribution** |   |
-| ![figures/Box-place-v0_init.png?ts=144415](figures/Box-place-v0_init.png?ts=144415) | ![figures/Box-place-v0_reset.png?ts=251487](figures/Box-place-v0_reset.png?ts=251487) | ![figures/Box-place-v0.gif?ts=667020](figures/Box-place-v0.gif?ts=667020) |
+| ![figures/Box-place-v0_init.png?ts=670137](figures/Box-place-v0_init.png?ts=670137) | ![figures/Box-place-v0_reset.png?ts=727676](figures/Box-place-v0_reset.png?ts=727676) | ![figures/Box-place-v0.gif?ts=517437](figures/Box-place-v0.gif?ts=517437) |

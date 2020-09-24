@@ -21,11 +21,16 @@ class FlatEnv(ObservationWrapper):
 
 
 def recover_goal(goal_vec):
-    print(goal_vec.shape)
-    return {
-        "object0": goal_vec[:, :3],
-        "lid": goal_vec[:, 3:6],
-    }
+    if len(goal_vec.shape) == 1:
+        return {
+            "object0": goal_vec[:3],
+            "lid": goal_vec[3:6],
+        }
+    elif len(goal_vec.shape) == 2:
+        return {
+            "object0": goal_vec[:, :3],
+            "lid": goal_vec[:, 3:6],
+        }
 
 
 class HERVecGoal(Wrapper):

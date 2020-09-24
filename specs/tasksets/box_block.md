@@ -30,12 +30,12 @@ box_envs = ["fetch:Box-fixed-open-v0",
 ```
 | **Box-fixed-open-v0** | **distribution** |   |
 |:---------------------:|:----------------:|:-:|
-| ![figures/Box-fixed-open-v0_init.png?ts=734785](figures/Box-fixed-open-v0_init.png?ts=734785) | ![figures/Box-fixed-open-v0_reset.png?ts=852440](figures/Box-fixed-open-v0_reset.png?ts=852440) | ![figures/Box-fixed-open-v0.gif?ts=839054](figures/Box-fixed-open-v0.gif?ts=839054) |
+| ![figures/Box-fixed-open-v0_init.png?ts=959117](figures/Box-fixed-open-v0_init.png?ts=959117) | ![figures/Box-fixed-open-v0_reset.png?ts=117622](figures/Box-fixed-open-v0_reset.png?ts=117622) | ![figures/Box-fixed-open-v0.gif?ts=094463](figures/Box-fixed-open-v0.gif?ts=094463) |
 | **Box-fixed-close-v0** | **distribution** |   |
-| ![figures/Box-fixed-close-v0_init.png?ts=629619](figures/Box-fixed-close-v0_init.png?ts=629619) | ![figures/Box-fixed-close-v0_reset.png?ts=683970](figures/Box-fixed-close-v0_reset.png?ts=683970) | ![figures/Box-fixed-close-v0.gif?ts=353493](figures/Box-fixed-close-v0.gif?ts=353493) |
+| ![figures/Box-fixed-close-v0_init.png?ts=552179](figures/Box-fixed-close-v0_init.png?ts=552179) | ![figures/Box-fixed-close-v0_reset.png?ts=618997](figures/Box-fixed-close-v0_reset.png?ts=618997) | ![figures/Box-fixed-close-v0.gif?ts=378312](figures/Box-fixed-close-v0.gif?ts=378312) |
 | **Box-fixed-place-easy-v0** | **distribution** |   |
-| ![figures/Box-fixed-place-easy-v0_init.png?ts=010832](figures/Box-fixed-place-easy-v0_init.png?ts=010832) | ![figures/Box-fixed-place-easy-v0_reset.png?ts=071419](figures/Box-fixed-place-easy-v0_reset.png?ts=071419) | ![figures/Box-fixed-place-easy-v0.gif?ts=780852](figures/Box-fixed-place-easy-v0.gif?ts=780852) |
+| ![figures/Box-fixed-place-easy-v0_init.png?ts=011851](figures/Box-fixed-place-easy-v0_init.png?ts=011851) | ![figures/Box-fixed-place-easy-v0_reset.png?ts=073413](figures/Box-fixed-place-easy-v0_reset.png?ts=073413) | ![figures/Box-fixed-place-easy-v0.gif?ts=859518](figures/Box-fixed-place-easy-v0.gif?ts=859518) |
 | **Box-fixed-place-medium-v0** | **distribution** |   |
-| ![figures/Box-fixed-place-medium-v0_init.png?ts=359126](figures/Box-fixed-place-medium-v0_init.png?ts=359126) | ![figures/Box-fixed-place-medium-v0_reset.png?ts=415305](figures/Box-fixed-place-medium-v0_reset.png?ts=415305) | ![figures/Box-fixed-place-medium-v0.gif?ts=391709](figures/Box-fixed-place-medium-v0.gif?ts=391709) |
+| ![figures/Box-fixed-place-medium-v0_init.png?ts=519317](figures/Box-fixed-place-medium-v0_init.png?ts=519317) | ![figures/Box-fixed-place-medium-v0_reset.png?ts=581440](figures/Box-fixed-place-medium-v0_reset.png?ts=581440) | ![figures/Box-fixed-place-medium-v0.gif?ts=512512](figures/Box-fixed-place-medium-v0.gif?ts=512512) |
 | **Box-fixed-place-v0** | **distribution** |   |
-| ![figures/Box-fixed-place-v0_init.png?ts=993682](figures/Box-fixed-place-v0_init.png?ts=993682) | ![figures/Box-fixed-place-v0_reset.png?ts=056024](figures/Box-fixed-place-v0_reset.png?ts=056024) | ![figures/Box-fixed-place-v0.gif?ts=975544](figures/Box-fixed-place-v0.gif?ts=975544) |
+| ![figures/Box-fixed-place-v0_init.png?ts=171945](figures/Box-fixed-place-v0_init.png?ts=171945) | ![figures/Box-fixed-place-v0_reset.png?ts=237936](figures/Box-fixed-place-v0_reset.png?ts=237936) | ![figures/Box-fixed-place-v0.gif?ts=195749](figures/Box-fixed-place-v0.gif?ts=195749) |

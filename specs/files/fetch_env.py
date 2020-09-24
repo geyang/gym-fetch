@@ -171,7 +171,7 @@ class FetchEnv(robot_env.RobotEnv):
             slide_pos = self.np_random.uniform(low, high)
         self.sim.data.set_joint_qpos(f'{obj_key}:slide', slide_pos)
 
-    def _reset_body(self, obj_key, pos=None):
+    def _reset_body(self, obj_key, pos=None, h=None):
         """returns the xy position"""
         current_obj_qpos = self.sim.data.get_joint_qpos(f'{obj_key}:joint').copy()
         assert len(current_obj_qpos) == 7, "should be a single object."
@@ -183,7 +183,7 @@ class FetchEnv(robot_env.RobotEnv):
                 obj_xpos = self.initial_gripper_xpos[:2] \
                            + self.np_random.uniform(-self.obj_range, self.obj_range, size=2)
             current_obj_qpos[:2] = obj_xpos
-        current_obj_qpos[2] = self.initial_heights[obj_key]
+        current_obj_qpos[2] = h or self.initial_heights[obj_key]
         self.sim.data.set_joint_qpos(f'{obj_key}:joint', current_obj_qpos)
         return current_obj_qpos
 
@@ -221,8 +221,10 @@ class FetchEnv(robot_env.RobotEnv):
     def _is_success(self, achieved_goal, desired_goal):
         d = goal_distance(achieved_goal, desired_goal)
 
-        rs = (np.array(d) < self.distance_threshold).astype(np.float32)
-        return rs.all() if isinstance(d, list) else rs
+        rs = np.array(d) < self.distance_threshold
+        if isinstance(d, list):
+            rs = rs.all()
+        return rs.astype(np.float32)
 
     def _env_setup(self, initial_qpos):
         for name, value in initial_qpos.items():

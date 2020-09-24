@@ -19,9 +19,9 @@ class BoxBlockEnv(fetch_env.FetchEnv, utils.EzPickle):
         self.initial_qpos = {'robot0:slide0': 0.405,
                              'robot0:slide1': 0.48,
                              'robot0:slide2': 0.0,
-                             'box:joint': [1.25, 0.53, 0.4, 0, 0., 0., 0.],
-                             'object0:joint': [1.25, 0.53, 0.6, 0, 0., 0., 0.],
-                             'lid:joint': [1.25, 0.53, 0.8, 0, 0., 0., 0.]}
+                             'box:joint': [1.15, 0.53, 0.4, 0, 0., 0., 0.],
+                             'object0:joint': [1.15, 0.53, 0.6, 0, 0., 0., 0.],
+                             'lid:joint': [1.15, 0.53, 0.8, 0, 0., 0., 0.]}
 
         local_vars = locals()
         del local_vars['action']
@@ -48,12 +48,13 @@ class BoxBlockEnv(fetch_env.FetchEnv, utils.EzPickle):
             lid_pos = self._reset_body("lid", box_pos)
         # elif self.action.startswith("close"):
         else:
-            while np.linalg.norm(lid_pos[:2] - box_pos[:2]) < 0.2:
-                lid_pos = self._reset_body("lid")
+            while np.linalg.norm(lid_pos[:2] - box_pos[:2]) < 0.1:
+                lid_pos = self._reset_body("lid", h=self.initial_heights['object0'])
 
         # object init
         if 'place' in self.action:
-            while np.linalg.norm(obj_pos[:2] - box_pos[:2]) < 0.2 or np.linalg.norm(obj_pos[:2] - lid_pos[:2]) < 0.2:
+            # when both set to 0.2, initialization can lock in a dead loop forever.
+            while np.linalg.norm(obj_pos[:2] - box_pos[:2]) < 0.1 or np.linalg.norm(obj_pos[:2] - lid_pos[:2]) < 0.1:
                 obj_pos = self._reset_body("object0")
         else:
             self._reset_body("object0")
