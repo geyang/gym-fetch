@@ -12,9 +12,9 @@ hindsight experience replay has trouble with learning these complex tasks.
 
 Primitive Tasks               | Observation Spec                            | Goal Init/Comment                   | 
 -----------------             | ----------------                            | -------                             | ------
-**Box-fixed-open-v0**         | achieved_goal: (6,)<br>desired_goal: (6,)<br>observation: (43,)         | box fixed on the side<br>lift lid.<br>**object target tracks object** | ![](figures/Box-fixed-open-v0.gif)
-**Box-fixed-close-v0**        | achieved_goal: (6,)<br>desired_goal: (6,)<br>observation: (43,)        | box fixed on the side<br>close lid.<br>**object target tracks**.  | ![](figures/Box-fixed-close-v0.gif)
-**Box-fixed-place-easy-v0**   | achieved_goal: (6,)<br>desired_goal: (6,)<br>observation: (43,)   | box is open and fixed<br>place into the box<br>**lid target trakcs**. | ![](figures/Box-fixed-place-easy-v0.gif)
+**Box-fixed-open-v0**         | achieved_goal: (3,)<br>desired_goal: (3,)<br>observation: (43,)         | box fixed on the side<br>lift lid.<br>**object target tracks object** | ![](figures/Box-fixed-open-v0.gif)
+**Box-fixed-close-v0**        | achieved_goal: (3,)<br>desired_goal: (3,)<br>observation: (43,)        | box fixed on the side<br>close lid.<br>**object target tracks**.  | ![](figures/Box-fixed-close-v0.gif)
+**Box-fixed-place-easy-v0**   | achieved_goal: (3,)<br>desired_goal: (3,)<br>observation: (43,)   | box is open and fixed<br>place into the box<br>**lid target trakcs**. | ![](figures/Box-fixed-place-easy-v0.gif)
 **Complex Tasks**             |                                             |                                                             | 
 **Box-fixed-place-medium-v0** | achieved_goal: (6,)<br>desired_goal: (6,)<br>observation: (43,) | Place both the lid and<br>the object to the target location | ![](figures/Box-fixed-place-medium-v0.gif)
 **Box-fixed-place-v0**        | achieved_goal: (6,)<br>desired_goal: (6,)<br>observation: (43,)        | place the lid back after<br>placing the object.   | ![](figures/Box-fixed-place-v0.gif)
@@ -30,12 +30,12 @@ box_envs = ["fetch:Box-fixed-open-v0",
 ```
 | **Box-fixed-open-v0** | **distribution** |   |
 |:---------------------:|:----------------:|:-:|
-| ![figures/Box-fixed-open-v0_init.png?ts=959117](figures/Box-fixed-open-v0_init.png?ts=959117) | ![figures/Box-fixed-open-v0_reset.png?ts=117622](figures/Box-fixed-open-v0_reset.png?ts=117622) | ![figures/Box-fixed-open-v0.gif?ts=094463](figures/Box-fixed-open-v0.gif?ts=094463) |
+| ![figures/Box-fixed-open-v0_init.png?ts=172316](figures/Box-fixed-open-v0_init.png?ts=172316) | ![figures/Box-fixed-open-v0_reset.png?ts=307343](figures/Box-fixed-open-v0_reset.png?ts=307343) | ![figures/Box-fixed-open-v0.gif?ts=466587](figures/Box-fixed-open-v0.gif?ts=466587) |
 | **Box-fixed-close-v0** | **distribution** |   |
-| ![figures/Box-fixed-close-v0_init.png?ts=552179](figures/Box-fixed-close-v0_init.png?ts=552179) | ![figures/Box-fixed-close-v0_reset.png?ts=618997](figures/Box-fixed-close-v0_reset.png?ts=618997) | ![figures/Box-fixed-close-v0.gif?ts=378312](figures/Box-fixed-close-v0.gif?ts=378312) |
+| ![figures/Box-fixed-close-v0_init.png?ts=187938](figures/Box-fixed-close-v0_init.png?ts=187938) | ![figures/Box-fixed-close-v0_reset.png?ts=274354](figures/Box-fixed-close-v0_reset.png?ts=274354) | ![figures/Box-fixed-close-v0.gif?ts=925853](figures/Box-fixed-close-v0.gif?ts=925853) |
 | **Box-fixed-place-easy-v0** | **distribution** |   |
-| ![figures/Box-fixed-place-easy-v0_init.png?ts=011851](figures/Box-fixed-place-easy-v0_init.png?ts=011851) | ![figures/Box-fixed-place-easy-v0_reset.png?ts=073413](figures/Box-fixed-place-easy-v0_reset.png?ts=073413) | ![figures/Box-fixed-place-easy-v0.gif?ts=859518](figures/Box-fixed-place-easy-v0.gif?ts=859518) |
+| ![figures/Box-fixed-place-easy-v0_init.png?ts=437133](figures/Box-fixed-place-easy-v0_init.png?ts=437133) | ![figures/Box-fixed-place-easy-v0_reset.png?ts=525483](figures/Box-fixed-place-easy-v0_reset.png?ts=525483) | ![figures/Box-fixed-place-easy-v0.gif?ts=396563](figures/Box-fixed-place-easy-v0.gif?ts=396563) |
 | **Box-fixed-place-medium-v0** | **distribution** |   |
-| ![figures/Box-fixed-place-medium-v0_init.png?ts=519317](figures/Box-fixed-place-medium-v0_init.png?ts=519317) | ![figures/Box-fixed-place-medium-v0_reset.png?ts=581440](figures/Box-fixed-place-medium-v0_reset.png?ts=581440) | ![figures/Box-fixed-place-medium-v0.gif?ts=512512](figures/Box-fixed-place-medium-v0.gif?ts=512512) |
+| ![figures/Box-fixed-place-medium-v0_init.png?ts=021601](figures/Box-fixed-place-medium-v0_init.png?ts=021601) | ![figures/Box-fixed-place-medium-v0_reset.png?ts=118357](figures/Box-fixed-place-medium-v0_reset.png?ts=118357) | ![figures/Box-fixed-place-medium-v0.gif?ts=250851](figures/Box-fixed-place-medium-v0.gif?ts=250851) |
 | **Box-fixed-place-v0** | **distribution** |   |
-| ![figures/Box-fixed-place-v0_init.png?ts=171945](figures/Box-fixed-place-v0_init.png?ts=171945) | ![figures/Box-fixed-place-v0_reset.png?ts=237936](figures/Box-fixed-place-v0_reset.png?ts=237936) | ![figures/Box-fixed-place-v0.gif?ts=195749](figures/Box-fixed-place-v0.gif?ts=195749) |
+| ![figures/Box-fixed-place-v0_init.png?ts=404434](figures/Box-fixed-place-v0_init.png?ts=404434) | ![figures/Box-fixed-place-v0_reset.png?ts=498035](figures/Box-fixed-place-v0_reset.png?ts=498035) | ![figures/Box-fixed-place-v0.gif?ts=497385](figures/Box-fixed-place-v0.gif?ts=497385) |

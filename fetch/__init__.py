@@ -51,12 +51,18 @@ def vec_goal_env(**kwargs):
     return env
 
 
-register(id='Box-fixed-open-v0', entry_point=vec_goal_env,
-         kwargs=dict(action="open@box-fixed", goal_key=("object0", "lid")), **kw)
-register(id='Box-fixed-close-v0', entry_point=vec_goal_env,
-         kwargs=dict(action="close@box-fixed", goal_key=("object0", "lid")), **kw)
-register(id='Box-fixed-place-easy-v0', entry_point=vec_goal_env,
-         kwargs=dict(action="place@box-fixed", goal_key=("object0", "lid")), **kw)
+# register(id='Box-fixed-open-v0', entry_point=vec_goal_env,
+#          kwargs=dict(action="open@box-fixed", goal_key=("object0", "lid")), **kw)
+# register(id='Box-fixed-close-v0', entry_point=vec_goal_env,
+#          kwargs=dict(action="close@box-fixed", goal_key=("object0", "lid")), **kw)
+# register(id='Box-fixed-place-easy-v0', entry_point=vec_goal_env,
+#          kwargs=dict(action="place@box-fixed", goal_key=("object0", "lid")), **kw)
+register(id='Box-fixed-open-v0', entry_point=BoxBlockEnv,
+         kwargs=dict(action="open@box-fixed", goal_key="lid"), **kw)
+register(id='Box-fixed-close-v0', entry_point=BoxBlockEnv,
+         kwargs=dict(action="close@box-fixed", goal_key="lid"), **kw)
+register(id='Box-fixed-place-easy-v0', entry_point=BoxBlockEnv,
+         kwargs=dict(action="place@box-fixed", goal_key="object0"), **kw)
 register(id='Box-fixed-place-medium-v0', entry_point=vec_goal_env,
          kwargs=dict(action="open+place@box-fixed", goal_key=("object0", "lid")), **kw)
 register(id='Box-fixed-place-v0', entry_point=vec_goal_env,

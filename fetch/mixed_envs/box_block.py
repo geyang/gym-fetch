@@ -36,6 +36,7 @@ class BoxBlockEnv(fetch_env.FetchEnv, utils.EzPickle):
         """
         self.sim.set_state(self.initial_state)
 
+        # -----  Box Initialization ------
         if "box-fixed" in self.action:
             original_pos = self.initial_qpos['box:joint']
             original_pos[2] = self.initial_heights['box']
@@ -63,21 +64,21 @@ class BoxBlockEnv(fetch_env.FetchEnv, utils.EzPickle):
 
     def _step_callback(self):
         super()._step_callback()
-        action, *fixed = self.action.split("@")
-        goal = {}
-        if action in ["open", "close"]:
-            goal['object0'] = self.sim.data.get_site_xpos("object0").copy()
-        if action in "close":
-            goal['lid'] = self.sim.data.get_site_xpos("box").copy()
-            goal['lid'][2] = self.initial_heights['lid']
-        if action == "place":
-            goal['lid'] = self.sim.data.get_site_xpos("lid").copy()
-            goal['object0'] = self.sim.data.get_site_xpos("box").copy()
-            goal['object0'][2] = self.initial_heights['object0']
 
-        if isinstance(self.goal_key, str):
-            self.goal = goal[self.goal_key]
-        else:
+        if not isinstance(self.goal_key, str):
+
+            action, *fixed = self.action.split("@")
+            goal = {}
+            if action in ["open", "close"]:
+                goal['object0'] = self.sim.data.get_site_xpos("object0").copy()
+            if action in "close":
+                goal['lid'] = self.sim.data.get_site_xpos("box").copy()
+                goal['lid'][2] = self.initial_heights['lid']
+            if action == "place":
+                goal['lid'] = self.sim.data.get_site_xpos("lid").copy()
+                goal['object0'] = self.sim.data.get_site_xpos("box").copy()
+                goal['object0'][2] = self.initial_heights['object0']
+
             self.goal.update(goal)
 
         if "box-fixed" in self.action:
@@ -119,19 +120,24 @@ class BoxBlockEnv(fetch_env.FetchEnv, utils.EzPickle):
             if isinstance(self.goal_key, str):
                 return self._sample_open_lid_goal()
             else:  # track the other object.
-                return {"object0": self.sim.data.get_site_xpos("box").copy(), "lid": self._sample_open_lid_goal()}
+                return {"object0": self.sim.data.get_site_xpos("box").copy(),
+                        "lid": self._sample_open_lid_goal()}
         elif action == "close":
             if isinstance(self.goal_key, str):
                 return self._sample_closed_lid_goal()
             else:  # track the other object.
-                return {"object0": self.sim.data.get_site_xpos("box").copy(), "lid": self._sample_closed_lid_goal()}
+                return {"object0": self.sim.data.get_site_xpos("box").copy(),
+                        "lid": self._sample_closed_lid_goal()}
         elif action == "place":
             if isinstance(self.goal_key, str):
                 return self._sample_place_goal()
             else:  # track the other object.
-                return {"object0": self._sample_place_goal(), "lid": self.sim.data.get_site_xpos("lid").copy()}
+                return {"object0": self._sample_place_goal(),
+                        "lid": self.sim.data.get_site_xpos("lid").copy()}
         elif action == "open+place":
-            return {"object0": self._sample_place_goal(), "lid": self._sample_open_lid_goal()}
+            return {"object0": self._sample_place_goal(),
+                    "lid": self._sample_open_lid_goal()}
         elif action == "open+place+close":
-            return {"object0": self._sample_place_goal(), "lid": self._sample_closed_lid_goal()}
+            return {"object0": self._sample_place_goal(),
+                    "lid": self._sample_closed_lid_goal()}
         raise NotImplementedError(f"Support for {self.action} is not implemented")
