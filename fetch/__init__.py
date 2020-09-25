@@ -3,6 +3,7 @@ from gym.envs.registration import register
 from .box import BoxEnv
 from .bin import BinEnv
 from fetch.mixed_envs.box_block import BoxBlockEnv
+from fetch.mixed_envs.twin_box import TwinBoxEnv
 from .drawer import DrawerEnv
 from fetch.mixed_envs.drawer_block import DrawerBlockEnv
 from .gym_fetch import GymFetchEnv
@@ -76,6 +77,15 @@ register(id='Box-place-medium-v0', entry_point=BoxBlockEnv,
          kwargs=dict(action="open+place", goal_key=("object0", "lid")), **kw)
 register(id='Box-place-v0', entry_point=BoxBlockEnv,
          kwargs=dict(action="open+place+close", goal_key=("object0", "lid")), **kw)
+
+# -------------------- Twin Box Taskset --------------------
+# fix the location of the bins
+# register(id='TwinBox-pick-v0', entry_point=TwinBoxEnv, kwargs=dict(action="pick", ), **kw)
+register(id='TwinBox-place-single-v0', entry_point=TwinBoxEnv, kwargs=dict(action="place", ), **kw)
+register(id='TwinBox-red-v0', entry_point=TwinBoxEnv, kwargs=dict(action="place-red", ), **kw)
+register(id='TwinBox-blue-v0', entry_point=TwinBoxEnv, kwargs=dict(action="place-blue", ), **kw)
+register(id='TwinBox-mixed-v0', entry_point=TwinBoxEnv, kwargs=dict(action="place-mixed", ), **kw)
+register(id='TwinBox-place-v0', entry_point=TwinBoxEnv, kwargs=dict(action="place-both", ), **kw)
 
 # Drawer Environments
 register(id='Drawer-open-v0', entry_point=DrawerEnv, kwargs=dict(action="open", ), **kw)

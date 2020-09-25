@@ -3,23 +3,23 @@ from cmx import doc
 from specs.__init__ import get_obs_spec, render_initial, render_video
 
 if __name__ == '__main__':
-    doc @ """
+    doc @ f"""
     ## Twin Box Pick and Place
 
-    Name                     | Observation Spec                    | Goal Init/Comment                  | 
-    -----------------        | ----------------                    | -------                            | ------
-    **Box-open-v0**          | {get_obs_spec('Box-open-v0')}       | move lid to specific location      | ![](figures/Box-open-v0.gif)
-    **Box-close-v0**         | {get_obs_spec('Box-close-v0')}      | pick up lid, place on top of box   | ![](figures/Box-close-v0.gif)
-    **Box-place-easy-v0**    | {get_obs_spec('Box-place-easy-v0')} | place the block inside an open box | ![](figures/Box-place-easy-v0.gif)
-    **Box-place-medium-v0**  | {get_obs_spec('Box-place-medium-v0')} | place the block inside an open box | ![](figures/Box-place-medium-v0.gif)
-    **Box-place-v0**         | {get_obs_spec('Box-place-v0')}      | need to first open the box         | ![](figures/Box-place-v0.gif)
+    Name                        | Observation Spec                          | Goal Init/Comment                                             | 
+    -----------------           | ----------------                          | -------                                                       | ------
+    **TwinBox-place-single-v0** | {get_obs_spec('fetch:TwinBox-place-single-v0')}  | place a single object at target location               | ![](figures/TwinBox-place-single-v0.gif)
+    **TwinBox-red-v0**          | {get_obs_spec('fetch:TwinBox-red-v0')}    | place <span color="red">red</span> block at target location   | ![](figures/TwinBox-red-v0.gif)
+    **TwinBox-blue-v0**         | {get_obs_spec('fetch:TwinBox-blue-v0')}   | place <span color="blue">blue</span> block at target location | ![](figures/TwinBox-blue-v0.gif)
+    **TwinBox-mixed-v0**        | {get_obs_spec('fetch:TwinBox-mixed-v0')}  | place either one to target location                           | ![](figures/TwinBox-mixed-v0.gif)                     
+    **TwinBox-place-v0**        | {get_obs_spec('fetch:TwinBox-place-v0')}  | place both objects to target location                         | ![](figures/TwinBox-place-v0.gif)
     """
     with doc:
-        twin_box_envs = ["fetch:TwinBox-place-v0",
-                         "fetch:TwinBox-pick-v0",
-                         "fetch:TwinBox-place-easy-v0",
-                         "fetch:TwinBox-place-medium-v0",
-                         "fetch:TwinBox-place-v0", ]
+        twin_box_envs = ['fetch:TwinBox-place-v0',
+                         'fetch:TwinBox-red-v0',
+                         'fetch:TwinBox-blue-v0',
+                         'fetch:TwinBox-mixed-v0',
+                         'fetch:TwinBox-both-v0', ]
     table = doc.table()
     for env_id in twin_box_envs:
         with table.figure_row() as row:
