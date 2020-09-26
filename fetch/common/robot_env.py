@@ -15,6 +15,7 @@ except ImportError as e:
 
 DEFAULT_SIZE = 500
 
+
 def obs_spec(obs):
     if isinstance(obs, dict):
         return spaces.Dict({k: obs_spec(v) for k, v in obs.items()})
@@ -27,6 +28,7 @@ class RobotEnv(gym.GoalEnv):
         self.view_mode = view_mode
         self.width = width or DEFAULT_SIZE
         self.height = height or DEFAULT_SIZE
+        self.initial_qpos = initial_qpos
 
         if model_path.startswith('/'):
             fullpath = model_path
@@ -46,7 +48,7 @@ class RobotEnv(gym.GoalEnv):
         }
 
         self.seed()
-        self._env_setup(initial_qpos=initial_qpos)
+        self._env_setup(initial_qpos=self.initial_qpos)
         self.initial_state = copy.deepcopy(self.sim.get_state())
 
         self.goal = self._sample_goal()
@@ -60,7 +62,6 @@ class RobotEnv(gym.GoalEnv):
 
     # Env methods
     # ----------------------------
-
     def seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)
         return [seed]

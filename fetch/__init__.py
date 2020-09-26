@@ -51,22 +51,48 @@ def vec_goal_env(**kwargs):
     return env
 
 
+# The original setting (not working)
 # register(id='Box-fixed-open-v0', entry_point=vec_goal_env,
-#          kwargs=dict(action="open@box-fixed", goal_key=("object0", "lid")), **kw)
+#          kwargs=dict(action="open@box-fixed@obj-fixed", goal_key=("object0", "lid")), **kw)
 # register(id='Box-fixed-close-v0', entry_point=vec_goal_env,
-#          kwargs=dict(action="close@box-fixed", goal_key=("object0", "lid")), **kw)
+#          kwargs=dict(action="close@box-fixed@obj-fixed", goal_key=("object0", "lid")), **kw)
 # register(id='Box-fixed-place-easy-v0', entry_point=vec_goal_env,
-#          kwargs=dict(action="place@box-fixed", goal_key=("object0", "lid")), **kw)
+#          kwargs=dict(action="place@box-fixed@lid-fixed", goal_key=("object0", "lid")), **kw)
+# with debug flag
+# v0 envs: with tracking.
+# v1,2,3 envs: without tracking.
 register(id='Box-fixed-open-v0', entry_point=BoxBlockEnv,
-         kwargs=dict(action="open@box-fixed", goal_key="lid"), **kw)
+         kwargs=dict(action="open", goal_key=("lid",),
+                     freeze_objects=("box",),
+                     obj_reset={'lid': dict(track='box', range=0, avoid=None)},
+                     goal_tracking={'lid': dict(target="box", offset=[0, 0, 0.08]),
+                                    # 'object0': dict(target='object0')
+                                    }), **kw)
 register(id='Box-fixed-close-v0', entry_point=BoxBlockEnv,
-         kwargs=dict(action="close@box-fixed", goal_key="lid"), **kw)
+         kwargs=dict(action="close", goal_key=("lid",),
+                     freeze_objects=("box",),
+                     obj_reset={'lid': dict(avoid=['box', 'gripper'], d_min=0.075)},
+                     goal_tracking={'lid': dict(target="box", track=True),
+                                    # 'object0': dict(target='object0')
+                                    }), **kw)
 register(id='Box-fixed-place-easy-v0', entry_point=BoxBlockEnv,
-         kwargs=dict(action="place@box-fixed", goal_key="object0"), **kw)
+         kwargs=dict(action="place", goal_key=("object0",),
+                     freeze_objects=("box",),
+                     obj_reset={'lid': dict(avoid=['box', 'gripper'], d_min=0.075),
+                                'object0': dict(avoid=['lid'], d_min=0.2)},
+                     goal_tracking={'object0': dict(target='box', offset=[0, 0, 0.05], track=True)}), **kw)
+# disable the lid target in this version to debug
+# register(id='Box-fixed-open-v0', entry_point=BoxBlockEnv,
+#          kwargs=dict(action="open@box-fixed", goal_key="lid"), **kw)
+# register(id='Box-fixed-close-v0', entry_point=BoxBlockEnv,
+#          kwargs=dict(action="close@box-fixed", goal_key="lid"), **kw)
+# register(id='Box-fixed-place-easy-v0', entry_point=BoxBlockEnv,
+#          kwargs=dict(action="place@box-fixed", goal_key="object0"), **kw)
 register(id='Box-fixed-place-medium-v0', entry_point=vec_goal_env,
          kwargs=dict(action="open+place@box-fixed", goal_key=("object0", "lid")), **kw)
 register(id='Box-fixed-place-v0', entry_point=vec_goal_env,
-         kwargs=dict(action="open+place+close@box-fixed", goal_key=("object0", "lid")), **kw)
+         kwargs=dict(action="open+place+close@box-fixed", goal_key=("object0", "lid"),
+                     goal_tracking={'lid': dict(target="box", offset=[0, 0, 0.1], track=True)}), **kw)
 
 # ------------------------ Finalized ------------------------
 # Bin Environments Bin + object, no lid

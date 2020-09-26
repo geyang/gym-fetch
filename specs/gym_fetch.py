@@ -13,7 +13,6 @@ if __name__ == '__main__':
     **Push-v0**      | {get_obs_spec('Push-v0')}      | ![](figures/Push-v0.gif)
     **PickPlace-v0** | {get_obs_spec('PickPlace-v0')} | ![](figures/PickPlace-v0.gif)
     **Slide-v0**     | {get_obs_spec('Slide-v0')}     | ![](figures/Slide-v0.gif)
-
     """
     with doc, doc.table().figure_row() as row:
         render_initial('fetch:Reach-v0', row)

@@ -34,6 +34,8 @@ class GymFetchEnv(fetch_env.FetchEnv, EzPickle):
             gripper_extra_height = 0.0
         if action in ["reach", "pick-place"]:
             gripper_extra_height = 0.2
+        if action != "reach":
+            obj_reset = {'object0': dict(track="gripper", avoid="gripper")}
 
         target_in_the_air = 0.5 if action in ['reach', 'pick-place'] else False
         block_gripper = action in ['reach', 'slide']

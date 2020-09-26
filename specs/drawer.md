@@ -11,13 +11,13 @@ Name                      | Observation Spec                        | Goal Init/
 
 The drawer open environment does not learn (only learns to push the block around on the table). We engineer a mixed environment that is open 50% of the time. **Add this as a new debug environment**.
 
-| **Drawer-fixed-v0** | **distribution** |   | |
-|:-------------------:|:----------------:|:-:|---------------------|
-| ![figures/Drawer-fixed-v0_init.png?ts=729334](figures/Drawer-fixed-v0_init.png?ts=729334) | ![figures/Drawer-fixed-v0_reset.png?ts=923109](figures/Drawer-fixed-v0_reset.png?ts=923109) | ![figures/Drawer-fixed-v0.gif?ts=716299](figures/Drawer-fixed-v0.gif?ts=716299) | |
-| **Drawer-fixed-open-v0** | **distribution** |   | |
-| ![figures/Drawer-fixed-open-v0_init.png?ts=144152](figures/Drawer-fixed-open-v0_init.png?ts=144152) | ![figures/Drawer-fixed-open-v0_reset.png?ts=279344](figures/Drawer-fixed-open-v0_reset.png?ts=279344) | ![figures/Drawer-fixed-open-v0.gif?ts=314836](figures/Drawer-fixed-open-v0.gif?ts=314836) | |
-| **Drawer-fixed-mixed-v0** | **distribution** |   | |
-| ![figures/Drawer-fixed-mixed-v0_init.png?ts=058919](figures/Drawer-fixed-mixed-v0_init.png?ts=058919) | ![figures/Drawer-fixed-mixed-v0_reset.png?ts=121809](figures/Drawer-fixed-mixed-v0_reset.png?ts=121809) | ![figures/Drawer-fixed-mixed-v0.gif?ts=006540](figures/Drawer-fixed-mixed-v0.gif?ts=006540) | achieved_goal: (3,)<br>desired_goal: (3,)<br>observation: (40,)<br>Mix of these two envs at 50% of the time. |
+| **Drawer-fixed-v0** | **distribution** |   |
+|:-------------------:|:----------------:|:-:|
+| ![figures/Drawer-fixed-v0_init.png?ts=326281](figures/Drawer-fixed-v0_init.png?ts=326281) | ![figures/Drawer-fixed-v0_reset.png?ts=441545](figures/Drawer-fixed-v0_reset.png?ts=441545) | ![figures/Drawer-fixed-v0.gif?ts=043396](figures/Drawer-fixed-v0.gif?ts=043396) |
+| **Drawer-fixed-open-v0** | **distribution** |   |
+| ![figures/Drawer-fixed-open-v0_init.png?ts=845705](figures/Drawer-fixed-open-v0_init.png?ts=845705) | ![figures/Drawer-fixed-open-v0_reset.png?ts=926017](figures/Drawer-fixed-open-v0_reset.png?ts=926017) | ![figures/Drawer-fixed-open-v0.gif?ts=939865](figures/Drawer-fixed-open-v0.gif?ts=939865) |
+| **Drawer-fixed-mixed-v0** | **distribution** |   |
+| ![figures/Drawer-fixed-mixed-v0_init.png?ts=634889](figures/Drawer-fixed-mixed-v0_init.png?ts=634889) | ![figures/Drawer-fixed-mixed-v0_reset.png?ts=692923](figures/Drawer-fixed-mixed-v0_reset.png?ts=692923) | ![figures/Drawer-fixed-mixed-v0.gif?ts=945127](figures/Drawer-fixed-mixed-v0.gif?ts=945127) |
 
 
 ## Drawer Primitive Tasks
@@ -36,10 +36,10 @@ Name                     | Observation Spec                       | Goal Init/Co
 
 | **Drawer-open-v0** | **distribution** |   |
 |:------------------:|:----------------:|:-:|
-| ![figures/Drawer-open-v0_init.png?ts=518138](figures/Drawer-open-v0_init.png?ts=518138) | ![figures/Drawer-open-v0_reset.png?ts=646194](figures/Drawer-open-v0_reset.png?ts=646194) | ![figures/Drawer-open-v0.gif?ts=485721](figures/Drawer-open-v0.gif?ts=485721) |
+| ![figures/Drawer-open-v0_init.png?ts=518502](figures/Drawer-open-v0_init.png?ts=518502) | ![figures/Drawer-open-v0_reset.png?ts=579406](figures/Drawer-open-v0_reset.png?ts=579406) | ![figures/Drawer-open-v0.gif?ts=890584](figures/Drawer-open-v0.gif?ts=890584) |
 | **Drawer-close-v0** | **distribution** |   |
-| ![figures/Drawer-close-v0_init.png?ts=106469](figures/Drawer-close-v0_init.png?ts=106469) | ![figures/Drawer-close-v0_reset.png?ts=202166](figures/Drawer-close-v0_reset.png?ts=202166) | ![figures/Drawer-close-v0.gif?ts=009403](figures/Drawer-close-v0.gif?ts=009403) |
+| ![figures/Drawer-close-v0_init.png?ts=401881](figures/Drawer-close-v0_init.png?ts=401881) | ![figures/Drawer-close-v0_reset.png?ts=483758](figures/Drawer-close-v0_reset.png?ts=483758) | ![figures/Drawer-close-v0.gif?ts=822165](figures/Drawer-close-v0.gif?ts=822165) |
 | **Drawer-place-easy-v0** | **distribution** |   |
-| ![figures/Drawer-place-easy-v0_init.png?ts=452615](figures/Drawer-place-easy-v0_init.png?ts=452615) | ![figures/Drawer-place-easy-v0_reset.png?ts=559956](figures/Drawer-place-easy-v0_reset.png?ts=559956) | ![figures/Drawer-place-easy-v0.gif?ts=419291](figures/Drawer-place-easy-v0.gif?ts=419291) |
+| ![figures/Drawer-place-easy-v0_init.png?ts=418737](figures/Drawer-place-easy-v0_init.png?ts=418737) | ![figures/Drawer-place-easy-v0_reset.png?ts=564158](figures/Drawer-place-easy-v0_reset.png?ts=564158) | ![figures/Drawer-place-easy-v0.gif?ts=435316](figures/Drawer-place-easy-v0.gif?ts=435316) |
 | **Drawer-place-v0** | **distribution** |   |
-| ![figures/Drawer-place-v0_init.png?ts=927383](figures/Drawer-place-v0_init.png?ts=927383) | ![figures/Drawer-place-v0_reset.png?ts=059441](figures/Drawer-place-v0_reset.png?ts=059441) | ![figures/Drawer-place-v0.gif?ts=936736](figures/Drawer-place-v0.gif?ts=936736) |
+| ![figures/Drawer-place-v0_init.png?ts=819721](figures/Drawer-place-v0_init.png?ts=819721) | ![figures/Drawer-place-v0_reset.png?ts=889448](figures/Drawer-place-v0_reset.png?ts=889448) | ![figures/Drawer-place-v0.gif?ts=680905](figures/Drawer-place-v0.gif?ts=680905) |

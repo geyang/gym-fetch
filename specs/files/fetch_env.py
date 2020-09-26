@@ -1,10 +1,16 @@
 from copy import deepcopy
-
+from gym.envs.robotics import rotations, utils
 import numpy as np
+import numbers
+
+from fetch.common import robot_env
 from fetch.common.utils import goal_distance
 
-from gym.envs.robotics import rotations, utils
-from .common import robot_env
+
+def assign(o, *objs):
+    for ob in objs:
+        o.update(ob)
+    return o
 
 
 class FetchEnv(robot_env.RobotEnv):
@@ -15,7 +21,7 @@ class FetchEnv(robot_env.RobotEnv):
             self, model_path, n_substeps, gripper_extra_height, block_gripper,
             target_in_the_air, target_offset, obj_range, target_range,
             distance_threshold, initial_qpos, reward_type,
-            obj_keys, goal_key, obs_keys=None,
+            obj_keys, goal_key, obs_keys=None, obj_reset=None, goal_tracking=None, freeze_objects=None,
     ):
         """Initializes a new Fetch environment.
 
@@ -45,6 +51,7 @@ class FetchEnv(robot_env.RobotEnv):
         self.gripper_extra_height = gripper_extra_height
         self.block_gripper = block_gripper
         self.obj_keys = obj_keys or []
+        self.obj_reset = obj_reset
         self.obs_keys = obs_keys
         self.goal_key = goal_key
         self.target_in_the_air = target_in_the_air
@@ -53,14 +60,19 @@ class FetchEnv(robot_env.RobotEnv):
         self.target_range = target_range
         self.distance_threshold = distance_threshold
         self.reward_type = reward_type
+        # add support for goal_tracking = object0@object1-top
+        self.goal_tracking = goal_tracking or {}
+        self.freeze_objects = freeze_objects or []
 
-        super().__init__(
-            model_path=model_path, n_substeps=n_substeps, n_actions=4,
-            initial_qpos=initial_qpos)
+        initial_qpos = assign({'robot0:slide0': 0.405,
+                               'robot0:slide1': 0.48,
+                               'robot0:slide2': 0.0}, initial_qpos or {})
+
+        super().__init__(model_path=model_path, n_substeps=n_substeps, n_actions=4,
+                         initial_qpos=initial_qpos)
 
     # GoalEnv methods
     # ----------------------------
-
     def compute_reward(self, achieved_goal, goal, info):
         d = goal_distance(achieved_goal, goal)
 
@@ -78,12 +90,25 @@ class FetchEnv(robot_env.RobotEnv):
 
     # RobotEnv methods
     # ----------------------------
-
     def _step_callback(self):
         if self.block_gripper:
             self.sim.data.set_joint_qpos('robot0:l_gripper_finger_joint', 0.)
             self.sim.data.set_joint_qpos('robot0:r_gripper_finger_joint', 0.)
             self.sim.forward()
+
+        for obj_key in self.freeze_objects:
+            self._reset_body(obj_key, self.initial_qpos[obj_key + ":joint"])
+
+        if self.goal_tracking:
+            assert not isinstance(self.goal_key, str), "goal tracking is only allowed with multiple goals"
+            goals = {}
+            for obj_key, options in self.goal_tracking.items():
+                if options.get('track', False):
+                    target = options.get('target', obj_key)
+                    offset = options.get('offset', 0)
+                    goals[obj_key] = self.sim.data.get_site_xpos(target) + offset
+
+            self.goal = deepcopy(assign({}, self.goal, goals))
 
     def _set_action(self, action):
         assert action.shape == (4,)
@@ -157,8 +182,8 @@ class FetchEnv(robot_env.RobotEnv):
     def _render_callback(self):
         # Visualize target.
         if isinstance(self.goal, dict):
-            for i, k in enumerate(self.goal_key):
-                self._set_target(f"target{i}", self.goal[k])
+            for i, obj_key in enumerate(self.goal_key):
+                self._set_target(f"target{i}", self.goal[obj_key])
         else:
             self._set_target("target0", self.goal)
 
@@ -171,33 +196,99 @@ class FetchEnv(robot_env.RobotEnv):
             slide_pos = self.np_random.uniform(low, high)
         self.sim.data.set_joint_qpos(f'{obj_key}:slide', slide_pos)
 
-    def _reset_body(self, obj_key, pos=None, h=None):
-        """returns the xy position"""
+    # three usage patterns
+    # 1.
+    def _reset_body(self, obj_key, pos=None, track="gripper", avoid="gripper", offset=0, range=0.15, d_min=0.1, h=None,
+                    m={}):
         current_obj_qpos = self.sim.data.get_joint_qpos(f'{obj_key}:joint').copy()
-        assert len(current_obj_qpos) == 7, "should be a single object."
         if pos is not None:
             current_obj_qpos[:len(pos)] = pos
+            self.sim.data.set_joint_qpos(f'{obj_key}:joint', current_obj_qpos)
+            return current_obj_qpos
+
+        if isinstance(range, numbers.Number):
+            range = (-range, range)
+
+        center_xpos = self.initial_gripper_xpos if track == 'gripper' else m.get(track)
+
+        if avoid:
+            if isinstance(avoid, str):
+                avoid = [avoid]
+
+            avoid_xposes = np.array(
+                [self.initial_gripper_xpos if key == 'gripper' else m.get(key)
+                 for key in avoid])
+
+            xpos = avoid_xposes[0]
+            while (np.linalg.norm(xpos[:2] - avoid_xposes[:, :2], axis=-1) < d_min).any():
+                xpos = center_xpos + ([*offset, 0] if hasattr(offset, 'size') and offset.size == 2 else offset)
+                xpos[:2] += self.np_random.uniform(*range, size=2)
         else:
-            obj_xpos = self.initial_gripper_xpos[:2]
-            while np.linalg.norm(obj_xpos - self.initial_gripper_xpos[:2]) < 0.1:
-                obj_xpos = self.initial_gripper_xpos[:2] \
-                           + self.np_random.uniform(-self.obj_range, self.obj_range, size=2)
-            current_obj_qpos[:2] = obj_xpos
-        current_obj_qpos[2] = h or self.initial_heights[obj_key]
+            xpos = center_xpos + ([*offset, 0] if hasattr(offset, 'size') and offset.size == 2 else offset)
+            xpos[:2] += self.np_random.uniform(*range, size=2)
+
+        # if not hasattr(offset, 'size') or offset.size < 3:
+        if not hasattr(offset, 'size') or offset.size < 3:
+            xpos[2] = h or self.initial_heights[obj_key]
+
+        current_obj_qpos[:3] = xpos
+        # todo: add h_high argument to uniformly sample
         self.sim.data.set_joint_qpos(f'{obj_key}:joint', current_obj_qpos)
         return current_obj_qpos
 
+    # def _reset_body(self, obj_key, pos=None, h=None, obj_range=None):
+    #     """returns the xy position"""
+    #     current_obj_qpos = self.sim.data.get_joint_qpos(f'{obj_key}:joint').copy()
+    #     assert len(current_obj_qpos) == 7, "should be a single object."
+    #
+    #     if obj_range is None:
+    #         obj_range = (-self.obj_range, self.obj_range)
+    #     elif isinstance(obj_range, numbers.Number):
+    #         obj_range = (-obj_range, obj_range)
+    #
+    #     if pos is not None:
+    #         current_obj_qpos[:len(pos)] = pos
+    #     else:
+    #         obj_xpos = self.initial_gripper_xpos[:2]
+    #         while np.linalg.norm(obj_xpos - self.initial_gripper_xpos[:2]) < 0.1:
+    #             obj_xpos = self.initial_gripper_xpos[:2] \
+    #                        + self.np_random.uniform(*obj_range, size=2)
+    #         current_obj_qpos[:2] = obj_xpos
+    #     current_obj_qpos[2] = h or self.initial_heights[obj_key]
+    #     self.sim.data.set_joint_qpos(f'{obj_key}:joint', current_obj_qpos)
+    #     return current_obj_qpos
+
     def _reset_sim(self):
+        """use forward=False to compose with this. super()._reset_sim(forward=True) call
+        should always happen first to allow write by custom code.
+
+        Make sure that you cal `self.sim.set_state` first if you complete overwrite this.
+        It is critical.
+        """
         self.sim.set_state(self.initial_state)
         # Randomize start position. Object in pick and place, gripper in reach.
-        if self.obj_keys:
-            if isinstance(self.goal_key, str):
+        if self.goal_key is None:
+            self.sim.forward()
+            return True
+
+        elif isinstance(self.goal_key, str):
+            if "robot" not in self.goal_key:
                 self._reset_body(self.goal_key)
-            else:
-                for goal_key in self.goal_key:
-                    self._reset_body(goal_key)
+            self.sim.forward()
+            return True
+
+        cache = {k: self.sim.data.get_site_xpos(k).copy() for k in self.freeze_objects}
+        for obj_key in set(self.obj_keys) - set(self.freeze_objects):
+            options = (self.obj_reset or {}).get(obj_key, {})
+            cache[obj_key] = self._reset_body(obj_key, m=cache, **options)
+
         self.sim.forward()
         return True
+
+        # self.sim.forward()
+        # if forward:
+        #     self.sim.forward()
+        #     return True
 
     # only used by _sample_goal
     def _sample_single_goal(self, goal_key=None, h=None, high=0.45):
@@ -216,7 +307,15 @@ class FetchEnv(robot_env.RobotEnv):
 
         if isinstance(self.goal_key, str):
             return self._sample_single_goal(self.goal_key)
-        return {k: self._sample_single_goal(k) for k in self.goal_key}
+
+        goal_keys = set(self.goal_key).difference(self.goal_tracking.keys())
+        goals = {k: self._sample_single_goal(k) for k in goal_keys}
+        for obj_key, options in self.goal_tracking.items():
+            assert obj_key in self.goal_key, f"{obj_key} is not part of the goal spec"
+            target = options.get('target', obj_key)
+            offset = options.get('offset', 0)
+            goals[obj_key] = self.sim.data.get_site_xpos(target) + offset
+        return goals
 
     def _is_success(self, achieved_goal, desired_goal):
         d = goal_distance(achieved_goal, desired_goal)
@@ -228,8 +327,6 @@ class FetchEnv(robot_env.RobotEnv):
 
     def _env_setup(self, initial_qpos):
         for name, value in initial_qpos.items():
-            # qpos = self.sim.data.get_joint_qpos(name)
-            # print(f"{name}: {qpos}")
             self.sim.data.set_joint_qpos(name, value)
         utils.reset_mocap_welds(self.sim)
         self.sim.forward()
