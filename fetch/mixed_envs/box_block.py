@@ -20,7 +20,7 @@ class BoxBlockEnv(fetch_env.FetchEnv, utils.EzPickle):
                  goal_key="object0",
                  initial_qpos=None,
                  obj_reset=None,
-                 goal_tracking=None,
+                 goal_sampling=None,
                  freeze_objects=None,
                  ):
         self.action = action

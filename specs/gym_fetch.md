@@ -17,7 +17,7 @@ render_video('fetch:Reach-v0', 5, row)
 
 | **Reach-v0** | **distribution** |   |
 |:------------:|:----------------:|:-:|
-| ![figures/Reach-v0_init.png?ts=962547](figures/Reach-v0_init.png?ts=962547) | ![figures/Reach-v0_reset.png?ts=087766](figures/Reach-v0_reset.png?ts=087766) | ![figures/Reach-v0.gif?ts=765869](figures/Reach-v0.gif?ts=765869) |
+| ![figures/Reach-v0_init.png?ts=894257](figures/Reach-v0_init.png?ts=894257) | ![figures/Reach-v0_reset.png?ts=983500](figures/Reach-v0_reset.png?ts=983500) | ![figures/Reach-v0.gif?ts=615136](figures/Reach-v0.gif?ts=615136) |
 ```python
 render_initial('fetch:Push-v0', row)
 render_video('fetch:Push-v0', 5, row)
@@ -25,7 +25,7 @@ render_video('fetch:Push-v0', 5, row)
 
 | **Push-v0** | **distribution** |   |
 |:-----------:|:----------------:|:-:|
-| ![figures/Push-v0_init.png?ts=839426](figures/Push-v0_init.png?ts=839426) | ![figures/Push-v0_reset.png?ts=903767](figures/Push-v0_reset.png?ts=903767) | ![figures/Push-v0.gif?ts=585049](figures/Push-v0.gif?ts=585049) |
+| ![figures/Push-v0_init.png?ts=716147](figures/Push-v0_init.png?ts=716147) | ![figures/Push-v0_reset.png?ts=778892](figures/Push-v0_reset.png?ts=778892) | ![figures/Push-v0.gif?ts=505363](figures/Push-v0.gif?ts=505363) |
 ```python
 render_initial('fetch:PickPlace-v0', row)
 render_video('fetch:PickPlace-v0', 5, row)
@@ -33,7 +33,7 @@ render_video('fetch:PickPlace-v0', 5, row)
 
 | **PickPlace-v0** | **distribution** |   |
 |:----------------:|:----------------:|:-:|
-| ![figures/PickPlace-v0_init.png?ts=579471](figures/PickPlace-v0_init.png?ts=579471) | ![figures/PickPlace-v0_reset.png?ts=639959](figures/PickPlace-v0_reset.png?ts=639959) | ![figures/PickPlace-v0.gif?ts=266861](figures/PickPlace-v0.gif?ts=266861) |
+| ![figures/PickPlace-v0_init.png?ts=731710](figures/PickPlace-v0_init.png?ts=731710) | ![figures/PickPlace-v0_reset.png?ts=800719](figures/PickPlace-v0_reset.png?ts=800719) | ![figures/PickPlace-v0.gif?ts=406236](figures/PickPlace-v0.gif?ts=406236) |
 ```python
 render_initial('fetch:Slide-v0', row)
 render_video('fetch:Slide-v0', 5, row)
@@ -41,4 +41,4 @@ render_video('fetch:Slide-v0', 5, row)
 
 | **Slide-v0** | **distribution** |   |
 |:------------:|:----------------:|:-:|
-| ![figures/Slide-v0_init.png?ts=276994](figures/Slide-v0_init.png?ts=276994) | ![figures/Slide-v0_reset.png?ts=344947](figures/Slide-v0_reset.png?ts=344947) | ![figures/Slide-v0.gif?ts=092480](figures/Slide-v0.gif?ts=092480) |
+| ![figures/Slide-v0_init.png?ts=403957](figures/Slide-v0_init.png?ts=403957) | ![figures/Slide-v0_reset.png?ts=494878](figures/Slide-v0_reset.png?ts=494878) | ![figures/Slide-v0.gif?ts=217667](figures/Slide-v0.gif?ts=217667) |

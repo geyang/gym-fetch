@@ -13,11 +13,11 @@ The drawer open environment does not learn (only learns to push the block around
 
 | **Drawer-fixed-v0** | **distribution** |   |
 |:-------------------:|:----------------:|:-:|
-| ![figures/Drawer-fixed-v0_init.png?ts=956931](figures/Drawer-fixed-v0_init.png?ts=956931) | ![figures/Drawer-fixed-v0_reset.png?ts=096490](figures/Drawer-fixed-v0_reset.png?ts=096490) | ![figures/Drawer-fixed-v0.gif?ts=841406](figures/Drawer-fixed-v0.gif?ts=841406) |
+| ![figures/Drawer-fixed-v0_init.png?ts=842559](figures/Drawer-fixed-v0_init.png?ts=842559) | ![figures/Drawer-fixed-v0_reset.png?ts=958209](figures/Drawer-fixed-v0_reset.png?ts=958209) | ![figures/Drawer-fixed-v0.gif?ts=608934](figures/Drawer-fixed-v0.gif?ts=608934) |
 | **Drawer-fixed-open-v0** | **distribution** |   |
-| ![figures/Drawer-fixed-open-v0_init.png?ts=523768](figures/Drawer-fixed-open-v0_init.png?ts=523768) | ![figures/Drawer-fixed-open-v0_reset.png?ts=598417](figures/Drawer-fixed-open-v0_reset.png?ts=598417) | ![figures/Drawer-fixed-open-v0.gif?ts=514083](figures/Drawer-fixed-open-v0.gif?ts=514083) |
+| ![figures/Drawer-fixed-open-v0_init.png?ts=276849](figures/Drawer-fixed-open-v0_init.png?ts=276849) | ![figures/Drawer-fixed-open-v0_reset.png?ts=350157](figures/Drawer-fixed-open-v0_reset.png?ts=350157) | ![figures/Drawer-fixed-open-v0.gif?ts=972904](figures/Drawer-fixed-open-v0.gif?ts=972904) |
 | **Drawer-fixed-mixed-v0** | **distribution** |   |
-| ![figures/Drawer-fixed-mixed-v0_init.png?ts=783598](figures/Drawer-fixed-mixed-v0_init.png?ts=783598) | ![figures/Drawer-fixed-mixed-v0_reset.png?ts=842339](figures/Drawer-fixed-mixed-v0_reset.png?ts=842339) | ![figures/Drawer-fixed-mixed-v0.gif?ts=637647](figures/Drawer-fixed-mixed-v0.gif?ts=637647) |
+| ![figures/Drawer-fixed-mixed-v0_init.png?ts=692850](figures/Drawer-fixed-mixed-v0_init.png?ts=692850) | ![figures/Drawer-fixed-mixed-v0_reset.png?ts=743430](figures/Drawer-fixed-mixed-v0_reset.png?ts=743430) | ![figures/Drawer-fixed-mixed-v0.gif?ts=147751](figures/Drawer-fixed-mixed-v0.gif?ts=147751) |
 
 
 ## Drawer Primitive Tasks
@@ -36,10 +36,10 @@ Name                     | Observation Spec                       | Goal Init/Co
 
 | **Drawer-open-v0** | **distribution** |   |
 |:------------------:|:----------------:|:-:|
-| ![figures/Drawer-open-v0_init.png?ts=674980](figures/Drawer-open-v0_init.png?ts=674980) | ![figures/Drawer-open-v0_reset.png?ts=778593](figures/Drawer-open-v0_reset.png?ts=778593) | ![figures/Drawer-open-v0.gif?ts=872853](figures/Drawer-open-v0.gif?ts=872853) |
+| ![figures/Drawer-open-v0_init.png?ts=307708](figures/Drawer-open-v0_init.png?ts=307708) | ![figures/Drawer-open-v0_reset.png?ts=380216](figures/Drawer-open-v0_reset.png?ts=380216) | ![figures/Drawer-open-v0.gif?ts=082637](figures/Drawer-open-v0.gif?ts=082637) |
 | **Drawer-close-v0** | **distribution** |   |
-| ![figures/Drawer-close-v0_init.png?ts=522553](figures/Drawer-close-v0_init.png?ts=522553) | ![figures/Drawer-close-v0_reset.png?ts=601940](figures/Drawer-close-v0_reset.png?ts=601940) | ![figures/Drawer-close-v0.gif?ts=166382](figures/Drawer-close-v0.gif?ts=166382) |
+| ![figures/Drawer-close-v0_init.png?ts=328950](figures/Drawer-close-v0_init.png?ts=328950) | ![figures/Drawer-close-v0_reset.png?ts=382075](figures/Drawer-close-v0_reset.png?ts=382075) | ![figures/Drawer-close-v0.gif?ts=324423](figures/Drawer-close-v0.gif?ts=324423) |
 | **Drawer-place-easy-v0** | **distribution** |   |
-| ![figures/Drawer-place-easy-v0_init.png?ts=933411](figures/Drawer-place-easy-v0_init.png?ts=933411) | ![figures/Drawer-place-easy-v0_reset.png?ts=022304](figures/Drawer-place-easy-v0_reset.png?ts=022304) | ![figures/Drawer-place-easy-v0.gif?ts=705867](figures/Drawer-place-easy-v0.gif?ts=705867) |
+| ![figures/Drawer-place-easy-v0_init.png?ts=879674](figures/Drawer-place-easy-v0_init.png?ts=879674) | ![figures/Drawer-place-easy-v0_reset.png?ts=980399](figures/Drawer-place-easy-v0_reset.png?ts=980399) | ![figures/Drawer-place-easy-v0.gif?ts=862672](figures/Drawer-place-easy-v0.gif?ts=862672) |
 | **Drawer-place-v0** | **distribution** |   |
-| ![figures/Drawer-place-v0_init.png?ts=220179](figures/Drawer-place-v0_init.png?ts=220179) | ![figures/Drawer-place-v0_reset.png?ts=309566](figures/Drawer-place-v0_reset.png?ts=309566) | ![figures/Drawer-place-v0.gif?ts=878025](figures/Drawer-place-v0.gif?ts=878025) |
+| ![figures/Drawer-place-v0_init.png?ts=360364](figures/Drawer-place-v0_init.png?ts=360364) | ![figures/Drawer-place-v0_reset.png?ts=482005](figures/Drawer-place-v0_reset.png?ts=482005) | ![figures/Drawer-place-v0.gif?ts=357711](figures/Drawer-place-v0.gif?ts=357711) |

@@ -2,14 +2,15 @@ from cmx import doc
 
 from specs.__init__ import get_obs_spec, render_initial, render_video
 
-box_envs = ["fetch:Box-aside-v0",
-            "fetch:Box-fixed-v0",
-            # Box Environments
-            "fetch:Box-open-v0",
-            "fetch:Box-close-v0",
-            "fetch:Box-place-easy-v0",
-            "fetch:Box-place-medium-v0",
-            "fetch:Box-place-v0", ]
+box_envs = [
+    "fetch:Box-aside-v0",
+    "fetch:Box-fixed-v0",
+    # Box Environments
+    "fetch:Box-open-v0",
+    "fetch:Box-close-v0",
+    "fetch:Box-place-easy-v0",
+    "fetch:Box-place-medium-v0",
+    "fetch:Box-place-v0", ]
 
 if __name__ == '__main__':
     all_envs = box_envs

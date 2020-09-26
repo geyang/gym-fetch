@@ -65,14 +65,14 @@ register(id='Box-fixed-open-v0', entry_point=BoxBlockEnv,
          kwargs=dict(action="open", goal_key=("lid",),
                      freeze_objects=("box",),
                      obj_reset={'lid': dict(track='box', range=0, avoid=None)},
-                     goal_tracking={'lid': dict(target="box", offset=[0, 0, 0.08]),
+                     goal_sampling={'lid': dict(target="box", offset=[0, 0, 0.08]),
                                     # 'object0': dict(target='object0')
                                     }), **kw)
 register(id='Box-fixed-close-v0', entry_point=BoxBlockEnv,
          kwargs=dict(action="close", goal_key=("lid",),
                      freeze_objects=("box",),
                      obj_reset={'lid': dict(avoid=['box', 'gripper'], d_min=0.075)},
-                     goal_tracking={'lid': dict(target="box", track=True),
+                     goal_sampling={'lid': dict(target="box", track=True),
                                     # 'object0': dict(target='object0')
                                     }), **kw)
 register(id='Box-fixed-place-easy-v0', entry_point=BoxBlockEnv,
@@ -80,7 +80,11 @@ register(id='Box-fixed-place-easy-v0', entry_point=BoxBlockEnv,
                      freeze_objects=("box",),
                      obj_reset={'lid': dict(avoid=['box', 'gripper'], d_min=0.075),
                                 'object0': dict(avoid=['lid'], d_min=0.2)},
-                     goal_tracking={'object0': dict(target='box', offset=[0, 0, 0.05], track=True)}), **kw)
+                     goal_sampling={
+                         'object0': dict(target='box', offset=[0, 0, 0.05], track=True),
+                         # 'lid': dict(high=0)
+                     }),
+         **kw)
 # disable the lid target in this version to debug
 # register(id='Box-fixed-open-v0', entry_point=BoxBlockEnv,
 #          kwargs=dict(action="open@box-fixed", goal_key="lid"), **kw)
@@ -92,7 +96,7 @@ register(id='Box-fixed-place-medium-v0', entry_point=vec_goal_env,
          kwargs=dict(action="open+place@box-fixed", goal_key=("object0", "lid")), **kw)
 register(id='Box-fixed-place-v0', entry_point=vec_goal_env,
          kwargs=dict(action="open+place+close@box-fixed", goal_key=("object0", "lid"),
-                     goal_tracking={'lid': dict(target="box", offset=[0, 0, 0.1], track=True)}), **kw)
+                     goal_sampling={'lid': dict(target="box", offset=[0, 0, 0.1], track=True)}), **kw)
 
 # ------------------------ Finalized ------------------------
 # Bin Environments Bin + object, no lid
@@ -102,13 +106,28 @@ register(id='Bin-place-v0', entry_point=BinEnv, kwargs=dict(action="place+air", 
 # Box Environments: Box + Lid, there is no object
 register(id='Box-open-v0', entry_point=BoxEnv, kwargs=dict(action="open", ), **kw)
 register(id='Box-close-v0', entry_point=BoxEnv, kwargs=dict(action="close", ), **kw)
-
 # Box + Object Environments, w/ additional goal for the lid
-register(id='Box-place-easy-v0', entry_point=BoxBlockEnv, kwargs=dict(action="place", ), **kw)
-register(id='Box-place-medium-v0', entry_point=BoxBlockEnv,
-         kwargs=dict(action="open+place", goal_key=("object0", "lid")), **kw)
+register(id='Box-place-easy-v0', entry_point=BoxBlockEnv, kwargs=dict(
+    action="place", obj_keys=['box', 'lid', 'object0'],
+    obj_reset={'lid': dict(avoid="box", d_min=0.1, range=0.2),
+               'object0': dict(avoid=["box", "lid"], d_min=0.1, range=0.2)}
+), **kw)
+register(id='Box-place-medium-v0', entry_point=vec_goal_env,
+         kwargs=dict(action="open+place", goal_key=("object0", "lid"),
+                     obj_keys=['box', 'lid', 'object0'],
+                     obj_reset={'lid': dict(track="box", offset=[0, 0, 0.08], range=0),
+                                'object0': dict(avoid=["box", "lid"], d_min=0.1, range=0.2)},
+                     goal_sampling={'object0': dict(target='box', offset=[0, 0, 0.05], track=True),
+                                    'lid': dict(high=0)}
+                     ), **kw)
 register(id='Box-place-v0', entry_point=BoxBlockEnv,
-         kwargs=dict(action="open+place+close", goal_key=("object0", "lid")), **kw)
+         kwargs=dict(action="open+place+close", goal_key="object0",
+                     obj_keys=['box', 'lid', 'object0'],
+                     obj_reset={'lid': dict(track="box", offset=[0, 0, 0.08], range=0),
+                                'object0': dict(avoid=["box", "lid"], d_min=0.1)},
+                     goal_sampling={'object0': dict(target='box', offset=[0, 0, 0.05], track=True),
+                                    'lid': dict(high=0)}
+                     ), **kw)
 
 # -------------------- Twin Box Taskset --------------------
 # fix the location of the bins

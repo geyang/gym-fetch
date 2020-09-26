@@ -27,11 +27,12 @@ if __name__ == '__main__':
     ## Details of Each Task
     """
     with doc:
-        box_envs = ["fetch:Box-fixed-open-v0",
-                    "fetch:Box-fixed-close-v0",
-                    "fetch:Box-fixed-place-easy-v0",
-                    "fetch:Box-fixed-place-medium-v0",
-                    "fetch:Box-fixed-place-v0", ]
+        box_envs = [
+            "fetch:Box-fixed-open-v0",
+            "fetch:Box-fixed-close-v0",
+            "fetch:Box-fixed-place-easy-v0",
+            "fetch:Box-fixed-place-medium-v0",
+            "fetch:Box-fixed-place-v0", ]
 
     table = doc.table()
     for env_id in box_envs:

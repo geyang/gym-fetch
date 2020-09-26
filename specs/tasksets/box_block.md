@@ -22,9 +22,21 @@ Primitive Tasks               | Observation Spec                            | Go
 ## Details of Each Task
 
 ```python
-box_envs = ["fetch:Box-fixed-open-v0",
-            "fetch:Box-fixed-close-v0",
-            "fetch:Box-fixed-place-easy-v0",
-            "fetch:Box-fixed-place-medium-v0",
-            "fetch:Box-fixed-place-v0", ]
+box_envs = [
+    "fetch:Box-fixed-open-v0",
+    "fetch:Box-fixed-close-v0",
+    "fetch:Box-fixed-place-easy-v0",
+    "fetch:Box-fixed-place-medium-v0",
+    "fetch:Box-fixed-place-v0", ]
 ```
+| **Box-fixed-open-v0** | **distribution** |   |
+|:---------------------:|:----------------:|:-:|
+| ![figures/Box-fixed-open-v0_init.png?ts=657064](figures/Box-fixed-open-v0_init.png?ts=657064) | ![figures/Box-fixed-open-v0_reset.png?ts=817517](figures/Box-fixed-open-v0_reset.png?ts=817517) | ![figures/Box-fixed-open-v0.gif?ts=681189](figures/Box-fixed-open-v0.gif?ts=681189) |
+| **Box-fixed-close-v0** | **distribution** |   |
+| ![figures/Box-fixed-close-v0_init.png?ts=338959](figures/Box-fixed-close-v0_init.png?ts=338959) | ![figures/Box-fixed-close-v0_reset.png?ts=394865](figures/Box-fixed-close-v0_reset.png?ts=394865) | ![figures/Box-fixed-close-v0.gif?ts=114687](figures/Box-fixed-close-v0.gif?ts=114687) |
+| **Box-fixed-place-easy-v0** | **distribution** |   |
+| ![figures/Box-fixed-place-easy-v0_init.png?ts=720561](figures/Box-fixed-place-easy-v0_init.png?ts=720561) | ![figures/Box-fixed-place-easy-v0_reset.png?ts=789205](figures/Box-fixed-place-easy-v0_reset.png?ts=789205) | ![figures/Box-fixed-place-easy-v0.gif?ts=450425](figures/Box-fixed-place-easy-v0.gif?ts=450425) |
+| **Box-fixed-place-medium-v0** | **distribution** |   |
+| ![figures/Box-fixed-place-medium-v0_init.png?ts=010486](figures/Box-fixed-place-medium-v0_init.png?ts=010486) | ![figures/Box-fixed-place-medium-v0_reset.png?ts=070622](figures/Box-fixed-place-medium-v0_reset.png?ts=070622) | ![figures/Box-fixed-place-medium-v0.gif?ts=829206](figures/Box-fixed-place-medium-v0.gif?ts=829206) |
+| **Box-fixed-place-v0** | **distribution** |   |
+| ![figures/Box-fixed-place-v0_init.png?ts=568802](figures/Box-fixed-place-v0_init.png?ts=568802) | ![figures/Box-fixed-place-v0_reset.png?ts=636770](figures/Box-fixed-place-v0_reset.png?ts=636770) | ![figures/Box-fixed-place-v0.gif?ts=471702](figures/Box-fixed-place-v0.gif?ts=471702) |

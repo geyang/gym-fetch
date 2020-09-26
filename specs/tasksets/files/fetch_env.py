@@ -21,7 +21,7 @@ class FetchEnv(robot_env.RobotEnv):
             self, model_path, n_substeps, gripper_extra_height, block_gripper,
             target_in_the_air, target_offset, obj_range, target_range,
             distance_threshold, initial_qpos, reward_type,
-            obj_keys, goal_key, obs_keys=None, obj_reset=None, goal_tracking=None, freeze_objects=None,
+            obj_keys, goal_key, obs_keys=None, obj_reset=None, goal_sampling=None, freeze_objects=None,
     ):
         """Initializes a new Fetch environment.
 
@@ -61,7 +61,7 @@ class FetchEnv(robot_env.RobotEnv):
         self.distance_threshold = distance_threshold
         self.reward_type = reward_type
         # add support for goal_tracking = object0@object1-top
-        self.goal_tracking = goal_tracking or {}
+        self.goal_sampling = goal_sampling or {}
         self.freeze_objects = freeze_objects or []
 
         initial_qpos = assign({'robot0:slide0': 0.405,
@@ -99,16 +99,18 @@ class FetchEnv(robot_env.RobotEnv):
         for obj_key in self.freeze_objects:
             self._reset_body(obj_key, self.initial_qpos[obj_key + ":joint"][:2])
 
-        if self.goal_tracking:
-            assert not isinstance(self.goal_key, str), "goal tracking is only allowed with multiple goals"
+        if self.goal_sampling:
             goals = {}
-            for obj_key, options in self.goal_tracking.items():
+            for obj_key, options in self.goal_sampling.items():
                 if options.get('track', False):
                     target = options.get('target', obj_key)
                     offset = options.get('offset', 0)
                     goals[obj_key] = self.sim.data.get_site_xpos(target) + offset
 
-            self.goal = deepcopy(assign({}, self.goal, goals))
+            if isinstance(self.goal_key, str):
+                self.goal = goals[self.goal_key]
+            else:
+                self.goal = deepcopy(assign({}, self.goal, goals))
 
     def _set_action(self, action):
         assert action.shape == (4,)
@@ -234,7 +236,7 @@ class FetchEnv(robot_env.RobotEnv):
         current_obj_qpos[:3] = xpos
         # todo: add h_high argument to uniformly sample
         self.sim.data.set_joint_qpos(f'{obj_key}:joint', current_obj_qpos)
-        return current_obj_qpos
+        return xpos
 
     # def _reset_body(self, obj_key, pos=None, h=None, obj_range=None):
     #     """returns the xy position"""
@@ -267,23 +269,26 @@ class FetchEnv(robot_env.RobotEnv):
         """
         self.sim.set_state(self.initial_state)
         # Randomize start position. Object in pick and place, gripper in reach.
+        if self.obj_keys is not None:
+            cache = {k: self.sim.data.get_site_xpos(k).copy() for k in self.freeze_objects}
+            for obj_key in [k for k in self.obj_keys if k not in self.freeze_objects]:
+                options = (self.obj_reset or {}).get(obj_key, {})
+                cache[obj_key] = self._reset_body(obj_key, m=cache, **options)
+
+            self.sim.forward()
+            return True
+
         if self.goal_key is None:
             self.sim.forward()
             return True
 
         elif isinstance(self.goal_key, str):
-            if "robot" not in self.goal_key:
+            if 'robot' not in self.goal_key:
                 self._reset_body(self.goal_key)
+
             self.sim.forward()
             return True
 
-        cache = {k: self.sim.data.get_site_xpos(k).copy() for k in self.freeze_objects}
-        for obj_key in set(self.obj_keys) - set(self.freeze_objects):
-            options = (self.obj_reset or {}).get(obj_key, {})
-            cache[obj_key] = self._reset_body(obj_key, m=cache, **options)
-
-        self.sim.forward()
-        return True
 
     # only used by _sample_goal
     def _sample_single_goal(self, goal_key=None, h=None, high=0.45):
@@ -303,13 +308,16 @@ class FetchEnv(robot_env.RobotEnv):
         if isinstance(self.goal_key, str):
             return self._sample_single_goal(self.goal_key)
 
-        goal_keys = set(self.goal_key).difference(self.goal_tracking.keys())
+        goal_keys = [k for k in self.goal_key if k not in self.goal_sampling]
         goals = {k: self._sample_single_goal(k) for k in goal_keys}
-        for obj_key, options in self.goal_tracking.items():
+        for obj_key, options in self.goal_sampling.items():
             assert obj_key in self.goal_key, f"{obj_key} is not part of the goal spec"
-            target = options.get('target', obj_key)
-            offset = options.get('offset', 0)
-            goals[obj_key] = self.sim.data.get_site_xpos(target) + offset
+            if "target" in options:
+                offset = options.get('offset', 0)
+                goals[obj_key] = self.sim.data.get_site_xpos(options['target']) + offset
+            else:
+                goals[obj_key] = self._sample_single_goal(obj_key, **options)
+
         return goals
 
     def _is_success(self, achieved_goal, desired_goal):
