@@ -34,7 +34,7 @@ class BoxEnv(fetch_env.FetchEnv, utils.EzPickle):
 
         if self.action == "open":
             box_pos = self._reset_body("box")
-            self._reset_body("lid", box_pos)
+            self._reset_body("lid", box_pos[:2])
         elif self.action == "close":
             lid_pos = box_pos = self._reset_body("box")
             while np.linalg.norm(lid_pos[:2] - box_pos[:2]) < 0.2:

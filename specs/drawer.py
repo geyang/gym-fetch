@@ -31,7 +31,7 @@ The drawer open environment does not learn (only learns to push the block around
             render_initial(env_id, row)
             render_video(env_id, 15, row)
 
-    doc @ """
+    doc @ f"""
 ## Drawer Primitive Tasks
 
 > **Note**: To test the agent's performance in placing the object into 

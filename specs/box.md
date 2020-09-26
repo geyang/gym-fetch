@@ -27,16 +27,16 @@ Name                     | Observation Spec                    | Goal Init/Comme
 
 | **Box-aside-v0** | **distribution** |   |
 |:----------------:|:----------------:|:-:|
-| ![figures/Box-aside-v0_init.png?ts=944004](figures/Box-aside-v0_init.png?ts=944004) | ![figures/Box-aside-v0_reset.png?ts=054440](figures/Box-aside-v0_reset.png?ts=054440) | ![figures/Box-aside-v0.gif?ts=986759](figures/Box-aside-v0.gif?ts=986759) |
+| ![figures/Box-aside-v0_init.png?ts=273283](figures/Box-aside-v0_init.png?ts=273283) | ![figures/Box-aside-v0_reset.png?ts=383816](figures/Box-aside-v0_reset.png?ts=383816) | ![figures/Box-aside-v0.gif?ts=959084](figures/Box-aside-v0.gif?ts=959084) |
 | **Box-fixed-v0** | **distribution** |   |
-| ![figures/Box-fixed-v0_init.png?ts=757403](figures/Box-fixed-v0_init.png?ts=757403) | ![figures/Box-fixed-v0_reset.png?ts=842749](figures/Box-fixed-v0_reset.png?ts=842749) | ![figures/Box-fixed-v0.gif?ts=319363](figures/Box-fixed-v0.gif?ts=319363) |
+| ![figures/Box-fixed-v0_init.png?ts=529715](figures/Box-fixed-v0_init.png?ts=529715) | ![figures/Box-fixed-v0_reset.png?ts=584749](figures/Box-fixed-v0_reset.png?ts=584749) | ![figures/Box-fixed-v0.gif?ts=251219](figures/Box-fixed-v0.gif?ts=251219) |
 | **Box-open-v0** | **distribution** |   |
-| ![figures/Box-open-v0_init.png?ts=143898](figures/Box-open-v0_init.png?ts=143898) | ![figures/Box-open-v0_reset.png?ts=197544](figures/Box-open-v0_reset.png?ts=197544) | ![figures/Box-open-v0.gif?ts=340640](figures/Box-open-v0.gif?ts=340640) |
+| ![figures/Box-open-v0_init.png?ts=752077](figures/Box-open-v0_init.png?ts=752077) | ![figures/Box-open-v0_reset.png?ts=814828](figures/Box-open-v0_reset.png?ts=814828) | ![figures/Box-open-v0.gif?ts=770176](figures/Box-open-v0.gif?ts=770176) |
 | **Box-close-v0** | **distribution** |   |
-| ![figures/Box-close-v0_init.png?ts=212386](figures/Box-close-v0_init.png?ts=212386) | ![figures/Box-close-v0_reset.png?ts=299787](figures/Box-close-v0_reset.png?ts=299787) | ![figures/Box-close-v0.gif?ts=263764](figures/Box-close-v0.gif?ts=263764) |
+| ![figures/Box-close-v0_init.png?ts=404572](figures/Box-close-v0_init.png?ts=404572) | ![figures/Box-close-v0_reset.png?ts=463133](figures/Box-close-v0_reset.png?ts=463133) | ![figures/Box-close-v0.gif?ts=175005](figures/Box-close-v0.gif?ts=175005) |
 | **Box-place-easy-v0** | **distribution** |   |
-| ![figures/Box-place-easy-v0_init.png?ts=028538](figures/Box-place-easy-v0_init.png?ts=028538) | ![figures/Box-place-easy-v0_reset.png?ts=121860](figures/Box-place-easy-v0_reset.png?ts=121860) | ![figures/Box-place-easy-v0.gif?ts=712006](figures/Box-place-easy-v0.gif?ts=712006) |
+| ![figures/Box-place-easy-v0_init.png?ts=870730](figures/Box-place-easy-v0_init.png?ts=870730) | ![figures/Box-place-easy-v0_reset.png?ts=935566](figures/Box-place-easy-v0_reset.png?ts=935566) | ![figures/Box-place-easy-v0.gif?ts=901326](figures/Box-place-easy-v0.gif?ts=901326) |
 | **Box-place-medium-v0** | **distribution** |   |
-| ![figures/Box-place-medium-v0_init.png?ts=345219](figures/Box-place-medium-v0_init.png?ts=345219) | ![figures/Box-place-medium-v0_reset.png?ts=412982](figures/Box-place-medium-v0_reset.png?ts=412982) | ![figures/Box-place-medium-v0.gif?ts=821978](figures/Box-place-medium-v0.gif?ts=821978) |
+| ![figures/Box-place-medium-v0_init.png?ts=613576](figures/Box-place-medium-v0_init.png?ts=613576) | ![figures/Box-place-medium-v0_reset.png?ts=676965](figures/Box-place-medium-v0_reset.png?ts=676965) | ![figures/Box-place-medium-v0.gif?ts=647639](figures/Box-place-medium-v0.gif?ts=647639) |
 | **Box-place-v0** | **distribution** |   |
-| ![figures/Box-place-v0_init.png?ts=419282](figures/Box-place-v0_init.png?ts=419282) | ![figures/Box-place-v0_reset.png?ts=493567](figures/Box-place-v0_reset.png?ts=493567) | ![figures/Box-place-v0.gif?ts=876521](figures/Box-place-v0.gif?ts=876521) |
+| ![figures/Box-place-v0_init.png?ts=260221](figures/Box-place-v0_init.png?ts=260221) | ![figures/Box-place-v0_reset.png?ts=326238](figures/Box-place-v0_reset.png?ts=326238) | ![figures/Box-place-v0.gif?ts=867621](figures/Box-place-v0.gif?ts=867621) |

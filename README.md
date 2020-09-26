@@ -39,18 +39,20 @@ Reach-v2    | Push-v2    | PickPlace-v2 | Slide-v2
 
 All documentations are maintained in the [./specs](specs) folder, where each task set is one markdown file.
 
-- **original gym fetch tasks**: [./specs/gym_fetch.md](./specs/gym_fetch.md)
-- **`bin` tasks**: [./specs/bin.md](./specs/bin.md)
-- **`bin_debug` tasks**: [./specs/bin_debug.md](./specs/bin.md)
-- **`box` tasks**: [./specs/box.md](./specs/box.md)
-- **`drawer` tasks**: [./specs/drawer.md](./specs/drawer.md)
+- **original gym fetch tasks**: [./specs/gym_fetch.md](./specs/gym_fetch.md)
+- **`bin` tasks**: [./specs/bin.md](./specs/bin.md)
+- **`bin_debug` tasks**: [./specs/bin_debug.md](./specs/bin.md)
+- **`box` tasks**: [./specs/box.md](./specs/box.md)
+- **`drawer` tasks**: [./specs/drawer.md](./specs/drawer.md)
 
 The multi-task environments are still under development. They are located under
-> fetch
-> ├── tasksets
->     ├── __init__.py
->     ├── box_block.md
->     ├── box_block.py
+
+```bash
+ fetch
+ ├── tasksets
+     ├── box_block.md
+     ├── box_block.py
+```
 
 # Primitive Single Task Environments
 

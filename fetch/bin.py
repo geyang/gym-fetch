@@ -67,8 +67,7 @@ class BinEnv(fetch_env.FetchEnv, EzPickle):
                     self._reset_body(obj_key)
 
             original_pos = self.initial_qpos['bin:joint']
-            original_pos[2] = self.initial_heights['bin']
-            self._reset_body("bin", original_pos)
+            self._reset_body("bin", original_pos[:2])
         elif self.action == "pick":
             bin_xpos = self._reset_body('bin').copy()
             # randomize relative position
@@ -95,8 +94,7 @@ class BinEnv(fetch_env.FetchEnv, EzPickle):
         elif self.action in ["bin-aside", "bin-fixed"]:
             # todo: fix the location of the bin
             original_pos = self.initial_qpos['bin:joint']
-            original_pos[2] = self.initial_heights['bin']
-            self._reset_body("bin", original_pos)
+            self._reset_body("bin", original_pos[:2])
         elif "place" in self.action and self.goal_bin_offset is not None:
             # if self.np_random.uniform() < 0.1:
             self.goal = self.sim.data.get_site_xpos("bin")[:3].copy() + self.goal_bin_offset

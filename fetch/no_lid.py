@@ -85,8 +85,7 @@ class BoxNoLidEnv(fetch_env.FetchEnv, EzPickle):
         elif self.action in ["box-aside", "box-fixed"]:
             # todo: fix the location of the box
             original_pos = self.initial_qpos['box:joint']
-            original_pos[2] = self.initial_heights['box']
-            self._reset_body("box", original_pos)
+            self._reset_body("box", original_pos[:2])
         elif "place" in self.action and self.goal_box_offset is not None:
             # if self.np_random.uniform() < 0.1:
             self.goal = self.sim.data.get_site_xpos("box")[:3].copy() + self.goal_box_offset

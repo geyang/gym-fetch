@@ -97,7 +97,7 @@ class FetchEnv(robot_env.RobotEnv):
             self.sim.forward()
 
         for obj_key in self.freeze_objects:
-            self._reset_body(obj_key, self.initial_qpos[obj_key + ":joint"])
+            self._reset_body(obj_key, self.initial_qpos[obj_key + ":joint"][:2])
 
         if self.goal_tracking:
             assert not isinstance(self.goal_key, str), "goal tracking is only allowed with multiple goals"
@@ -284,11 +284,6 @@ class FetchEnv(robot_env.RobotEnv):
 
         self.sim.forward()
         return True
-
-        # self.sim.forward()
-        # if forward:
-        #     self.sim.forward()
-        #     return True
 
     # only used by _sample_goal
     def _sample_single_goal(self, goal_key=None, h=None, high=0.45):

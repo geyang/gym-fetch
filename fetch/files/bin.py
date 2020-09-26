@@ -49,8 +49,7 @@ class BinEnv(fetch_env.FetchEnv, EzPickle):
         if self.action == "bin-aside":
             # todo: fix the location of the bin
             original_pos = self.initial_qpos['bin:joint']
-            original_pos[2] = self.initial_heights['bin']
-            self._reset_body("bin", original_pos)
+            self._reset_body("bin", original_pos[:2])
         self.sim.forward()
         return True
 
@@ -66,8 +65,7 @@ class BinEnv(fetch_env.FetchEnv, EzPickle):
         if self.action == "bin-aside":
             # todo: fix the location of the bin
             original_pos = self.initial_qpos['bin:joint']
-            original_pos[2] = self.initial_heights['bin']
-            self._reset_body("bin", original_pos)
+            self._reset_body("bin", original_pos[:2])
 
     def _sample_goal(self):
         # if self.action == "pick":
