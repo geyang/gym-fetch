@@ -41,7 +41,7 @@ All documentations are maintained in the [./specs](specs) folder, where each tas
 
 - **original gym fetch tasks**: [./specs/gym_fetch.md](./specs/gym_fetch.md)
 - **`bin` tasks**: [./specs/bin.md](./specs/bin.md)
-- **`bin_debug` tasks**: [./specs/bin_debug.md](./specs/bin.md)
+- **`bin_debug` tasks**: [./specs/bin_debug.md](./specs/bin_debug.md)
 - **`box` tasks**: [./specs/box.md](./specs/box.md)
 - **`drawer` tasks**: [./specs/drawer.md](./specs/drawer.md)
 

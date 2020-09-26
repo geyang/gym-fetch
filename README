@@ -1,6 +1,8 @@
 Extended Taskset for the Fetch Robot
 ====================================
 
+|PyPI version|
+
 Installation
 ------------
 
@@ -10,7 +12,8 @@ you can do:
 
    pip install gym-fetch
 
-Alternatively, you can do
+Alternatively, you can clone this repo and install under development
+mode:
 
 ::
 
@@ -21,7 +24,14 @@ Alternatively, you can do
 Environments
 ------------
 
-Existing Fetch environments from gym
+We extend existing Fetch environments from gym, with 7 new manipulation
+tasks. The ``gym.Fetch`` environment are much better engineered than the
+sawyer environments that ``metaworld`` uses. They are faster to
+initialize, and have a small (50 step) maximum episode length, making
+these environments faster to train on.
+
+   We might or might not need to extend the ``max_episode_steps`` on
+   more complex tasks.
 
 ======== ======= ============ ========
 Reach-v2 Push-v2 PickPlace-v2 Slide-v2
@@ -29,28 +39,70 @@ Reach-v2 Push-v2 PickPlace-v2 Slide-v2
 \                             
 ======== ======= ============ ========
 
-Single Task Environments for Primitives
-=======================================
+For Up-To-Date Environments
+---------------------------
+
+All documentations are maintained in the `https://github.com/geyang/gym_fetch/blob/master/specs <specs>`__ folder,
+where each task set is one markdown file.
+
+-  **original gym fetch tasks**:
+   `https://github.com/geyang/gym_fetch/blob/master/specs/gym_fetch.md <https://github.com/geyang/gym_fetch/blob/master/specs/gym_fetch.md>`__
+-  **``bin`` tasks**: `https://github.com/geyang/gym_fetch/blob/master/specs/bin.md <https://github.com/geyang/gym_fetch/blob/master/specs/bin.md>`__
+-  **``bin_debug`` tasks**: `https://github.com/geyang/gym_fetch/blob/master/specs/bin_debug.md <https://github.com/geyang/gym_fetch/blob/master/specs/bin.md>`__
+-  **``box`` tasks**: `https://github.com/geyang/gym_fetch/blob/master/specs/box.md <https://github.com/geyang/gym_fetch/blob/master/specs/box.md>`__
+-  **``drawer`` tasks**: `https://github.com/geyang/gym_fetch/blob/master/specs/drawer.md <https://github.com/geyang/gym_fetch/blob/master/specs/drawer.md>`__
+
+The multi-task environments are still under development. They are
+located under
+
+.. code-block:: bash
+
+    fetch
+    ├── tasksets
+        ├── box_block.md
+        ├── box_block.py
+
+Primitive Single Task Environments
+==================================
+
+The tasks involve a single primitive action such as open/closing a box,
+or a drawer. They do not additionally involve placing an object into the
+opened drawer or box. We include bin picking and placing because the bin
+does not require additional actions to open.
+
+================== =================== =========== ============
+Box-open-v0        Box-close-v0        Bin-pick-v0 Bin-place-v0
+================== =================== =========== ============
+\                                                  
+**Drawer-open-v0** **Drawer-close-v0**             
+\                                                  
+================== =================== =========== ============
+
+Intermediate Task
+=================
+
+These tasks additionally require placing the object inside an open
+drawer or box. We include the ``Bin-picking`` environment for
+completeness.
 
 =============== ======
 Name            Status
 =============== ======
-Bin-picking-v2  ✅ done
-Box-open-v2     ✅ done
-Box-close-v2    ✅ done
-Drawer-open-v2  ✅ done
-Drawer-close-v2 ✅ done
+Bin-pick-v2     ✅ done
+Bin-place-v2    ✅ done
+Box-place-v2    ✅ done
+Box-pick-v2     ✅ done
+Drawer-place-v2 ✅ done
+Drawer-pick-v2  ✅ done
 =============== ======
 
-The environments look like the following:
-
-================== =================== ==============
-Box-open-v0        Box-close-v0        Bin-picking-v0
-================== =================== ==============
-\                                      
-**Drawer-open-v0** **Drawer-close-v0** 
-\                                      
-================== =================== ==============
+================== =================== =========== ============
+Bin-pick-v0        Bin-place-v0        Box-pick-v0 Box-place-v0
+================== =================== =========== ============
+\                                                  
+**Drawer-pick-v0** **Drawer-place-v0**             
+\                                                  
+================== =================== =========== ============
 
 Multi-task Environments
 =======================
@@ -68,7 +120,10 @@ BoxBinDrawer-v2 ✅ done
 =============== ======
 
 ========= ============ ===============
-BoxBin-v2 DrawerBin-v2 BoxBinDrawer-v2
+BoxBin-v0 DrawerBin-v0 BoxBinDrawer-v0
 ========= ============ ===============
 \                      
 ========= ============ ===============
+
+.. |PyPI version| image:: https://badge.fury.io/py/gym-fetch.svg
+   :target: https://badge.fury.io/py/gym-fetch
