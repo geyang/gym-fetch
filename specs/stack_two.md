@@ -27,7 +27,7 @@ for init_type in initial_types:
 
 | Name                   | Observation Spec                     | Goal Init/Comment  |  |
 | -----------------      | ----------------                     | -------            | ------ |
-| **StackTwo-train-v0**  | achieved_goal: (6,)<br>desired_goal: (6,)<br>observation: (40,)  | Four parts<br>- table-top<br>- in-hand<br>- obj0-at-target<br>- obj1-in-hand  | ![](figures/StackTwo-train-v0.gif) |
+| **StackTwo-train-v0**  | achieved_goal: (6,)<br>desired_goal: (6,)<br>observation: (40,)  | Four parts<br>- table-top<br>- obj0-at-target<br>- obj1-in-hand  | ![](figures/StackTwo-train-v0.gif) |
 | **StackTwo-v0**        | achieved_goal: (6,)<br>desired_goal: (6,)<br>observation: (40,)        |                    | ![](figures/StackTwo-v0.gif) |
 
 ## Details of Each Task
