@@ -49,9 +49,9 @@ class StackTwo(fetch_env.FetchEnv, EzPickle):
 
     def _get_mode(self):
         rho_0 = {
-            'table-top': 1/3,
-            'in-hand': 1/3,
-            'obj1-in-hand': 1/3
+            'table-top': 7/10,
+            'in-hand': 1/5,
+            'obj1-in-hand': 1/10
         }
 
         if self.action in rho_0:

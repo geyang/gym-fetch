@@ -26,10 +26,11 @@ if __name__ == '__main__':
 
     doc @ """
     ## Box Diagnostic Tasks
-    Name                   | Observation Spec                     | Goal Init/Comment  | 
-    -----------------      | ----------------                     | -------            | ------
-    **StackTwo-train-v0**  | {get_obs_spec('StackTwo-train-v0')}  | Four parts<br>- table-top<br>- in-hand<br>- obj0-at-target<br>- obj1-in-hand  | ![](figures/StackTwo-train-v0.gif)
-    **StackTwo-v0**        | {get_obs_spec('StackTwo-v0')}        |                    | ![](figures/StackTwo-v0.gif)
+    
+    | Name                   | Observation Spec                     | Goal Init/Comment  |  |
+    | -----------------      | ----------------                     | -------            | ------ |
+    | **StackTwo-train-v0**  | {get_obs_spec('StackTwo-train-v0')}  | Four parts<br>- table-top<br>- | in-hand<br>- obj0-at-target<br>- obj1-in-hand  | ![](figures/StackTwo-train-v0.gif) |
+    | **StackTwo-v0**        | {get_obs_spec('StackTwo-v0')}        |                    | ![](figures/StackTwo-v0.gif) |
 
     ## Details of Each Task
     """
