@@ -37,8 +37,8 @@ class HERVecGoal(Wrapper):
         high = np.concatenate([goal_space[k].high for k in self.goal_keys])
 
         self.observation_space = deepcopy(obs_space)
-        self.observation_space.spaces['desired_goal'] = Box(low=low, high=high)
         self.observation_space.spaces['achieved_goal'] = Box(low=low, high=high)
+        self.observation_space.spaces['desired_goal'] = Box(low=low, high=high)
 
     def _recover_goal(self, goal_vec):
         if len(goal_vec.shape) == 1:

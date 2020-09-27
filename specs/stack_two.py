@@ -27,11 +27,12 @@ if __name__ == '__main__':
     doc @ f"""
     ## Box Diagnostic Tasks
     
-    | Name                   | Observation Spec                     | Goal Init/Comment  |  |
-    | -----------------      | ----------------                     | -------            | ------ |
-    | **StackTwo-train-v0**  | {get_obs_spec('StackTwo-train-v0')}  | Three parts<br>- table-top<br>- in-hand<br>- obj1-in-hand  | ![](figures/StackTwo-train-v0.gif) |
-    | **StackTwo-fixed-v0**  | {get_obs_spec('StackTwo-fixed-v0')}  | object 0 welded in-place | ![](figures/StackTwo-fixed-v0.gif) |
-    | **StackTwo-v0**        | {get_obs_spec('StackTwo-v0')}        |                    | ![](figures/StackTwo-v0.gif) |
+    | Name                           | Observation Spec                             | Goal Init/Comment               |                                             |
+    | -----------------              | ----------------                             | -------                         | ------                                      |
+    | **StackTwo-train-v0**          | {get_obs_spec('StackTwo-train-v0')}          | Three parts<br>- table-top<br>- in-hand<br>- obj1-in-hand  | ![](figures/StackTwo-train-v0.gif) |
+    | **StackTwo-fixed-v0**          | {get_obs_spec('StackTwo-fixed-v0')}          | object 0 welded in-place        | ![](figures/StackTwo-fixed-v0.gif)          |
+    | **StackTwo-fixed-pp-goals-v0** | {get_obs_spec('StackTwo-fixed-pp-goals-v0')} | object 0 welded in-place        | ![](figures/StackTwo-fixed-pp-goals-v0.gif) |
+    | **StackTwo-v0**                | {get_obs_spec('StackTwo-v0')}                |                                 | ![](figures/StackTwo-v0.gif)                |
 
     ## Details of Each Task
     """
@@ -39,6 +40,7 @@ if __name__ == '__main__':
         box_envs = [
             "fetch:StackTwo-train-v0",
             "fetch:StackTwo-fixed-v0",
+            "fetch:StackTwo-fixed-pp-goals-v0",
             "fetch:StackTwo-v0",
         ]
     table = doc.table()
