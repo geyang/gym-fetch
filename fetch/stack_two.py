@@ -31,9 +31,13 @@ class StackTwo(fetch_env.FetchEnv, EzPickle):
         initial_qpos = {'object0:joint': [1.15, 0.53, 0.4, 0, 0, 0, 0],
                         'object1:joint': [1.15, 0.63, 0.4, 0, 0, 0, 0], }
 
+        if action == "fix-obj0-center":
+            freeze_objects = ['object0']
+            initial_qpos['object0:joint'][:3] = [1.34193226, 0.74910037, 0.53472284]
+
         target_in_the_air = False
         goal_sampling = {'object0': dict(range=0),
-                         'object1': dict(target="object0", offset=[0, 0., 0.04], range=0, track=True)}
+                         'object1': dict(target="object0", offset=[0, 0., 0.04], range=0)}
 
         obj_keys = "object0", "object1"
         obs_keys = "object0", "object1"
@@ -49,22 +53,24 @@ class StackTwo(fetch_env.FetchEnv, EzPickle):
 
     def _get_mode(self):
         rho_0 = {
-            'table-top': 7/10,
-            'in-hand': 1/5,
-            'obj1-in-hand': 1/10
+            'table-top': 7 / 10,
+            'in-hand': 1 / 5,
+            'obj1-in-hand': 1 / 10
         }
 
-        if self.action in rho_0:
-            return self.action
         if self.action == "train":
             keys, weights = zip(*rho_0.items())
             return self.np_random.choice(keys, p=weights)
         if self.action == "test":
             return "table-top"
-        else:
-            raise NotImplementedError(f"{self.action} is not supported")
+
+        return self.action
 
     def _reset_sim(self):
+        if self.action == "fix-obj0-center":
+            return super()._reset_sim()
+
+        # For the rest use the following
         self.sim.set_state(self.initial_state)
 
         mode = self._get_mode()

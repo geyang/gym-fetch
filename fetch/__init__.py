@@ -52,7 +52,12 @@ def vec_stack_two(**kwargs):
     return env
 
 
+# [1.34193226 0.74910037 0.53472284]
+
+
 register(id='StackTwo-train-v0', entry_point=vec_stack_two, kwargs=dict(action="train", ), **kw)
+# we fix the first object in the center
+register(id='StackTwo-fixed-v0', entry_point=vec_stack_two, kwargs=dict(action="fix-obj0-center"), **kw)
 register(id='StackTwo-v0', entry_point=vec_stack_two, kwargs=dict(action="test", ), **kw)
 
 
