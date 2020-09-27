@@ -24,7 +24,7 @@ if __name__ == '__main__':
             render_video(f"StackTwo-{initial_types}", 15, row, env=env, title=init_type,
                          filename=f"Stack2-{init_type}.gif")
 
-    doc @ """
+    doc @ f"""
     ## Box Diagnostic Tasks
     
     | Name                   | Observation Spec                     | Goal Init/Comment  |  |
