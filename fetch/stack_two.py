@@ -29,18 +29,19 @@ class StackTwo(fetch_env.FetchEnv, EzPickle):
             model_path = f"stack_two.xml"
 
         initial_qpos = {'object0:joint': [1.15, 0.53, 0.4, 0, 0, 0, 0],
-                        'object1:joint': [1.15, 0.63, 0.4, 0, 0, 0, 0], }
-        goal_sampling = {'object0': dict(range=0),
-                         'object1': dict(target="object0", offset=[0, 0., 0.04], range=0)}
-        target_in_the_air = False
+                        'object1:joint': [1.15, 0.53, 0.45, 0, 0, 0, 0], }
+        goal_sampling = {'object0': dict(range=0, in_the_air=0),
+                         'object1': dict(target="object0", offset=[0, 0., 0.04], range=0, in_the_air=0.5)}
 
         if action in ["fix-obj0-center", "fix-obj0-pp-goals"]:
             freeze_objects = ['object0']
-            initial_qpos['object0:joint'][:3] = [1.34193226, 0.74910037, 0.53472284]
+            initial_qpos['object1:joint'][:2] = [1.34193226, 0.74910037]
+            initial_qpos['object0:joint'][:2] = [1.34193226, 0.74910037]
 
-            if action == "fix-obj0-center-pp-goals":
-                target_in_the_air = True
-                goal_sampling['object1'] = dict(target="object0", offset=[0, 0., 0.04], range=0.15)
+            if action == "fix-obj0-pp-goals":
+                target_in_the_air = 0.5
+                del goal_sampling['object1']
+                # goal_sampling['object1'] = dict(h=0.08, )
 
         obj_keys = "object0", "object1"
         obs_keys = "object0", "object1"

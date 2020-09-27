@@ -21,7 +21,7 @@ for init_type in initial_types:
 
 | **table-top** | **in-hand** | **obj1-in-hand** | **train** |
 |:-------------:|:-----------:|:----------------:|:---------:|
-| ![figures/Stack2-table-top.gif?ts=570259](figures/Stack2-table-top.gif?ts=570259) | ![figures/Stack2-in-hand.gif?ts=748526](figures/Stack2-in-hand.gif?ts=748526) | ![figures/Stack2-obj1-in-hand.gif?ts=897911](figures/Stack2-obj1-in-hand.gif?ts=897911) | ![figures/Stack2-train.gif?ts=950058](figures/Stack2-train.gif?ts=950058) |
+| ![figures/Stack2-table-top.gif?ts=601239](figures/Stack2-table-top.gif?ts=601239) | ![figures/Stack2-in-hand.gif?ts=397607](figures/Stack2-in-hand.gif?ts=397607) | ![figures/Stack2-obj1-in-hand.gif?ts=117524](figures/Stack2-obj1-in-hand.gif?ts=117524) | ![figures/Stack2-train.gif?ts=915199](figures/Stack2-train.gif?ts=915199) |
 
 ## Box Diagnostic Tasks
 
@@ -44,8 +44,10 @@ box_envs = [
 ```
 | **StackTwo-train-v0** | **distribution** |   |
 |:---------------------:|:----------------:|:-:|
-| ![figures/StackTwo-train-v0_init.png?ts=989642](figures/StackTwo-train-v0_init.png?ts=989642) | ![figures/StackTwo-train-v0_reset.png?ts=089008](figures/StackTwo-train-v0_reset.png?ts=089008) | ![figures/StackTwo-train-v0.gif?ts=652658](figures/StackTwo-train-v0.gif?ts=652658) |
+| ![figures/StackTwo-train-v0_init.png?ts=942631](figures/StackTwo-train-v0_init.png?ts=942631) | ![figures/StackTwo-train-v0_reset.png?ts=015388](figures/StackTwo-train-v0_reset.png?ts=015388) | ![figures/StackTwo-train-v0.gif?ts=666079](figures/StackTwo-train-v0.gif?ts=666079) |
 | **StackTwo-fixed-v0** | **distribution** |   |
-| ![figures/StackTwo-fixed-v0_init.png?ts=252235](figures/StackTwo-fixed-v0_init.png?ts=252235) | ![figures/StackTwo-fixed-v0_reset.png?ts=308391](figures/StackTwo-fixed-v0_reset.png?ts=308391) | ![figures/StackTwo-fixed-v0.gif?ts=048735](figures/StackTwo-fixed-v0.gif?ts=048735) |
+| ![figures/StackTwo-fixed-v0_init.png?ts=315603](figures/StackTwo-fixed-v0_init.png?ts=315603) | ![figures/StackTwo-fixed-v0_reset.png?ts=390113](figures/StackTwo-fixed-v0_reset.png?ts=390113) | ![figures/StackTwo-fixed-v0.gif?ts=746983](figures/StackTwo-fixed-v0.gif?ts=746983) |
+| **StackTwo-fixed-pp-goals-v0** | **distribution** |   |
+| ![figures/StackTwo-fixed-pp-goals-v0_init.png?ts=276419](figures/StackTwo-fixed-pp-goals-v0_init.png?ts=276419) | ![figures/StackTwo-fixed-pp-goals-v0_reset.png?ts=397402](figures/StackTwo-fixed-pp-goals-v0_reset.png?ts=397402) | ![figures/StackTwo-fixed-pp-goals-v0.gif?ts=577279](figures/StackTwo-fixed-pp-goals-v0.gif?ts=577279) |
 | **StackTwo-v0** | **distribution** |   |
-| ![figures/StackTwo-v0_init.png?ts=628558](figures/StackTwo-v0_init.png?ts=628558) | ![figures/StackTwo-v0_reset.png?ts=723506](figures/StackTwo-v0_reset.png?ts=723506) | ![figures/StackTwo-v0.gif?ts=377167](figures/StackTwo-v0.gif?ts=377167) |
+| ![figures/StackTwo-v0_init.png?ts=436353](figures/StackTwo-v0_init.png?ts=436353) | ![figures/StackTwo-v0_reset.png?ts=537590](figures/StackTwo-v0_reset.png?ts=537590) | ![figures/StackTwo-v0.gif?ts=979377](figures/StackTwo-v0.gif?ts=979377) |
