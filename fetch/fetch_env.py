@@ -78,7 +78,7 @@ class FetchEnv(robot_env.RobotEnv):
 
         if self.reward_type == 'sparse':
             rs = (np.array(d) > self.distance_threshold)
-            return - rs.all(axis=0).astype(np.float32) if isinstance(d, list) else - rs.astype(np.float32)
+            return - rs.any(axis=0).astype(np.float32) if isinstance(d, list) else - rs.astype(np.float32)
         elif self.reward_type == 'sparse-vec':
             return -(np.array(d) > self.distance_threshold).astype(np.float32)
         elif self.reward_type == 'dense':
