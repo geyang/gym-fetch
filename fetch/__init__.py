@@ -1,16 +1,17 @@
 from gym.envs.registration import register
 
-from .box import BoxEnv
-from .bin import BinEnv
+from fetch.gym_fetch import GymFetchEnv
+from fetch.stack_two import StackTwo
+from fetch.no_lid import BoxNoLidEnv
+from fetch.box import BoxEnv
+from fetch.bin import BinEnv
+from fetch.drawer import DrawerEnv
 from fetch.mixed_envs.box_block import BoxBlockEnv
 from fetch.mixed_envs.twin_box import TwinBoxEnv
-from .drawer import DrawerEnv
 from fetch.mixed_envs.drawer_block import DrawerBlockEnv
-from .gym_fetch import GymFetchEnv
-from .mixed_envs.box_bin import BoxBinEnv
-from .mixed_envs.drawer_bin import DrawerBinEnv
-from .mixed_envs.box_bin_drawer import BoxBinDrawerEnv
-from .no_lid import BoxNoLidEnv
+from fetch.mixed_envs.box_bin import BoxBinEnv
+from fetch.mixed_envs.drawer_bin import DrawerBinEnv
+from fetch.mixed_envs.box_bin_drawer import BoxBinDrawerEnv
 
 kw = dict(max_episode_steps=50, )
 # original gym envs
@@ -44,7 +45,18 @@ register(id='Drawer-fixed-mixed-v0', entry_point=DrawerBlockEnv, kwargs=dict(act
 
 
 # ---------------- Latent Planning Task Set -----------------
-def vec_goal_env(**kwargs):
+def vec_stack_two(**kwargs):
+    from fetch.wrappers import HERVecGoal
+    env = StackTwo(**kwargs)
+    env = HERVecGoal(env, goal_keys=['object0', 'object1'])
+    return env
+
+
+register(id='StackTwo-train-v0', entry_point=vec_stack_two, kwargs=dict(action="train", ), **kw)
+register(id='StackTwo-v0', entry_point=vec_stack_two, kwargs=dict(action="test", ), **kw)
+
+
+def vec_block_env(**kwargs):
     from fetch.wrappers import HERVecGoal
     env = BoxBlockEnv(**kwargs)
     env = HERVecGoal(env)
@@ -92,9 +104,9 @@ register(id='Box-fixed-place-easy-v0', entry_point=BoxBlockEnv,
 #          kwargs=dict(action="close@box-fixed", goal_key="lid"), **kw)
 # register(id='Box-fixed-place-easy-v0', entry_point=BoxBlockEnv,
 #          kwargs=dict(action="place@box-fixed", goal_key="object0"), **kw)
-register(id='Box-fixed-place-medium-v0', entry_point=vec_goal_env,
+register(id='Box-fixed-place-medium-v0', entry_point=vec_block_env,
          kwargs=dict(action="open+place@box-fixed", goal_key=("object0", "lid")), **kw)
-register(id='Box-fixed-place-v0', entry_point=vec_goal_env,
+register(id='Box-fixed-place-v0', entry_point=vec_block_env,
          kwargs=dict(action="open+place+close@box-fixed", goal_key=("object0", "lid"),
                      goal_sampling={'lid': dict(target="box", offset=[0, 0, 0.1], track=True)}), **kw)
 
@@ -112,7 +124,7 @@ register(id='Box-place-easy-v0', entry_point=BoxBlockEnv, kwargs=dict(
     obj_reset={'lid': dict(avoid="box", d_min=0.1, range=0.2),
                'object0': dict(avoid=["box", "lid"], d_min=0.1, range=0.2)}
 ), **kw)
-register(id='Box-place-medium-v0', entry_point=vec_goal_env,
+register(id='Box-place-medium-v0', entry_point=vec_block_env,
          kwargs=dict(action="open+place", goal_key=("object0", "lid"),
                      obj_keys=['box', 'lid', 'object0'],
                      obj_reset={'lid': dict(track="box", offset=[0, 0, 0.08], range=0),

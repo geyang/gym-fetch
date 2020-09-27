@@ -20,19 +20,6 @@ class FlatEnv(ObservationWrapper):
         return spaces.flatten(self.env.observation_space, observation)
 
 
-def recover_goal(goal_vec):
-    if len(goal_vec.shape) == 1:
-        return {
-            "object0": goal_vec[:3],
-            "lid": goal_vec[3:6],
-        }
-    elif len(goal_vec.shape) == 2:
-        return {
-            "object0": goal_vec[:, :3],
-            "lid": goal_vec[:, 3:6],
-        }
-
-
 class HERVecGoal(Wrapper):
     """Flattens the dictionary goals into a flat, goal vector.
 
@@ -53,9 +40,15 @@ class HERVecGoal(Wrapper):
         self.observation_space.spaces['desired_goal'] = Box(low=low, high=high)
         self.observation_space.spaces['achieved_goal'] = Box(low=low, high=high)
 
+    def _recover_goal(self, goal_vec):
+        if len(goal_vec.shape) == 1:
+            return {k: goal_vec[3 * i:3 * i + 3] for i, k in enumerate(self.goal_keys)}
+        elif len(goal_vec.shape) == 2:
+            return {k: goal_vec[:, 3 * i:3 * i + 3] for i, k in enumerate(self.goal_keys)}
+
     def compute_reward(self, achieved_goal, desired_goal, info):
-        achieved_goal = recover_goal(achieved_goal)
-        desired_goal = recover_goal(desired_goal)
+        achieved_goal = self._recover_goal(achieved_goal)
+        desired_goal = self._recover_goal(desired_goal)
         return self.env.compute_reward(achieved_goal, desired_goal, info)
 
     def step(self, action):

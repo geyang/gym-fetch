@@ -4,10 +4,12 @@ from tqdm import trange
 
 scale = 3
 src_prefix = "figures"
+seed = 100
 
 
 def get_obs_spec(env_id):
     env = gym.make("fetch:" + env_id)
+    env.seed(seed)
     buffer = []
     for k, v in env.observation_space.spaces.items():
         if hasattr(v, "spaces"):
@@ -21,6 +23,7 @@ def get_obs_spec(env_id):
 
 def render_initial(env_id, doc):
     env = gym.make(env_id)
+    env.seed(seed)
 
     env_id = env_id.split(':')[-1]
 
@@ -31,13 +34,17 @@ def render_initial(env_id, doc):
     for i in range(10):
         env.reset()
         frames.append(env.render('rgb_array', width=100 * scale, height=120 * scale))
+
     doc.figure(np.array(frames).min(axis=0), src=f"{src_prefix}/{env_id}_reset.png?ts={doc.now('%f')}",
                title="distribution")
     return env
 
 
-def render_video(env_id, n, doc):
-    env = gym.make(env_id)
+def render_video(env_id, n, doc, env=None, title=None, filename=None):
+    if env is None:
+        env = gym.make(env_id)
+        env.seed(seed)
+
     env_id = env_id.split(':')[-1]
     frames = []
     for ep in trange(n):
@@ -47,4 +54,7 @@ def render_video(env_id, n, doc):
             ts = env.step(act)
             frames.append(env.render('rgb_array', width=100 * scale, height=120 * scale))
 
-    doc.video(np.array(frames), src=f"{src_prefix}/{env_id}.gif?ts={doc.now('%f')}")
+    if filename:
+        doc.video(np.array(frames), src=f"{src_prefix}/{filename}?ts={doc.now('%f')}", title=title)
+    else:
+        doc.video(np.array(frames), src=f"{src_prefix}/{env_id}.gif?ts={doc.now('%f')}", title=title)

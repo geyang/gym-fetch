@@ -191,17 +191,27 @@ class FetchEnv(robot_env.RobotEnv):
 
         self.sim.forward()
 
-    def _reset_slide(self, obj_key, slide_pos=None):
+    def _reset_slide(self, obj_key=None, slide_pos=None, name=None):
         if slide_pos is None:
             ctrl_ind = self.sim.model.joint_names.index(f"{obj_key}:slide")
             low, high = self.sim.model.jnt_range[ctrl_ind]
             slide_pos = self.np_random.uniform(low, high)
-        self.sim.data.set_joint_qpos(f'{obj_key}:slide', slide_pos)
+        self.sim.data.set_joint_qpos(name or f'{obj_key}:slide', slide_pos)
 
-    # three usage patterns
-    # 1.
-    def _reset_body(self, obj_key, pos=None, track="gripper", avoid="gripper", offset=0, range=0.15, d_min=0.1, h=None,
-                    m={}):
+    def _set_obj_in_hand(self, obj_key, hand_pos=None):
+        pos = self.sim.data.get_joint_qpos(f'{obj_key}:joint')
+        if hand_pos is None:
+            pos[:3] = self.sim.data.get_site_xpos('robot0:grip')
+        pos[3:] = 0
+        self.sim.data.set_joint_qpos(f'{obj_key}:joint', pos)
+        self._reset_slide(name="robot0:r_gripper_finger_joint", slide_pos=0.02)
+        self._reset_slide(name="robot0:l_gripper_finger_joint", slide_pos=0.02)
+        # self.sim.forward()
+        # for i in range(100):
+        #     self.render()
+
+    def _reset_body(self, obj_key, pos=None, track="gripper", avoid="gripper", offset=0,
+                    range=0.15, d_min=0.1, h=None, m={}):
         current_obj_qpos = self.sim.data.get_joint_qpos(f'{obj_key}:joint').copy()
         if pos is not None:
             current_obj_qpos[:len(pos)] = pos
@@ -289,10 +299,12 @@ class FetchEnv(robot_env.RobotEnv):
             self.sim.forward()
             return True
 
-
     # only used by _sample_goal
-    def _sample_single_goal(self, goal_key=None, h=None, high=0.45):
-        goal = self.initial_gripper_xpos[:3] + self.np_random.uniform(-self.target_range, self.target_range, size=3)
+    def _sample_single_goal(self, goal_key=None, h=None, high=0.45, range=None):
+        if range is None:
+            range = self.target_range
+
+        goal = self.initial_gripper_xpos[:3] + self.np_random.uniform(-range, range, size=3)
         goal += self.target_offset
         # sets the goal to the table top.
         goal[2] = h or self.initial_heights[goal_key]
