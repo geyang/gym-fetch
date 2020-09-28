@@ -16,7 +16,7 @@ from standard gym `FetchPickAndPlace-v1` environment.
 | **Box-aside-v0**         | achieved_goal: (3,)<br>desired_goal: (3,)<br>observation: (25,)        | box is on the side    | ![](figures/Box-aside-v0.gif)  |
 | **Box-fixed-place-v0**   | achieved_goal: (3,)<br>desired_goal: (3,)<br>observation: (25,)  | box is on the side    | ![](figures/Box-fixed-place-v0.gif)        |
 | **Box-aside-place-v0**   | achieved_goal: (3,)<br>desired_goal: (3,)<br>observation: (25,)  | box is on the side    | ![](figures/Box-aside-place-v0.gif)        |
-
+                                                                                                                                                   
 ## Mixture Goal Distributions
 
 These two training environments uses a mixture of 20/80% of pick-and-place distribution vs target inside the box.
@@ -38,14 +38,14 @@ box_envs = ['fetch:Box-aside-v0',
 ```
 | **Box-aside-v0** | **distribution** |   |
 |:----------------:|:----------------:|:-:|
-| ![figures/Box-aside-v0_init.png?ts=633888](figures/Box-aside-v0_init.png?ts=633888) | ![figures/Box-aside-v0_reset.png?ts=771788](figures/Box-aside-v0_reset.png?ts=771788) | ![figures/Box-aside-v0.gif?ts=564926](figures/Box-aside-v0.gif?ts=564926) |
+| ![figures/Box-aside-v0_init.png?ts=753736](figures/Box-aside-v0_init.png?ts=753736) | ![figures/Box-aside-v0_reset.png?ts=855653](figures/Box-aside-v0_reset.png?ts=855653) | ![figures/Box-aside-v0.gif?ts=728861](figures/Box-aside-v0.gif?ts=728861) |
 | **Box-aside-place-v0** | **distribution** |   |
-| ![figures/Box-aside-place-v0_init.png?ts=935533](figures/Box-aside-place-v0_init.png?ts=935533) | ![figures/Box-aside-place-v0_reset.png?ts=077962](figures/Box-aside-place-v0_reset.png?ts=077962) | ![figures/Box-aside-place-v0.gif?ts=771020](figures/Box-aside-place-v0.gif?ts=771020) |
+| ![figures/Box-aside-place-v0_init.png?ts=763820](figures/Box-aside-place-v0_init.png?ts=763820) | ![figures/Box-aside-place-v0_reset.png?ts=832693](figures/Box-aside-place-v0_reset.png?ts=832693) | ![figures/Box-aside-place-v0.gif?ts=634047](figures/Box-aside-place-v0.gif?ts=634047) |
 | **Box-aside-place-train-v0** | **distribution** |   |
-| ![figures/Box-aside-place-train-v0_init.png?ts=333087](figures/Box-aside-place-train-v0_init.png?ts=333087) | ![figures/Box-aside-place-train-v0_reset.png?ts=480236](figures/Box-aside-place-train-v0_reset.png?ts=480236) | ![figures/Box-aside-place-train-v0.gif?ts=493045](figures/Box-aside-place-train-v0.gif?ts=493045) |
+| ![figures/Box-aside-place-train-v0_init.png?ts=308148](figures/Box-aside-place-train-v0_init.png?ts=308148) | ![figures/Box-aside-place-train-v0_reset.png?ts=459642](figures/Box-aside-place-train-v0_reset.png?ts=459642) | ![figures/Box-aside-place-train-v0.gif?ts=534584](figures/Box-aside-place-train-v0.gif?ts=534584) |
 | **Box-fixed-v0** | **distribution** |   |
-| ![figures/Box-fixed-v0_init.png?ts=855975](figures/Box-fixed-v0_init.png?ts=855975) | ![figures/Box-fixed-v0_reset.png?ts=973603](figures/Box-fixed-v0_reset.png?ts=973603) | ![figures/Box-fixed-v0.gif?ts=661487](figures/Box-fixed-v0.gif?ts=661487) |
+| ![figures/Box-fixed-v0_init.png?ts=208252](figures/Box-fixed-v0_init.png?ts=208252) | ![figures/Box-fixed-v0_reset.png?ts=301333](figures/Box-fixed-v0_reset.png?ts=301333) | ![figures/Box-fixed-v0.gif?ts=211651](figures/Box-fixed-v0.gif?ts=211651) |
 | **Box-fixed-place-v0** | **distribution** |   |
-| ![figures/Box-fixed-place-v0_init.png?ts=023976](figures/Box-fixed-place-v0_init.png?ts=023976) | ![figures/Box-fixed-place-v0_reset.png?ts=176225](figures/Box-fixed-place-v0_reset.png?ts=176225) | ![figures/Box-fixed-place-v0.gif?ts=988257](figures/Box-fixed-place-v0.gif?ts=988257) |
+| ![figures/Box-fixed-place-v0_init.png?ts=023390](figures/Box-fixed-place-v0_init.png?ts=023390) | ![figures/Box-fixed-place-v0_reset.png?ts=113182](figures/Box-fixed-place-v0_reset.png?ts=113182) | ![figures/Box-fixed-place-v0.gif?ts=811487](figures/Box-fixed-place-v0.gif?ts=811487) |
 | **Box-fixed-place-train-v0** | **distribution** |   |
-| ![figures/Box-fixed-place-train-v0_init.png?ts=601948](figures/Box-fixed-place-train-v0_init.png?ts=601948) | ![figures/Box-fixed-place-train-v0_reset.png?ts=769822](figures/Box-fixed-place-train-v0_reset.png?ts=769822) | ![figures/Box-fixed-place-train-v0.gif?ts=719687](figures/Box-fixed-place-train-v0.gif?ts=719687) |
+| ![figures/Box-fixed-place-train-v0_init.png?ts=230948](figures/Box-fixed-place-train-v0_init.png?ts=230948) | ![figures/Box-fixed-place-train-v0_reset.png?ts=393039](figures/Box-fixed-place-train-v0_reset.png?ts=393039) | ![figures/Box-fixed-place-train-v0.gif?ts=304488](figures/Box-fixed-place-train-v0.gif?ts=304488) |
