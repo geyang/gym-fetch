@@ -1,10 +1,5 @@
 from gym.utils import EzPickle
-import numpy as np
-
 from fetch import fetch_env
-
-from fetch.fetch_env import assign
-
 
 class BoxNoLidEnv(fetch_env.FetchEnv, EzPickle):
     def __init__(self,

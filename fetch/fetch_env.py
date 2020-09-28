@@ -45,9 +45,6 @@ class FetchEnv(robot_env.RobotEnv):
         from pprint import pprint
         pprint(locals())
 
-        from ml_logger import logger
-        logger.upload_file(__file__)
-
         self.gripper_extra_height = gripper_extra_height
         self.block_gripper = block_gripper
         self.obj_keys = obj_keys or []

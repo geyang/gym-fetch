@@ -6,8 +6,6 @@ import numpy as np
 
 class BinEnv(fetch_env.FetchEnv, EzPickle):
     def __init__(self, action, reward_type="sparse", **kwargs):
-        from ml_logger import logger
-        logger.upload_file(__file__)
 
         self.action = action
         self.initial_qpos = {

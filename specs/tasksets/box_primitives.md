@@ -16,7 +16,7 @@ from standard gym `FetchPickAndPlace-v1` environment.
 | **Box-aside-v0**         | achieved_goal: (3,)<br>desired_goal: (3,)<br>observation: (25,)        | box is on the side    | ![](figures/Box-aside-v0.gif)  |
 | **Box-fixed-place-v0**   | achieved_goal: (3,)<br>desired_goal: (3,)<br>observation: (25,)  | box is on the side    | ![](figures/Box-fixed-place-v0.gif)        |
 | **Box-aside-place-v0**   | achieved_goal: (3,)<br>desired_goal: (3,)<br>observation: (25,)  | box is on the side    | ![](figures/Box-aside-place-v0.gif)        |
-                                                                                                                                                   
+
 ## Mixture Goal Distributions
 
 These two training environments uses a mixture of 20/80% of pick-and-place distribution vs target inside the box.
