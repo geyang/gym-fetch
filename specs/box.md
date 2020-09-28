@@ -5,13 +5,32 @@ write_protected: true
 # Primitive Tasks
 
 Per our discussion, we want a domain that includes at least 1 complex maneuver 
-involving opening up a box/drawer, and placing the block inside. 
+involving opening up a box/drawer, and placing the block inside.
+
+## V1 Environments
+
+- Box-place-v1
+- Box-place-cupcake-v0
+- Box-
+
+
+
+ 
+
+ 
 
 ## Box Diagnostic Tasks
+
 Name                     | Observation Spec                  | Goal Init/Comment     | 
 -----------------        | ----------------                  | -------               | ------
 **Box-aside-v0**         | achieved_goal: (3,)<br>desired_goal: (3,)<br>observation: (25,)    | box is on the side    | ![](figures/Box-aside-v0.gif)
 **Box-fixed-v0**        | achieved_goal: (3,)<br>desired_goal: (3,)<br>observation: (25,)     | box is in the middle  | ![](figures/Box-fixed-v0.gif)
+
+
+
+Box-fixed-v1 (no lid)
+
+Box-fixed-place-v1 (no lid)
 
 ## Box Primitive Tasks
 
@@ -22,6 +41,10 @@ Name                     | Observation Spec                    | Goal Init/Comme
 **Box-fixed-place-easy-v0**    | achieved_goal:<br>&nbsp;&nbsp;&nbsp;&nbsp;object0: (3,)<br>desired_goal:<br>&nbsp;&nbsp;&nbsp;&nbsp;object0: (3,)<br>observation: (43,) | place the block inside an open box | ![](figures/Box-fixed-place-easy-v0.gif)
 **Box-fixed-place-medium-v0**  | achieved_goal: (6,)<br>desired_goal: (6,)<br>observation: (43,) | place the block inside an open box | ![](figures/Box-fixed-place-medium-v0.gif)
 **Box-fixed-place-v0**         | achieved_goal: (6,)<br>desired_goal: (6,)<br>observation: (43,)      | need to first open the box         | ![](figures/Box-fixed-place-v0.gif)
+
+Box-fixed-place-easy task need to 
+
+
 
 ## Details of Each Task
 

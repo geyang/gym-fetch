@@ -62,3 +62,22 @@ class HERVecGoal(Wrapper):
         obs['achieved_goal'] = np.concatenate([obs['achieved_goal'][k] for k in self.goal_keys])
         obs['desired_goal'] = np.concatenate([obs['desired_goal'][k] for k in self.goal_keys])
         return obs
+
+
+class SampleEnv(Wrapper):
+    """
+    An Environment Wrapper that samples key environments using pre-defied weights
+    """
+
+    def __init__(self, **weights):
+        import gym
+        self.envs = {k: gym.make(k) for k in weights}
+        self.env_names, self.weights = zip(*weights.items())
+
+        first = next(iter(self.envs.values()))
+        super().__init__(first)
+
+    def reset(self):
+        env_name = self.np_random.choice(self.env_names, p=self.weights)
+        self.env = self.envs[env_name]
+        return self.env.reset()

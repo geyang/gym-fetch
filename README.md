@@ -3,9 +3,9 @@
 
 [![PyPI version](https://badge.fury.io/py/gym-fetch.svg)](https://badge.fury.io/py/gym-fetch)
 
-## Installation
+## Installation (from PyPI)
 
-you can do: 
+you can install the newest version via
 
 ```bash
 pip install gym-fetch
@@ -13,11 +13,45 @@ pip install gym-fetch
 
 Alternatively, you can clone this repo and install under development 
 mode:
+
 ```
 git clone <this repo>
 cd <this repo>
 pip install -e .
 ```
+
+## Cloning and Installing A Specific Version
+
+**For those who do not use pip**, you can pull/checkout specific versions of the repository using a git `tag`. Github integrates with git, such that it shows tagged versions under the `<project-repo>/releases` URL. You can check out the releases for this repo at https://github.com/geyang/gym-fetch/releases. To pull a specific version, just run: 
+
+```
+git checkout v0.1.0-rc5
+```
+
+After git clone, the structure of the project is
+
+```bash
+$ tree . -L 1
+gym-fetch
+├── fetch
+└── specs
+```
+
+To install, you can use pip
+
+```bash
+pip install -e .
+```
+
+Alternatively, you can include the [./gym-fetch](./) directory as part of your `PYTHONPATH`.
+
+## Environments for Latent-Planning
+
+- `Box`
+
+
+
+
 
 ## Environments
 
@@ -35,7 +69,7 @@ Reach-v2    | Push-v2    | PickPlace-v2 | Slide-v2
 :----------:|:----------:|:------------:|:--------:
 <img style="align-self:center;" src="figures/Reach-v0.png" /> | <img style="align-self:center;" src="figures/Push-v0.png" /> | <img style="align-self:center;" src="figures/PickPlace-v0.png" />     | <img style="align-self:center;" src="figures/Slide-v0.png" /> 
 
-## For Up-To-Date Environments
+## For Up-To-Date Environment Documentation
 
 All documentations are maintained in the [./specs](specs) folder, where each task set is one markdown file.
 
@@ -54,7 +88,9 @@ The multi-task environments are still under development. They are located under
      ├── box_block.py
 ```
 
-# Primitive Single Task Environments
+
+
+## Primitive Single Task Environments
 
 The tasks involve a single primitive action such as
 open/closing a box, or a drawer. They do not additionally
@@ -77,7 +113,7 @@ not require additional actions to open.
  **Drawer-open-v0** | **Drawer-close-v0** | 
  <img style="align-self:center;" src="figures/Drawer-open-v0.png" /> | <img style="align-self:center;" src="figures/Drawer-close-v0.png" /> |
 
-# Intermediate Task
+## Intermediate Task
 
 These tasks additionally require placing the object
 inside an open drawer or box. We include the `Bin-picking` 

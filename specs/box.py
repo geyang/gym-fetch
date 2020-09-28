@@ -9,14 +9,18 @@ write_protected: true
 
 # Primitive Tasks
 
-Per our discussion, we want a domain that includes at least 1 complex maneuver 
-involving opening up a box/drawer, and placing the block inside. 
-
 ## Box Diagnostic Tasks
 Name                     | Observation Spec                  | Goal Init/Comment     | 
 -----------------        | ----------------                  | -------               | ------
 **Box-aside-v0**         | {get_obs_spec('Box-aside-v0')}    | box is on the side    | ![](figures/Box-aside-v0.gif)
-**Box-fixed-v0**        | {get_obs_spec('Box-fixed-v0')}     | box is in the middle  | ![](figures/Box-fixed-v0.gif)
+**Box-fixed-v0**         | {get_obs_spec('Box-fixed-v0')}     | box is in the middle  | ![](figures/Box-fixed-v0.gif)
+
+## New Latent Planning Tasks
+
+**Box-aside-place-train-v0** | {get_obs_spec('Box-aside-place-train-v0')}    | box is on the side    | ![](figures/Box-aside-place-train-v0.gif)
+**Box-aside-place-v0**       | {get_obs_spec('Box-aside-place-v0')}    | box is on the side    | ![](figures/Box-aside-place-v0.gif)
+**Box-fixed-place-train-v0** | {get_obs_spec('Box-fixed-place-train-v0')}    | box is on the side    | ![](figures/Box-fixed-place-train-v0.gif)
+**Box-fixed-place-v0**       | {get_obs_spec('Box-fixed-place-v0')}    | box is on the side    | ![](figures/Box-fixed-place-v0.gif)
 
 ## Box Primitive Tasks
 

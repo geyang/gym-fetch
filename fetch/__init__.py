@@ -12,6 +12,7 @@ from fetch.mixed_envs.drawer_block import DrawerBlockEnv
 from fetch.mixed_envs.box_bin import BoxBinEnv
 from fetch.mixed_envs.drawer_bin import DrawerBinEnv
 from fetch.mixed_envs.box_bin_drawer import BoxBinDrawerEnv
+from fetch.wrappers import SampleEnv
 
 kw = dict(max_episode_steps=50, )
 # original gym envs
@@ -20,6 +21,41 @@ for action in ['reach', 'push', 'pick-place', 'slide']:
         id=f"{action.title().replace('-', '')}-v0",
         entry_point=GymFetchEnv, kwargs=dict(action=action, ), **kw)
 # Fetch
+
+# ------------------------ Finalized ------------------------
+# Bin Environments Bin + object, no lid
+register(id='Bin-pick-v0', entry_point=BinEnv, kwargs=dict(action="pick", obs_keys=['object0', 'bin@pos']), **kw)
+register(id='Bin-place-v0', entry_point=BinEnv, kwargs=dict(action="place+air", obs_keys=['object0', 'bin@pos']), **kw)
+
+# ------------------------ Latent Planning Envs ------------------------
+# Original Box single task Debug Environments
+register(id='Box-fixed-v0', entry_point=BoxNoLidEnv, kwargs=dict(
+    freeze_objects=['box'],
+    initial_qpos={'box:joint': [1.1, 0.75, 0.6, 0, 0., 0., 0.],
+                  'object0:joint': [1.25, 0.75, 0.6, 0, 0., 0., 0.]}
+), **kw)
+# Bin Environments Bin + object, no lid
+register(id='Box-fixed-place-v0', entry_point=BoxNoLidEnv, kwargs=dict(
+    freeze_objects=['box'],
+    initial_qpos={'box:joint': [1.1, 0.75, 0.6, 0, 0., 0., 0.],
+                  'object0:joint': [1.25, 0.75, 0.6, 0, 0., 0., 0.]},
+    goal_sampling={'object0': dict(target="box", range=0, offset=[0, 0, 0.04], track=True)}
+), **kw)
+register(id='Box-fixed-place-train-v0', entry_point=SampleEnv,
+         kwargs={'fetch:Box-fixed-v0': 0.2, 'fetch:Box-fixed-place-v0': 0.8, }, **kw)
+register(id='Box-aside-v0', entry_point=BoxNoLidEnv, kwargs=dict(
+    freeze_objects=['box'],
+    initial_qpos={'box:joint': [1.25, 0.53, 0.6, 0, 0., 0., 0.],
+                  'object0:joint': [1.25, 0.73, 0.6, 0, 0., 0., 0.]}
+), **kw)
+register(id='Box-aside-place-v0', entry_point=BoxNoLidEnv, kwargs=dict(
+    freeze_objects=['box'],
+    initial_qpos={'box:joint': [1.25, 0.53, 0.6, 0, 0., 0., 0.],
+                  'object0:joint': [1.25, 0.73, 0.6, 0, 0., 0., 0.]},
+    goal_sampling={'object0': dict(target="box", range=0, offset=[0, 0, 0.04], track=True)}
+), **kw)
+register(id='Box-aside-place-train-v0', entry_point=SampleEnv,
+         kwargs={'fetch:Box-aside-v0': 0.2, 'fetch:Box-aside-place-v0': 0.8, }, **kw)
 
 # ----------------------- Debugging -----------------------
 # Debug Environments todo: run these then remove
@@ -32,12 +68,8 @@ register(id='Bin-no-init-v0', entry_point=BinEnv, kwargs=dict(action='no-init', 
 # Bin is welded in-place
 register(id='Bin-aside-hidden-v0', entry_point=BinEnv, kwargs=dict(action="bin-aside", obs_keys=['object0']), **kw)
 register(id='Bin-aside-v0', entry_point=BinEnv, kwargs=dict(action="bin-aside", obs_keys=['object0', 'bin@pos']), **kw)
-# ------------------------ Ready to Run ----------------------
-# done: verified
 register(id='Bin-fixed-v0', entry_point=BinEnv, kwargs=dict(action="bin-fixed", obs_keys=['object0', 'bin@pos']), **kw)
-# Debug Environments todo: run these then delete
-register(id='Box-aside-v0', entry_point=BoxNoLidEnv, kwargs=dict(action="box-aside", ), **kw)
-register(id='Box-fixed-v0', entry_point=BoxNoLidEnv, kwargs=dict(action="box-fixed", ), **kw)
+
 # Drawer Debug Tasks # todo: These are currently the same as the Drawer place tasks.
 register(id='Drawer-fixed-v0', entry_point=DrawerBlockEnv, kwargs=dict(action="open+place", ), **kw)
 register(id='Drawer-fixed-open-v0', entry_point=DrawerBlockEnv, kwargs=dict(action="place", ), **kw)
@@ -110,16 +142,11 @@ register(id='Box-fixed-place-easy-v0', entry_point=BoxBlockEnv,
 #          kwargs=dict(action="close@box-fixed", goal_key="lid"), **kw)
 # register(id='Box-fixed-place-easy-v0', entry_point=BoxBlockEnv,
 #          kwargs=dict(action="place@box-fixed", goal_key="object0"), **kw)
-register(id='Box-fixed-place-medium-v0', entry_point=vec_block_env,
-         kwargs=dict(action="open+place@box-fixed", goal_key=("object0", "lid")), **kw)
-register(id='Box-fixed-place-v0', entry_point=vec_block_env,
-         kwargs=dict(action="open+place+close@box-fixed", goal_key=("object0", "lid"),
-                     goal_sampling={'lid': dict(target="box", offset=[0, 0, 0.1], track=True)}), **kw)
-
-# ------------------------ Finalized ------------------------
-# Bin Environments Bin + object, no lid
-register(id='Bin-pick-v0', entry_point=BinEnv, kwargs=dict(action="pick", obs_keys=['object0', 'bin@pos']), **kw)
-register(id='Bin-place-v0', entry_point=BinEnv, kwargs=dict(action="place+air", obs_keys=['object0', 'bin@pos']), **kw)
+# register(id='Box-fixed-place-medium-v0', entry_point=vec_block_env,
+#          kwargs=dict(action="open+place@box-fixed", goal_key=("object0", "lid")), **kw)
+# register(id='Box-fixed-place-v0', entry_point=vec_block_env,
+#          kwargs=dict(action="open+place+close@box-fixed", goal_key=("object0", "lid"),
+#                      goal_sampling={'lid': dict(target="box", offset=[0, 0, 0.1], track=True)}), **kw)
 
 # Box Environments: Box + Lid, there is no object
 register(id='Box-open-v0', entry_point=BoxEnv, kwargs=dict(action="open", ), **kw)
