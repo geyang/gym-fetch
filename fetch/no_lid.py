@@ -23,9 +23,9 @@ class BoxNoLidEnv(fetch_env.FetchEnv, EzPickle):
                  freeze_objects=None,
                  initial_qpos=None
                  ):
-
         obj_keys = 'box', 'object0'
         model_path = "box_no_lid.xml"
+        obj_reset = {'object0': dict(avoid=['gripper', 'box'])}
 
         local_vars = locals()
         del local_vars['self']

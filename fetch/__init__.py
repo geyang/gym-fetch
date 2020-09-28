@@ -28,13 +28,12 @@ register(id='Bin-pick-v0', entry_point=BinEnv, kwargs=dict(action="pick", obs_ke
 register(id='Bin-place-v0', entry_point=BinEnv, kwargs=dict(action="place+air", obs_keys=['object0', 'bin@pos']), **kw)
 
 # ------------------------ Latent Planning Envs ------------------------
-# Original Box single task Debug Environments
+# ------------ Original Box single task Debug Environments -------------
 register(id='Box-fixed-v0', entry_point=BoxNoLidEnv, kwargs=dict(
     freeze_objects=['box'],
     initial_qpos={'box:joint': [1.1, 0.75, 0.6, 0, 0., 0., 0.],
-                  'object0:joint': [1.25, 0.75, 0.6, 0, 0., 0., 0.]}
+                  'object0:joint': [1.25, 0.75, 0.6, 0, 0., 0., 0.]},
 ), **kw)
-# Bin Environments Bin + object, no lid
 register(id='Box-fixed-place-v0', entry_point=BoxNoLidEnv, kwargs=dict(
     freeze_objects=['box'],
     initial_qpos={'box:joint': [1.1, 0.75, 0.6, 0, 0., 0., 0.],
@@ -42,7 +41,8 @@ register(id='Box-fixed-place-v0', entry_point=BoxNoLidEnv, kwargs=dict(
     goal_sampling={'object0': dict(target="box", range=0, offset=[0, 0, 0.04], track=True)}
 ), **kw)
 register(id='Box-fixed-place-train-v0', entry_point=SampleEnv,
-         kwargs={'fetch:Box-fixed-v0': 0.2, 'fetch:Box-fixed-place-v0': 0.8, }, **kw)
+         kwargs={'fetch:Box-fixed-v0': 0.8, 'fetch:Box-fixed-place-v0': 0.2, }, **kw)
+
 register(id='Box-aside-v0', entry_point=BoxNoLidEnv, kwargs=dict(
     freeze_objects=['box'],
     initial_qpos={'box:joint': [1.25, 0.53, 0.6, 0, 0., 0., 0.],
@@ -55,7 +55,7 @@ register(id='Box-aside-place-v0', entry_point=BoxNoLidEnv, kwargs=dict(
     goal_sampling={'object0': dict(target="box", range=0, offset=[0, 0, 0.04], track=True)}
 ), **kw)
 register(id='Box-aside-place-train-v0', entry_point=SampleEnv,
-         kwargs={'fetch:Box-aside-v0': 0.2, 'fetch:Box-aside-place-v0': 0.8, }, **kw)
+         kwargs={'fetch:Box-aside-v0': 0.8, 'fetch:Box-aside-place-v0': 0.2, }, **kw)
 
 # ----------------------- Debugging -----------------------
 # Debug Environments todo: run these then remove
