@@ -40,49 +40,60 @@ def vec_clean_env(**kwargs):
 
 # the box-fixed envs.
 register(id='Clean-i-v0', entry_point=vec_clean_env, kwargs=dict(
-    initial_qpos={'object1:joint': [1.1, 0.95, .4, 0, 0., 0., 0.]},
-    obj_reset={'object0': dict(avoid=['gripper', 'box']),
-               'object1': dict(avoid=['gripper', 'box']), },
-    goal_sampling={'object0': dict(target="box", range=0),
+    initial_qpos={'object1:joint': [1.25, 0.75, .45, 0, 0., 0., 0.]},
+    obj_reset={'object0': dict(avoid=['gripper', 'box'], h=0.42478468),
+               'object1': dict(avoid=['gripper', 'box', "object0"], h=0.42478468), },
+    goal_sampling={'object0': dict(target="box", range=0, ),
                    'object1': dict(target="object1", range=0, offset=[0, 0, 0]), },
 ), **kw)
 register(id='Clean-ii-v0', entry_point=vec_clean_env, kwargs=dict(
-    obj_reset={'object0': dict(track='box', avoid=['gripper'], range=0),
-               'object1': dict(avoid=['gripper', 'box']), },
+    obj_reset={'object0': dict(track='box', avoid=['gripper'], range=0, h=0.43456914),
+               'object1': dict(avoid=['gripper', 'box'], h=0.42478468), },
     goal_sampling={'object0': dict(target="box", range=0),
-                   'object1': dict(target="box", range=0), },
+                   'object1': dict(target="object0", range=0), },
 ), **kw)
 register(id='Clean-train-v0', entry_point=SampleEnv,
          kwargs={'fetch:Clean-i-v0': 0.5, 'fetch:Clean-ii-v0': 0.5, }, **kw)
 register(id='Clean-v0', entry_point=vec_clean_env, kwargs=dict(
-    obj_reset={'object0': dict(avoid=['gripper', 'box']),
-               'object1': dict(avoid=['gripper', 'box']), },
+    obj_reset={'object0': dict(avoid=['gripper', 'box'], h=0.42478468),
+               'object1': dict(avoid=['gripper', 'box', "object0"], h=0.42478468)},
     goal_sampling={'object0': dict(target="box", range=0),
                    'object1': dict(target="box", range=0), },
 ), **kw)
 
 # the box-aside env.s
 register(id='Clean-aside-i-v0', entry_point=vec_clean_env, kwargs=dict(
-    initial_qpos={'object1:joint': [1.1, 0.95, .4, 0, 0., 0., 0.],
-                  'box:joint': [1.25, 0.53, 0.6, 0, 0., 0., 0.], },
-    obj_reset={'object0': dict(avoid=['gripper', 'box']),
-               'object1': dict(avoid=['gripper', 'box']), },
+    initial_qpos={
+        'box:joint': [1.25, 0.53, 0.4, 0, 0., 0., 0.],
+        'object0:joint': [1.25, 0.53, 0.5, 0, 0., 0., 0.],
+        'object1:joint': [1.25, 0.75, 0.45, 0, 0., 0., 0.],
+    },
+    obj_reset={'object0': dict(avoid=['gripper', 'box'], h=0.42478468),
+               'object1': dict(avoid=['gripper', 'box', "object0"], h=0.42478468), },
     goal_sampling={'object0': dict(target="box", range=0),
                    'object1': dict(target="object1", range=0, offset=[0, 0, 0]), },
 ), **kw)
 register(id='Clean-aside-ii-v0', entry_point=vec_clean_env, kwargs=dict(
-    initial_qpos={'box:joint': [1.25, 0.53, 0.6, 0, 0., 0., 0.], },
-    obj_reset={'object0': dict(track='box', avoid=['gripper'], range=0),
-               'object1': dict(avoid=['gripper', 'box']), },
+    initial_qpos={
+        'box:joint': [1.25, 0.53, 0.4, 0, 0., 0., 0.],
+        'object0:joint': [1.25, 0.53, 0.5, 0, 0., 0., 0.],
+        'object1:joint': [1.25, 0.53, 0.6, 0, 0., 0., 0.],
+    },
+    obj_reset={'object0': dict(track='box', avoid=['gripper'], range=0, h=0.43456914),
+               'object1': dict(avoid=['gripper', 'box'], h=0.42478468), },
     goal_sampling={'object0': dict(target="box", range=0),
-                   'object1': dict(target="box", range=0), },
+                   'object1': dict(target="object0", range=0), },
 ), **kw)
 register(id='Clean-aside-train-v0', entry_point=SampleEnv,
-         kwargs={'fetch:Clean-i-v0': 0.5, 'fetch:Clean-ii-v0': 0.5, }, **kw)
+         kwargs={'fetch:Clean-aside-i-v0': 0.5, 'fetch:Clean-aside-ii-v0': 0.5, }, **kw)
 register(id='Clean-aside-v0', entry_point=vec_clean_env, kwargs=dict(
-    initial_qpos={'box:joint': [1.25, 0.53, 0.6, 0, 0., 0., 0.], },
-    obj_reset={'object0': dict(avoid=['gripper', 'box']),
-               'object1': dict(avoid=['gripper', 'box']), },
+    initial_qpos={
+        'box:joint': [1.25, 0.53, 0.4, 0, 0., 0., 0.],
+        'object0:joint': [1.25, 0.53, 0.5, 0, 0., 0., 0.],
+        'object1:joint': [1.25, 0.53, 0.6, 0, 0., 0., 0.],
+    },
+    obj_reset={'object0': dict(avoid=['gripper', 'box'], h=0.42478468),
+               'object1': dict(avoid=['gripper', 'box', "object0"], h=0.42478468)},
     goal_sampling={'object0': dict(target="box", range=0),
                    'object1': dict(target="box", range=0), },
 ), **kw)

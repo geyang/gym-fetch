@@ -54,6 +54,9 @@ def render_video(env_id, n, doc, env=None, title=None, filename=None):
             act = env.action_space.sample()
             obs, r, done, info = env.step(act)
             frames.append(env.render('rgb_array', width=100 * scale, height=120 * scale))
+    else:
+        print(env_id, "desired", obs['desired_goal'])
+        print(env_id, "achieved", obs['achieved_goal'])
 
     if filename:
         doc.video(np.array(frames), src=f"{src_prefix}/{filename}?ts={doc.now('%f')}", title=title)

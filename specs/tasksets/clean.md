@@ -30,18 +30,18 @@ twin_box_envs = [
 ```
 | **Clean-i-v0** | **distribution** |   |
 |:--------------:|:----------------:|:-:|
-| ![figures/Clean-i-v0_init.png?ts=893891](figures/Clean-i-v0_init.png?ts=893891) | ![figures/Clean-i-v0_reset.png?ts=020709](figures/Clean-i-v0_reset.png?ts=020709) | ![figures/Clean-i-v0.gif?ts=933636](figures/Clean-i-v0.gif?ts=933636) |
+| ![figures/Clean-i-v0_init.png?ts=511920](figures/Clean-i-v0_init.png?ts=511920) | ![figures/Clean-i-v0_reset.png?ts=662350](figures/Clean-i-v0_reset.png?ts=662350) | ![figures/Clean-i-v0.gif?ts=550842](figures/Clean-i-v0.gif?ts=550842) |
 | **Clean-ii-v0** | **distribution** |   |
-| ![figures/Clean-ii-v0_init.png?ts=583763](figures/Clean-ii-v0_init.png?ts=583763) | ![figures/Clean-ii-v0_reset.png?ts=661571](figures/Clean-ii-v0_reset.png?ts=661571) | ![figures/Clean-ii-v0.gif?ts=472119](figures/Clean-ii-v0.gif?ts=472119) |
+| ![figures/Clean-ii-v0_init.png?ts=230667](figures/Clean-ii-v0_init.png?ts=230667) | ![figures/Clean-ii-v0_reset.png?ts=328788](figures/Clean-ii-v0_reset.png?ts=328788) | ![figures/Clean-ii-v0.gif?ts=276853](figures/Clean-ii-v0.gif?ts=276853) |
 | **Clean-train-v0** | **distribution** |   |
-| ![figures/Clean-train-v0_init.png?ts=215769](figures/Clean-train-v0_init.png?ts=215769) | ![figures/Clean-train-v0_reset.png?ts=394996](figures/Clean-train-v0_reset.png?ts=394996) | ![figures/Clean-train-v0.gif?ts=426037](figures/Clean-train-v0.gif?ts=426037) |
+| ![figures/Clean-train-v0_init.png?ts=083586](figures/Clean-train-v0_init.png?ts=083586) | ![figures/Clean-train-v0_reset.png?ts=260712](figures/Clean-train-v0_reset.png?ts=260712) | ![figures/Clean-train-v0.gif?ts=392835](figures/Clean-train-v0.gif?ts=392835) |
 | **Clean-v0** | **distribution** |   |
-| ![figures/Clean-v0_init.png?ts=114485](figures/Clean-v0_init.png?ts=114485) | ![figures/Clean-v0_reset.png?ts=169328](figures/Clean-v0_reset.png?ts=169328) | ![figures/Clean-v0.gif?ts=051694](figures/Clean-v0.gif?ts=051694) |
+| ![figures/Clean-v0_init.png?ts=165417](figures/Clean-v0_init.png?ts=165417) | ![figures/Clean-v0_reset.png?ts=264129](figures/Clean-v0_reset.png?ts=264129) | ![figures/Clean-v0.gif?ts=193331](figures/Clean-v0.gif?ts=193331) |
 | **Clean-aside-i-v0** | **distribution** |   |
-| ![figures/Clean-aside-i-v0_init.png?ts=782709](figures/Clean-aside-i-v0_init.png?ts=782709) | ![figures/Clean-aside-i-v0_reset.png?ts=881644](figures/Clean-aside-i-v0_reset.png?ts=881644) | ![figures/Clean-aside-i-v0.gif?ts=674909](figures/Clean-aside-i-v0.gif?ts=674909) |
+| ![figures/Clean-aside-i-v0_init.png?ts=929441](figures/Clean-aside-i-v0_init.png?ts=929441) | ![figures/Clean-aside-i-v0_reset.png?ts=026328](figures/Clean-aside-i-v0_reset.png?ts=026328) | ![figures/Clean-aside-i-v0.gif?ts=821052](figures/Clean-aside-i-v0.gif?ts=821052) |
 | **Clean-aside-ii-v0** | **distribution** |   |
-| ![figures/Clean-aside-ii-v0_init.png?ts=421882](figures/Clean-aside-ii-v0_init.png?ts=421882) | ![figures/Clean-aside-ii-v0_reset.png?ts=523422](figures/Clean-aside-ii-v0_reset.png?ts=523422) | ![figures/Clean-aside-ii-v0.gif?ts=303254](figures/Clean-aside-ii-v0.gif?ts=303254) |
+| ![figures/Clean-aside-ii-v0_init.png?ts=583657](figures/Clean-aside-ii-v0_init.png?ts=583657) | ![figures/Clean-aside-ii-v0_reset.png?ts=678971](figures/Clean-aside-ii-v0_reset.png?ts=678971) | ![figures/Clean-aside-ii-v0.gif?ts=530760](figures/Clean-aside-ii-v0.gif?ts=530760) |
 | **Clean-aside-train-v0** | **distribution** |   |
-| ![figures/Clean-aside-train-v0_init.png?ts=385627](figures/Clean-aside-train-v0_init.png?ts=385627) | ![figures/Clean-aside-train-v0_reset.png?ts=563027](figures/Clean-aside-train-v0_reset.png?ts=563027) | ![figures/Clean-aside-train-v0.gif?ts=678045](figures/Clean-aside-train-v0.gif?ts=678045) |
+| ![figures/Clean-aside-train-v0_init.png?ts=648270](figures/Clean-aside-train-v0_init.png?ts=648270) | ![figures/Clean-aside-train-v0_reset.png?ts=826200](figures/Clean-aside-train-v0_reset.png?ts=826200) | ![figures/Clean-aside-train-v0.gif?ts=969260](figures/Clean-aside-train-v0.gif?ts=969260) |
 | **Clean-aside-v0** | **distribution** |   |
-| ![figures/Clean-aside-v0_init.png?ts=449968](figures/Clean-aside-v0_init.png?ts=449968) | ![figures/Clean-aside-v0_reset.png?ts=541597](figures/Clean-aside-v0_reset.png?ts=541597) | ![figures/Clean-aside-v0.gif?ts=397963](figures/Clean-aside-v0.gif?ts=397963) |
+| ![figures/Clean-aside-v0_init.png?ts=783935](figures/Clean-aside-v0_init.png?ts=783935) | ![figures/Clean-aside-v0_reset.png?ts=885287](figures/Clean-aside-v0_reset.png?ts=885287) | ![figures/Clean-aside-v0.gif?ts=693937](figures/Clean-aside-v0.gif?ts=693937) |

@@ -23,6 +23,7 @@ class CleanTable(fetch_env.FetchEnv, utils.EzPickle):
                  goal_sampling=None,
                  freeze_objects=['box'],
                  ):
+
         initial_qpos = assign({'box:joint': [1.1, 0.75, 0.4, 0, 0., 0., 0.],
                                'object0:joint': [1.1, 0.75, 0.5, 0, 0., 0., 0.],
                                'object1:joint': [1.1, 0.75, 0.6, 0, 0., 0., 0.], }, initial_qpos or {})

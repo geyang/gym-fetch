@@ -265,18 +265,34 @@ class FetchEnv(robot_env.RobotEnv):
         self.sim.forward()
         return True
 
+    def _sample_targeted_goal(self, goal_key=None, target='gripper', offset=None, range=None, h=None):
+
+        center = self.initial_gripper_xpos if target == "gripper" else self.sim.data.get_site_xpos(target)
+        goal = center + self.np_random.uniform(-range, range, size=3)
+
+        if offset is None:
+            goal[2] = self.initial_heights[goal_key]
+        elif not hasattr(offset, 'size') or offset.size == 3:
+            goal += offset
+        elif offset.size == 2:
+            goal[:2] += offset
+            goal[2] = self.initial_heights[goal_key]
+
+        return goal
+
     # only used by _sample_goal
-    def _sample_single_goal(self, goal_key=None, h=None, high=0.45, range=None, in_the_air=None):
+    def _sample_single_goal(self, goal_key=None, target='gripper', h=None, high=0.45, range=None, in_the_air=None):
         if range is None:
             range = self.target_range
         if in_the_air is None:
             in_the_air = self.target_in_the_air or 0
 
-        goal = self.initial_gripper_xpos[:3] + self.np_random.uniform(-range, range, size=3)
+        center = self.initial_gripper_xpos if target == "gripper" else self.sim.data.get_site_xpos(target)
+        goal = center + self.np_random.uniform(-range, range, size=3)
+
         goal += self.target_offset
         # sets the goal to the table top.
         goal[2] = h or self.initial_heights[goal_key]
-        # todo: refactor target_in_the_air to be an argument
         if not h and self.np_random.uniform() < in_the_air:
             goal[2] += self.np_random.uniform(0, high)
         return goal
@@ -288,13 +304,12 @@ class FetchEnv(robot_env.RobotEnv):
         goal_keys = [self.goal_key] if isinstance(self.goal_key, str) else self.goal_key
         goal_keys = [k for k in goal_keys if k not in self.goal_sampling]
         goals = {k: self._sample_single_goal(k) for k in goal_keys}
-        for obj_key, options in self.goal_sampling.items():
-            assert obj_key in self.goal_key, f"{obj_key} is not part of the goal spec"
+        for goal_key, options in self.goal_sampling.items():
+            assert goal_key in self.goal_key, f"{goal_key} is not part of the goal spec"
             if "target" in options:
-                offset = options.get('offset', 0)
-                goals[obj_key] = self.sim.data.get_site_xpos(options['target']) + offset
+                goals[goal_key] = self._sample_targeted_goal(goal_key, **options)
             else:
-                goals[obj_key] = self._sample_single_goal(obj_key, **options)
+                goals[goal_key] = self._sample_single_goal(goal_key, **options)
 
         return goals[self.goal_key] if isinstance(self.goal_key, str) else goals
 

@@ -40,3 +40,7 @@ if __name__ == '__main__':
             render_video(env_id, 15, row)
 
     doc.flush()
+
+    # on table: 0.42475745
+    # on box:   0.43451893
+    # : 0.42475745
