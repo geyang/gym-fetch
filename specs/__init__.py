@@ -47,16 +47,12 @@ def render_video(env_id, n, doc, env=None, title=None, filename=None):
 
     env_id = env_id.split(':')[-1]
     frames = []
-    print("\n", env_id, )
     for ep in trange(n):
         obs = env.reset()
-        print("reset >>>", obs['desired_goal'])
         frames.append(env.render('rgb_array', width=100 * scale, height=120 * scale))
         for i in range(10):
             act = env.action_space.sample()
             obs, r, done, info = env.step(act)
-            if i == 0:
-                print("first >>>", obs['desired_goal'])
             frames.append(env.render('rgb_array', width=100 * scale, height=120 * scale))
 
     if filename:

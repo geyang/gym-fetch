@@ -39,9 +39,9 @@
       <site name="box0" pos="0 0 0" size="0.02 0.02 0.02" rgba="1 1 1 0.1" type="sphere"/>
     </body>
 
-    <body name="box11" pos="0 0 0">
+    <body name="box1" pos="0 0 0">
       <joint name="box1:joint" type="free" damping="0.01"/>
-      <include file="objects/bin_tall.xml"/>
+      <include file="objects/bin_tall_purple.xml"/>
       <site name="box1" pos="0 0 0" size="0.02 0.02 0.02" rgba="1 1 1 0.1" type="sphere"/>
     </body>
 

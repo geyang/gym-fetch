@@ -6,6 +6,7 @@
   </option>
 
   <include file="shared.xml"/>
+  <size njmax="800" nconmax="300"/>
 
   <worldbody>
     <geom name="floor0" pos="0.8 0.75 0" size="0.85 0.7 1" type="plane" condim="3" material="floor_mat"/>

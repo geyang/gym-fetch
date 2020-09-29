@@ -7,7 +7,8 @@ from fetch.box import BoxEnv
 from fetch.bin import BinEnv
 from fetch.drawer import DrawerEnv
 from fetch.mixed_envs.box_block import BoxBlockEnv
-from fetch.mixed_envs.twin_box import TwinBoxEnv
+# from fetch.mixed_envs.twin_box import TwinBoxEnv
+from fetch.mixed_envs.clean_table import CleanTable
 from fetch.mixed_envs.drawer_block import DrawerBlockEnv
 from fetch.mixed_envs.box_bin import BoxBinEnv
 from fetch.mixed_envs.drawer_bin import DrawerBinEnv
@@ -27,7 +28,45 @@ for action in ['reach', 'push', 'pick-place', 'slide']:
 register(id='Bin-pick-v0', entry_point=BinEnv, kwargs=dict(action="pick", obs_keys=['object0', 'bin@pos']), **kw)
 register(id='Bin-place-v0', entry_point=BinEnv, kwargs=dict(action="place+air", obs_keys=['object0', 'bin@pos']), **kw)
 
+
 # ------------------------ Latent Planning Envs ------------------------
+# --------- Cleaning the Table Multi-task Environments -----------------
+def vec_clean_env(**kwargs):
+    from fetch.wrappers import HERVecGoal
+    env = CleanTable(**kwargs)
+    env = HERVecGoal(env, goal_keys=['object0', 'object1'])
+    return env
+
+
+register(id='Clean-i-v0', entry_point=vec_clean_env, kwargs=dict(
+    initial_qpos={'object1:joint': [1.1, 0.95, .4, 0, 0., 0., 0.]},
+    obj_reset={'object0': dict(avoid=['gripper', 'box']),
+               'object1': dict(avoid=['gripper', 'box']), },
+    goal_sampling={'object0': dict(target="box", range=0),
+                   'object1': dict(target="object1", range=0, offset=[0, 0, 0]), },
+), **kw)
+register(id='Clean-ii-v0', entry_point=vec_clean_env, kwargs=dict(
+    obj_reset={'object0': dict(track='box', avoid=['gripper'], range=0),
+               'object1': dict(avoid=['gripper', 'box']), },
+    goal_sampling={'object0': dict(target="box", range=0),
+                   'object1': dict(target="box", range=0), },
+), **kw)
+register(id='Clean-train-v0', entry_point=SampleEnv,
+         kwargs={'fetch:Clean-i-v0': 0.5, 'fetch:Clean-ii-v0': 0.5, }, **kw)
+register(id='Clean-v0', entry_point=vec_clean_env, kwargs=dict(
+    obj_reset={'object0': dict(avoid=['gripper', 'box']),
+               'object1': dict(avoid=['gripper', 'box']), },
+    goal_sampling={'object0': dict(target="box", range=0),
+                   'object1': dict(target="box", range=0), },
+), **kw)
+
+# ------------------ TwinBox Multi-task Environments -------------------
+# register(id='TwinBox-v0', entry_point=TwinBoxEnv, kwargs=dict(), **kw)
+# register(id='TwinBox-place-red-v0', entry_point=TwinBoxEnv, kwargs=dict(action="place-red", ), **kw)
+# register(id='TwinBox-place-blue-v0', entry_point=TwinBoxEnv, kwargs=dict(action="place-blue", ), **kw)
+# register(id='TwinBox-place-train-v0', entry_point=TwinBoxEnv, kwargs=dict(action="place-mixed", ), **kw)
+# register(id='TwinBox-place-v0', entry_point=TwinBoxEnv, kwargs=dict(action="place-both", ), **kw)
+
 # ------------ Original Box single task Debug Environments -------------
 register(id='Box-fixed-v0', entry_point=BoxNoLidEnv, kwargs=dict(
     freeze_objects=['box'],
@@ -173,15 +212,6 @@ register(id='Box-place-v0', entry_point=BoxBlockEnv,
                      goal_sampling={'object0': dict(target='box', offset=[0, 0, 0.05], track=True),
                                     'lid': dict(high=0)}
                      ), **kw)
-
-# -------------------- Twin Box Taskset --------------------
-# fix the location of the bins
-# register(id='TwinBox-pick-v0', entry_point=TwinBoxEnv, kwargs=dict(action="pick", ), **kw)
-register(id='TwinBox-place-single-v0', entry_point=TwinBoxEnv, kwargs=dict(action="place", ), **kw)
-register(id='TwinBox-red-v0', entry_point=TwinBoxEnv, kwargs=dict(action="place-red", ), **kw)
-register(id='TwinBox-blue-v0', entry_point=TwinBoxEnv, kwargs=dict(action="place-blue", ), **kw)
-register(id='TwinBox-mixed-v0', entry_point=TwinBoxEnv, kwargs=dict(action="place-mixed", ), **kw)
-register(id='TwinBox-place-v0', entry_point=TwinBoxEnv, kwargs=dict(action="place-both", ), **kw)
 
 # Drawer Environments
 register(id='Drawer-open-v0', entry_point=DrawerEnv, kwargs=dict(action="open", ), **kw)
