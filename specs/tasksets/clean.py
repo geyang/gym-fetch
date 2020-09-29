@@ -26,7 +26,11 @@ if __name__ == '__main__':
             'fetch:Clean-i-v0',
             'fetch:Clean-ii-v0',
             'fetch:Clean-train-v0',
-            'fetch:Clean-v0'
+            'fetch:Clean-v0',
+            'fetch:Clean-aside-i-v0',
+            'fetch:Clean-aside-ii-v0',
+            'fetch:Clean-aside-train-v0',
+            'fetch:Clean-aside-v0',
         ]
 
     table = doc.table()
