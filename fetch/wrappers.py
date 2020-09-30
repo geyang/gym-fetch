@@ -81,3 +81,38 @@ class SampleEnv(Wrapper):
         env_name = self.np_random.choice(self.env_names, p=self.weights)
         self.env = self.envs[env_name]
         return self.env.reset()
+
+
+class GoalNoise(Wrapper):
+
+    def __init__(self, env, achieved_noise=0, desired_noise=0):
+        super().__init__(env)
+        self.achieved_noise = achieved_noise
+        self.desired_noise = desired_noise
+
+    def compute_reward(self, achieved_goal, desired_goal, info):
+        achieved_goal = self.add_noise(achieved_goal, self.achieved_noise)
+        desired_goal = self.add_noise(desired_goal, self.desired_noise)
+        return self.env.compute_reward(achieved_goal, desired_goal, info)
+
+    def add_noise(self, goal, scale, size=2):
+        new_goal = goal.copy()
+
+        if len(goal.shape) == 1:
+            new_goal[:size] += self.np_random.normal(scale, size=size)
+        elif len(goal.shape) == 2:
+            B, *_ = goal.shape
+            goal[:, :size] += self.np_random.normal(scale, size=[B, size])
+        return new_goal
+
+    def reset(self):
+        obs = super().reset()
+        obs['achieved_goal'] = self.add_noise(obs['achieved_goal'], self.achieved_noise)
+        obs['desired_goal'] = self.add_noise(obs['desired_goal'], self.desired_noise)
+        return obs
+
+    def step(self, act):
+        obs, r, done, info = super().step(act)
+        obs['achieved_goal'] = self.add_noise(obs['achieved_goal'], self.achieved_noise)
+        obs['desired_goal'] = self.add_noise(obs['desired_goal'], self.desired_noise)
+        return obs, r, done, info

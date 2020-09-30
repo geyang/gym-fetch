@@ -14,12 +14,12 @@ if __name__ == '__main__':
 
     **Test**: Both A and B on table, and place both into the box. (edited) 
 
-    Name               | Observation Spec                 | Goal Init/Comment                        | 
-    -----------------  | ----------------                 | -------                                  | ------
-    **Clean-i-v0**     | {get_obs_spec('Clean-i-v0')}     | place the first object<br>into the box | ![](figures/Clean-i-v0.gif)
-    **Clean-ii-v0**    | {get_obs_spec('Clean-ii-v0')}    | place the second object<br>into the box while the<br>first one is already in there. | ![](figures/Clean-ii-v0.gif)
-    **Clean-train-v0** | {get_obs_spec('Clean-train-v0')} | 50/50 mixture of both | ![](figures/Clean-train-v0.gif)
-    **Clean-v0**       | {get_obs_spec('Clean-v0')}       | Start with both on the<br>table, place both into<br>the box. | ![](figures/Clean-v0.gif)
+    | Name               | Observation Spec                 | Goal Init/Comment                        |         |
+    | -----------------  | ----------------                 | -------                                  | ------  |
+    | **Clean-i-v0**     | {get_obs_spec('Clean-i-v0')}     | place the first object<br>into the box | ![](figures/Clean-i-v0.gif) |
+    | **Clean-ii-v0**    | {get_obs_spec('Clean-ii-v0')}    | place the second object<br>into the box while the<br>first one is already in|  there. | ![](figures/Clean-ii-v0.gif) |
+    | **Clean-train-v0** | {get_obs_spec('Clean-train-v0')} | 50/50 mixture of both | ![](figures/Clean-train-v0.gif) |
+    | **Clean-v0**       | {get_obs_spec('Clean-v0')}       | Start with both on the<br>table, place both into<br>the box. | ![](figures/Clean-v0.gif) |
     """
     with doc:
         twin_box_envs = [

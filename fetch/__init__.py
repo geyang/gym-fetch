@@ -32,9 +32,10 @@ register(id='Bin-place-v0', entry_point=BinEnv, kwargs=dict(action="place+air", 
 # ------------------------ Latent Planning Envs ------------------------
 # --------- Cleaning the Table Multi-task Environments -----------------
 def vec_clean_env(**kwargs):
-    from fetch.wrappers import HERVecGoal
+    from fetch.wrappers import HERVecGoal  # , GoalNoise
     env = CleanTable(**kwargs)
     env = HERVecGoal(env, goal_keys=['object0', 'object1'])
+    # env = GoalNoise(env, achieved_noise=0.015, desired_noise=0.015)
     return env
 
 
@@ -54,9 +55,35 @@ register(id='Clean-ii-v0', entry_point=vec_clean_env, kwargs=dict(
 ), **kw)
 register(id='Clean-train-v0', entry_point=SampleEnv,
          kwargs={'fetch:Clean-i-v0': 0.5, 'fetch:Clean-ii-v0': 0.5, }, **kw)
+register(id='Clean-train-80-20-v0', entry_point=SampleEnv,
+         kwargs={'fetch:Clean-i-v0': 0.8, 'fetch:Clean-ii-v0': 0.2, }, **kw)
 register(id='Clean-v0', entry_point=vec_clean_env, kwargs=dict(
     obj_reset={'object0': dict(avoid=['gripper', 'box'], h=0.42478468),
                'object1': dict(avoid=['gripper', 'box', "object0"], h=0.42478468)},
+    goal_sampling={'object0': dict(target="box", range=0),
+                   'object1': dict(target="box", range=0), },
+), **kw)
+# Fixing the objects in-place
+register(id='Clean-i-fixed-v0', entry_point=vec_clean_env, kwargs=dict(
+    initial_qpos={'object1:joint': [1.35, 0.75, .45, 0, 0., 0., 0.]},
+    obj_reset={'object0': dict(pos=[1.35, 0.7, 0.42478468]),
+               'object1': dict(pos=[1.35, 0.8, 0.42478468]), },
+    goal_sampling={'object0': dict(target="box", range=0, ),
+                   'object1': dict(target="object1", range=0, offset=[0, 0, 0]), },
+), **kw)
+register(id='Clean-ii-fixed-v0', entry_point=vec_clean_env, kwargs=dict(
+    obj_reset={'object0': dict(track='box', avoid=['gripper'], range=0, h=0.43456914),
+               'object1': dict(pos=[1.35, 0.8, 0.42478468]), },
+    goal_sampling={'object0': dict(target="box", range=0),
+                   'object1': dict(target="object0", range=0), },
+), **kw)
+register(id='Clean-fixed-train-v0', entry_point=SampleEnv,
+         kwargs={'fetch:Clean-i-fixed-v0': 0.5, 'fetch:Clean-ii-fixed-v0': 0.5, }, **kw)
+register(id='Clean-train-fixed-80-20-v0', entry_point=SampleEnv,
+         kwargs={'fetch:Clean-i-fixed-v0': 0.8, 'fetch:Clean-ii-fixed-v0': 0.2, }, **kw)
+register(id='Clean-fixed-v0', entry_point=vec_clean_env, kwargs=dict(
+    obj_reset={'object0': dict(pos=[1.35, 0.7, 0.42478468]),
+               'object1': dict(pos=[1.35, 0.8, 0.42478468]), },
     goal_sampling={'object0': dict(target="box", range=0),
                    'object1': dict(target="box", range=0), },
 ), **kw)
