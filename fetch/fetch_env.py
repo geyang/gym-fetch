@@ -58,6 +58,8 @@ class FetchEnv(robot_env.RobotEnv):
         self.goal_sampling = goal_sampling or {}
         self.freeze_objects = freeze_objects or []
 
+        self.goal_offset_cache = {}
+
         initial_qpos = assign({'robot0:slide0': 0.405,
                                'robot0:slide1': 0.48,
                                'robot0:slide2': 0.0}, initial_qpos or {})
@@ -97,9 +99,7 @@ class FetchEnv(robot_env.RobotEnv):
             goals = {}
             for obj_key, options in self.goal_sampling.items():
                 if options.get('track', False):
-                    target = options.get('target', obj_key)
-                    offset = options.get('offset', 0)
-                    goals[obj_key] = self.sim.data.get_site_xpos(target) + offset
+                    goals[obj_key] = self._targeted_goal(obj_key, sample=False, **options)
 
             if isinstance(self.goal_key, str):
                 self.goal = goals[self.goal_key]
@@ -265,10 +265,14 @@ class FetchEnv(robot_env.RobotEnv):
         self.sim.forward()
         return True
 
-    def _sample_targeted_goal(self, goal_key=None, target='gripper', offset=None, range=None, h=None):
+    def _targeted_goal(self, goal_key=None, target='gripper', offset=None, range=None, h=None, track=False,
+                       sample=True):
 
         center = self.initial_gripper_xpos if target == "gripper" else self.sim.data.get_site_xpos(target)
-        goal = center + self.np_random.uniform(-range, range, size=3)
+
+        if sample:
+            self.goal_offset_cache[goal_key] = self.np_random.uniform(-range, range, size=3)
+        goal = center + self.goal_offset_cache[goal_key]
 
         if offset is None:
             goal[2] = self.initial_heights[goal_key]
@@ -281,7 +285,8 @@ class FetchEnv(robot_env.RobotEnv):
         return goal
 
     # only used by _sample_goal
-    def _sample_single_goal(self, goal_key=None, target='gripper', h=None, high=0.45, range=None, in_the_air=None):
+    def _sample_single_goal(self, goal_key=None, target='gripper', h=None, high=0.45, range=None, in_the_air=None,
+                            track=None):  # track is not used
         if range is None:
             range = self.target_range
         if in_the_air is None:
@@ -307,7 +312,7 @@ class FetchEnv(robot_env.RobotEnv):
         for goal_key, options in self.goal_sampling.items():
             assert goal_key in self.goal_key, f"{goal_key} is not part of the goal spec"
             if "target" in options:
-                goals[goal_key] = self._sample_targeted_goal(goal_key, **options)
+                goals[goal_key] = self._targeted_goal(goal_key, **options)
             else:
                 goals[goal_key] = self._sample_single_goal(goal_key, **options)
 

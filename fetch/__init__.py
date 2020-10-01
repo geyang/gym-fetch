@@ -77,7 +77,7 @@ register(id='Clean-ii-fixed-v0', entry_point=vec_clean_env, kwargs=dict(
     goal_sampling={'object0': dict(target="box", range=0),
                    'object1': dict(target="object0", range=0), },
 ), **kw)
-register(id='Clean-fixed-train-v0', entry_point=SampleEnv,
+register(id='Clean-train-fixed-v0', entry_point=SampleEnv,
          kwargs={'fetch:Clean-i-fixed-v0': 0.5, 'fetch:Clean-ii-fixed-v0': 0.5, }, **kw)
 register(id='Clean-train-fixed-80-20-v0', entry_point=SampleEnv,
          kwargs={'fetch:Clean-i-fixed-v0': 0.8, 'fetch:Clean-ii-fixed-v0': 0.2, }, **kw)
