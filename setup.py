@@ -19,5 +19,5 @@ setup(name='gym-fetch',
       author='Ge Yang<ge.ike.yang@gmail.com>',
       url='https://github.com/geyang/gym-fetch',
       author_email='ge.ike.yang@gmail.com',
-      package_data={'fetch': ['fetch/*.*', 'fetch/**/*.*']},
+      package_data={'fetch': ['assets/*.*', 'assets/**/*.*']},
       version=version)
